@@ -18,5 +18,5 @@
 	url = ssh://git@bitbucket.org/webcraftic/wp-plugins-factory-fontawesome
 [submodule "libs/factory/clearfy"]
 	path = libs/factory/clearfy
-	url = ssh://git@bitbucket.org/alex_kovalev/wp-plugins-factory-clearfy
+	url = ssh://git@bitbucket.org/webcraftic/wp-plugins-factory-clearfy
 

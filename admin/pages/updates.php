@@ -142,7 +142,7 @@
 				//'cssClass' => 'postbox'
 			);
 
-			return apply_filters('wbcr_clr_seo_form_options', $formOptions);
+			return apply_filters('wbcr_upm_updates_form_options', $formOptions);
 		}
 	}
 

@@ -7,10 +7,23 @@
 	 */
 
 	require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/updates.php');
+	require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/plugins.php');
+	require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/advanced.php');
 
 	if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
 		require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/more-features.php');
 	}
+
+	/*add_filter('wbcr_factory_imppage_bottom_sidebar_widgets', 'wbcr_upm_page_bottom_sidebar', 10, 2);
+
+	function wbcr_upm_page_bottom_sidebar($widgets, $page_id)
+	{
+		if( in_array($page_id, array('updates', 'plugins', 'advanced')) ) {
+			$widgets['rating_widget'] = $this->getRatingWidget('https://goo.gl/v4QkW5');
+		}
+
+		return $widgets;
+	}*/
 
 	function wbcr_upm_group_options($options)
 	{
@@ -40,6 +53,11 @@
 		$options[] = array(
 			'name' => 'enable_update_vcs',
 			'title' => __('Enable updates for VCS Installations', 'webcraftic-updates-manager'),
+			'tags' => array()
+		);
+		$options[] = array(
+			'name' => 'plugins_update_filters',
+			'title' => __('Plugin filters', 'webcraftic-updates-manager'),
 			'tags' => array()
 		);
 

@@ -1,0 +1,184 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: clearfy\n"
+"POT-Creation-Date: 2018-01-14 20:56+0300\n"
+"PO-Revision-Date: 2018-01-14 20:57+0300\n"
+"Last-Translator: alex.kovalevv@gmail.com <alex.kovalevv@gmail.com>\n"
+"Language-Team: Alex Kovalev <alex.kovalevv@gmail.com>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: libs\n"
+
+#: admin/boot.php:21
+msgid "Disable plugin updates"
+msgstr ""
+
+#: admin/boot.php:27
+msgid "Disable theme updates"
+msgstr ""
+
+#: admin/boot.php:33 admin/pages/themes.php:76 admin/pages/updates.php:87
+msgid "Disable Automatic Translation Updates"
+msgstr ""
+
+#: admin/boot.php:38
+msgid "Disable wordPress core updates"
+msgstr ""
+
+#: admin/boot.php:44 admin/pages/themes.php:110 admin/pages/updates.php:121
+msgid "Enable updates for VCS Installations"
+msgstr ""
+
+#: admin/boot.php:56
+msgid "Disable all updates"
+msgstr ""
+
+#: admin/boot.php:68
+msgid "Get ultimate plugin free"
+msgstr ""
+
+#: admin/pages/plugins.php:29
+msgid "Plugins"
+msgstr ""
+
+#: admin/pages/plugins.php:61
+msgid "Apply"
+msgstr ""
+
+#: admin/pages/plugins.php:68
+msgid "Plugin"
+msgstr ""
+
+#: admin/pages/plugins.php:70
+msgid "Description"
+msgstr ""
+
+#: admin/pages/plugins.php:107
+msgid "Select"
+msgstr ""
+
+#: admin/pages/plugins.php:119 admin/pages/themes.php:50
+#: admin/pages/themes.php:65 admin/pages/themes.php:86
+#: admin/pages/updates.php:61 admin/pages/updates.php:76
+#: admin/pages/updates.php:97
+msgid "Disable updates"
+msgstr ""
+
+#: admin/pages/plugins.php:121
+msgid "Enable auto-updates"
+msgstr ""
+
+#: admin/pages/plugins.php:123
+msgid "Enable manual updates"
+msgstr ""
+
+#: admin/pages/themes.php:27
+msgid "Themes"
+msgstr ""
+
+#: admin/pages/themes.php:46 admin/pages/updates.php:57
+msgid "Plugin Updates"
+msgstr ""
+
+#: admin/pages/themes.php:48 admin/pages/themes.php:63
+#: admin/pages/updates.php:59 admin/pages/updates.php:74
+msgid "Manual updates"
+msgstr ""
+
+#: admin/pages/themes.php:49 admin/pages/themes.php:64
+#: admin/pages/updates.php:60 admin/pages/updates.php:75
+msgid "Enable auto updates"
+msgstr ""
+
+#: admin/pages/themes.php:53 admin/pages/updates.php:64
+msgid ""
+"You can disable all plugin updates or choose manual or automatic update mode."
+msgstr ""
+"Puoi disattivare tutti gli aggiornamenti dei plugins o scegliere le modalità "
+"di aggiornamento automatico e manuale."
+
+#: admin/pages/themes.php:61 admin/pages/updates.php:72
+msgid "Theme Updates"
+msgstr ""
+
+#: admin/pages/themes.php:68 admin/pages/updates.php:79
+msgid ""
+"You can disable all themes updates or choose manual or automatic update mode."
+msgstr ""
+
+#: admin/pages/themes.php:84 admin/pages/updates.php:95
+msgid "WordPress Core Updates"
+msgstr ""
+
+#: admin/pages/themes.php:87 admin/pages/updates.php:98
+msgid "Disable auto updates"
+msgstr ""
+
+#: admin/pages/themes.php:90 admin/pages/updates.php:101
+msgid "Allow minor auto updates"
+msgstr ""
+
+#: admin/pages/themes.php:94 admin/pages/updates.php:105
+msgid "Allow major auto updates"
+msgstr ""
+
+#: admin/pages/themes.php:98 admin/pages/updates.php:109
+msgid "Allow development auto updates"
+msgstr ""
+
+#: admin/pages/themes.php:102 admin/pages/updates.php:113
+msgid ""
+"You can disable all core WordPress updates, or disable only automatic "
+"updates. Also you can select the update mode. By default (minor)"
+msgstr ""
+
+#: admin/pages/themes.php:102 admin/pages/updates.php:113
+msgid "Major - automatically update to major releases (e.g., 4.1, 4.2, 4.3)."
+msgstr ""
+
+#: admin/pages/themes.php:102 admin/pages/updates.php:113
+msgid ""
+"Minor - automatically update to minor releases (e.g., 4.1.1, 4.1.2, 4.1.3).."
+msgstr ""
+
+#: admin/pages/themes.php:102 admin/pages/updates.php:113
+msgid "Development - update automatically to Bleeding Edge releases."
+msgstr ""
+
+#: admin/pages/themes.php:112 admin/pages/updates.php:123
+msgid ""
+"Enable Automatic Updates even if a VCS folder (.git, .hg, .svn) was found in "
+"the WordPress directory"
+msgstr ""
+
+#: admin/pages/updates.php:25
+msgid "Updates manager"
+msgstr ""
+
+#: admin/pages/updates.php:39
+msgid "Updates"
+msgstr ""
+
+#: admin/pages/updates.php:40
+msgid "General"
+msgstr ""
+
+#: webcraftic-updates-manager.php:17
+msgid ""
+"We found that you have the \"Clearfy - disable unused features\" plugin "
+"installed, this plugin already has update manager functions, so you can "
+"deactivate plugin \"Update manager\"!"
+msgstr ""
+
+#: webcraftic-updates-manager.php:82
+msgid "Webcraftic Updates Manager"
+msgstr ""

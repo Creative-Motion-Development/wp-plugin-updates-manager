@@ -92,17 +92,17 @@
 					array('libs/factory/bootstrap', 'factory_bootstrap_000', 'admin'),
 					array('libs/factory/forms', 'factory_forms_000', 'admin'),
 					array('libs/factory/pages', 'factory_pages_000', 'admin'),
-					array('libs/factory/clearfy', 'factory_clearfy_000', 'admin')
+					array('libs/factory/clearfy', 'factory_clearfy_000', 'all')
 				));
 			}
 
 			// loading other files
 			if( is_admin() ) {
-				require(WBCR_UPM_PLUGIN_DIR . '/admin/boot.php');
-				require(WBCR_UPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
-
-				new WbcrUpm_ConfigUpdates($wbcr_update_services_plugin);
+				require_once(WBCR_UPM_PLUGIN_DIR . '/admin/boot.php');
 			}
+
+			require(WBCR_UPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
+			new WbcrUpm_ConfigUpdates($wbcr_update_services_plugin);
 		}
 
 		if( defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {

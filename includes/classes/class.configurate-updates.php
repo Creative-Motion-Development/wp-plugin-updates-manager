@@ -8,19 +8,27 @@
 	 */
 	class WbcrUpm_ConfigUpdates extends WbcrFactoryClearfy_Configurate {
 
+
 		public function registerActionsAndFilters()
 		{
 			/**
 			 * Plugin updates
 			 */
-
+			$plugins_update = $this->getOption('plugin_updates');
 			switch( $this->getOption('plugin_updates') ) {
 				case 'disable_plugin_updates':
-					$this->disableAllPluginUpdates();
+					add_filter('site_transient_update_plugins', '__return_false', 50);
+					add_action('admin_init', array($this, 'adminInitForPlugins'));
+					add_filter('auto_update_plugin', '__return_false');
 					break;
 				case 'enable_plugin_auto_updates':
-					add_filter('auto_update_plugin', '__return_true', 1);
+					add_filter('auto_update_plugin', array($this, 'pluginsAutoUpdate'), 50, 2);
 					break;
+			}
+
+			if( $plugins_update != 'disable_plugin_updates' ) {
+				add_filter('site_transient_update_plugins', array($this, 'disablePluginNotifications'), 50);
+				add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
 			}
 
 			/**
@@ -29,10 +37,12 @@
 
 			switch( $this->getOption('theme_updates') ) {
 				case 'disable_theme_updates':
-					$this->disableAllThemesUpdates();
+					add_filter('site_transient_update_themes', '__return_false', 50);
+					add_action('admin_init', array($this, 'adminInitForThemes'));
+					add_filter('auto_update_theme', '__return_false');
 					break;
 				case 'enable_theme_auto_updates':
-					add_filter('auto_update_plugin', '__return_true', 1);
+					add_filter('auto_update_theme', '__return_true', 1);
 					break;
 			}
 
@@ -71,25 +81,107 @@
 			/**
 			 * disable wp default translation update
 			 */
-
 			if( $this->getOption('enable_update_vcs') ) {
 				add_filter('automatic_updates_is_vcs_checkout', '__return_false', 1);
 			}
 		}
 
+		/**
+		 * Enables plugin automatic updates on an individual basis.
+		 *
+		 * @param bool $update Whether the item has automatic updates enabled
+		 * @param object $item Object holding the asset to be updated
+		 * @return bool True of automatic updates enabled, false if not
+		 */
+		public function pluginsAutoUpdate($update, $item)
+		{
+			$filters = get_option($this->plugin->pluginName . '_plugins_update_filters');
+
+			$slug_parts = explode('/', $item->plugin);
+			$actual_slug = array_shift($slug_parts);
+
+			if( !empty($filters) ) {
+				if( isset($filters['disable_auto_updates']) && isset($filters['disable_auto_updates'][$actual_slug]) ) {
+					return false;
+				}
+
+				if( isset($filters['disable_updates']) && isset($filters['disable_updates'][$actual_slug]) ) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/**
+		 * Disables plugin updates on an individual basis.
+		 *
+		 * @param object $plugins Plugins that may have update notifications
+		 * @return object Updated plugins list with updates
+		 */
+		public function disablePluginNotifications($plugins)
+		{
+			if( !isset($plugins->response) || empty($plugins->response) ) {
+				return $plugins;
+			}
+
+			$filters = $this->getOption('plugins_update_filters');
+
+			if( !empty($filters) && isset($filters['disable_updates']) ) {
+				foreach((array)$plugins->response as $slug => $plugin) {
+					$slug_parts = explode('/', $slug);
+					$actual_slug = array_shift($slug_parts);
+					if( isset($filters['disable_updates'][$actual_slug]) ) {
+						unset($plugins->response[$slug]);
+					}
+				}
+			}
+
+			return $plugins;
+		}
+
+		/**
+		 * Disables theme and plugin http requests on an individual basis.
+		 *
+		 * @param array $r Request array
+		 * @param string $url URL requested
+		 * @return array Updated Request array
+		 */
+		public function httpRequestArgsRemovePlugins($r, $url)
+		{
+			if( 0 !== strpos($url, 'https://api.wordpress.org/plugins/update-check/1.1/') ) {
+				return $r;
+			}
+
+			if( isset($r['body']['plugins']) ) {
+				$r_plugins = json_decode($r['body']['plugins'], true);
+				$filters = get_option($this->plugin->pluginName . '_plugins_update_filters');
+
+				if( isset($r_plugins['plugins']) && !empty($r_plugins['plugins']) ) {
+					foreach($r_plugins['plugins'] as $slug => $plugin) {
+						$slug_parts = explode('/', $slug);
+						$actual_slug = array_shift($slug_parts);
+
+						if( isset($filters['disable_updates']) && isset($filters['disable_updates'][$actual_slug]) ) {
+							unset($r_plugins['plugins'][$slug]);
+
+							if( false !== $key = array_search($slug, $r_plugins['active']) ) {
+								unset($r_plugins['active'][$key]);
+								$r_plugins['active'] = array_values($r_plugins['active']);
+							}
+						}
+					}
+				}
+				$r['body']['plugins'] = json_encode($r_plugins);
+			}
+
+			return $r;
+		}
+
+
 		public function disableAllCoreUpdates()
 		{
 			add_action('admin_init', array($this, 'adminInitForCore'));
-
-			/*
-			 * Disable Core Updates
-			 * 2.8 to 3.0
-			 */
-			add_filter('pre_transient_update_core', array($this, 'lastCheckedNow'));
-			/*
-			 * 3.0
-			 */
-			add_filter('pre_site_transient_update_core', array($this, 'lastCheckedNow'));
 
 			/*
 			 * Disable All Automatic Updates
@@ -109,104 +201,6 @@
 			add_filter('automatic_updates_is_vcs_checkout', '__return_true');
 		}
 
-		public function disableAllPluginUpdates()
-		{
-			add_action('admin_init', array($this, 'adminInitForPlugins'));
-
-			/*
-			 * Disable Plugin Updates
-			 * 2.8 to 3.0
-			 */
-			add_action('pre_transient_update_plugins', array($this, 'lastCheckedNow'));
-			/*
-			 * 3.0
-			 */
-			add_filter('pre_site_transient_update_plugins', array($this, 'lastCheckedNow'));
-
-			/*
-			 * Disable All Automatic Updates
-			 * 3.7+
-			 *
-			 * @author	sLa NGjI's @ slangji.wordpress.com
-			 */
-			add_filter('auto_update_plugin', '__return_false');
-		}
-
-		public function disableAllThemesUpdates()
-		{
-			add_action('admin_init', array($this, 'adminInitForThemes'));
-
-			/*
-			 * Disable Theme Updates
-			 * 2.8 to 3.0
-			 */
-			add_filter('pre_transient_update_themes', array($this, 'lastCheckedNow'));
-			/*
-			 * 3.0
-			 */
-			add_filter('pre_site_transient_update_themes', array($this, 'lastCheckedNow'));
-
-			/*
-			 * Disable All Automatic Updates
-			 * 3.7+
-			 *
-			 * @author	sLa NGjI's @ slangji.wordpress.com
-			 */
-			add_filter('auto_update_theme', '__return_false');
-		}
-
-		public function disableAllTranslationUpdates()
-		{
-			/*
-		 * Disable All Automatic Updates
-		 * 3.7+
-		 *
-		 * @author	sLa NGjI's @ slangji.wordpress.com
-		 */
-			add_filter('auto_update_translation', '__return_false');
-
-			/*
-			 * Disable Theme Translations
-			 * 2.8 to 3.0
-			 */
-			add_filter('transient_update_themes', array($this, 'removeTranslations'));
-			/*
-			 * 3.0
-			 */
-			add_filter('site_transient_update_themes', array($this, 'removeTranslations'));
-
-			/*
-			 * Disable Plugin Translations
-			 * 2.8 to 3.0
-			 */
-			add_action('transient_update_plugins', array($this, 'removeTranslations'));
-			/*
-			 * 3.0
-			 */
-			add_filter('site_transient_update_plugins', array($this, 'removeTranslations'));
-
-			/*
-			 * Disable Core Translations
-			 * 2.8 to 3.0
-			 */
-			add_filter('transient_update_core', array($this, 'removeTranslations'));
-			/*
-			 * 3.0
-			 */
-			add_filter('site_transient_update_core', array($this, 'removeTranslations'));
-		}
-		
-		public function removeTranslations($transient)
-		{
-			
-			if( is_object($transient) && isset($transient->translations) ) {
-				$transient->translations = array();
-			}
-
-			return $transient;
-		}
-
-
 		/**
 		 * Initialize and load the plugin stuff
 		 *
@@ -215,38 +209,12 @@
 		 */
 		function adminInitForPlugins()
 		{
-			/*
-			 * Disable Plugin Updates
-			 * 2.8 to 3.0
-			 */
-			remove_action('load-plugins.php', 'wp_update_plugins');
-			remove_action('load-update.php', 'wp_update_plugins');
-			remove_action('admin_init', '_maybe_update_plugins');
-			remove_action('wp_update_plugins', 'wp_update_plugins');
-			wp_clear_scheduled_hook('wp_update_plugins');
-
-			/*
-			 * 3.0
-			 */
 			remove_action('load-update-core.php', 'wp_update_plugins');
 			wp_clear_scheduled_hook('wp_update_plugins');
 		}
 
 		function adminInitForThemes()
 		{
-			/*
-			 * Disable Theme Updates
-			 * 2.8 to 3.0
-			 */
-			remove_action('load-themes.php', 'wp_update_themes');
-			remove_action('load-update.php', 'wp_update_themes');
-			remove_action('admin_init', '_maybe_update_themes');
-			remove_action('wp_update_themes', 'wp_update_themes');
-			wp_clear_scheduled_hook('wp_update_themes');
-
-			/*
-			 * 3.0
-			 */
 			remove_action('load-update-core.php', 'wp_update_themes');
 			wp_clear_scheduled_hook('wp_update_themes');
 		}
@@ -259,22 +227,6 @@
 		 */
 		function adminInitForCore()
 		{
-			/*
-			 * Disable Core Updates
-			 * 2.8 to 3.0
-			 */
-			remove_action('wp_version_check', 'wp_version_check');
-			remove_action('admin_init', '_maybe_update_core');
-			wp_clear_scheduled_hook('wp_version_check');
-
-			/*
-			 * 3.0
-			 */
-			wp_clear_scheduled_hook('wp_version_check');
-
-			/*
-			 * 3.7+
-			 */
 			remove_action('wp_maybe_auto_update', 'wp_maybe_auto_update');
 			remove_action('admin_init', 'wp_maybe_auto_update');
 			remove_action('admin_init', 'wp_auto_update_core');
