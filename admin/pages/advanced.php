@@ -37,7 +37,7 @@
 			parent::warningNotice();
 
 			if( isset($_GET['wbcr_force_update']) ) {
-				$concat = __('Пожалуйста, подождите 90 сек, что увидите результат принудетельного автоматического обновление.', 'webcraftic-updates-manager') . '<br>';
+				$concat = __('Please, wait 90 sec. to see the forced automatic update result.', 'webcraftic-updates-manager') . '<br>';
 
 				$this->printWarningNotice($concat);
 			}

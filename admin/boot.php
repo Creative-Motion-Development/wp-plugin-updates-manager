@@ -69,8 +69,8 @@
 	function wbcr_upm_allow_quick_mods($mods)
 	{
 		$mods['disable_all_updates'] = array(
-			'title' => __('Disable all updates', 'webcraftic-updates-manager'),
-			'icon' => 'fa-refresh'
+			'title' => __('One click disable all updates', 'webcraftic-updates-manager'),
+			'icon' => 'dashicons-update'
 		);
 
 		return $mods;

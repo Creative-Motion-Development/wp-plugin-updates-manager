@@ -45,14 +45,14 @@
 		{
 			parent::warningNotice();
 
-			$concat = __('На этой странице вы можете индвидуально отключить обновления и автообновления плагинов.', 'webcraftic-updates-manager') . '<br>';
+			$concat = __('This page you can individually disable plugin updates and auto updates.', 'webcraftic-updates-manager') . '<br>';
 
 			if( $this->is_disable_updates ) {
-				$concat .= __('- Чтобы индивидуально отключить обновления, выберите опцию ручные или автоматические обновления плагинов, сохраните настройки и вернитесь на эту страницу.', 'webcraftic-updates-manager') . '<br>';
+				$concat .= __('- To disable updates individually choose the “Manual or automatic plugin updates” option then save settings and comeback to this page.', 'webcraftic-updates-manager') . '<br>';
 			}
 
 			if( !$this->is_auto_updates ) {
-				$concat .= __('- Чтобы индивидуально настроить автоматические обновления плагинов, выберите опцию автоматические обновления, сохраните настройки и вернитесь на эту страницу.', 'webcraftic-updates-manager');
+				$concat .= __('- To configure plugin auto updates individually, choose the “Enable auto updates” option then save settings and comeback to this page.', 'webcraftic-updates-manager');
 			}
 
 			$this->printWarningNotice($concat);
@@ -83,8 +83,15 @@
 			if( !$this->is_disable_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
 
+				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
+
 				if( !empty($plugin_slug) ) {
-					if( isset($this->plugins_update_filters['disable_updates']) && !isset($this->plugins_update_filters['disable_updates'][$plugin_slug]) ) {
+					if( isset($this->plugins_update_filters['disable_updates']) ) {
+						if( !isset($this->plugins_update_filters['disable_updates'][$plugin_slug]) ) {
+							$this->plugins_update_filters['disable_updates'][$plugin_slug] = true;
+						}
+					} else {
+						$this->plugins_update_filters['disable_updates'] = array();
 						$this->plugins_update_filters['disable_updates'][$plugin_slug] = true;
 					}
 
@@ -99,6 +106,8 @@
 		{
 			if( !$this->is_disable_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
+
+				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
 				if( !empty($plugin_slug) ) {
 					if( isset($this->plugins_update_filters['disable_updates']) && isset($this->plugins_update_filters['disable_updates'][$plugin_slug]) ) {
@@ -116,11 +125,18 @@
 			if( $this->is_auto_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
 
+				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
+
 				if( !empty($plugin_slug) ) {
-					if( isset($this->plugins_update_filters['disable_auto_updates']) && !isset($this->plugins_update_filters['disable_auto_updates'][$plugin_slug]) ) {
+					if( isset($this->plugins_update_filters['disable_auto_updates']) ) {
+						if( !isset($this->plugins_update_filters['disable_auto_updates'][$plugin_slug]) ) {
+							$this->plugins_update_filters['disable_auto_updates'][$plugin_slug] = true;
+						}
+					} else {
+						$this->plugins_update_filters['disable_auto_updates'] = array();
 						$this->plugins_update_filters['disable_auto_updates'][$plugin_slug] = true;
-						$this->savePluginsUpdateFilters();
 					}
+					$this->savePluginsUpdateFilters();
 				}
 			}
 			$this->redirectToAction('index');
@@ -130,6 +146,8 @@
 		{
 			if( $this->is_auto_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
+
+				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
 				if( !empty($plugin_slug) ) {
 					if( isset($this->plugins_update_filters['disable_auto_updates']) && isset($this->plugins_update_filters['disable_auto_updates'][$plugin_slug]) ) {
@@ -145,31 +163,24 @@
 		{
 			if( isset($_POST['wbcr_upm_apply']) ) {
 
-				$nonce = $this->request->post('_wpnonce', null, true);
 				$bulk_action = $this->request->post('wbcr_upm_bulk_actions', null, true);
 				$plugin_slugs = $this->request->post('plugin_slugs', array(), true);
 
-				if( !wp_verify_nonce($nonce, $this->getResultId() . '_form') ) {
-					wp_die('You do not have permission to edit this page.');
-				}
+				check_admin_referer($this->getResultId() . '_form');
 
 				if( !$this->is_disable_updates ) {
 					if( !empty($bulk_action) && !empty($plugin_slugs) && is_array($plugin_slugs) ) {
 
 						foreach((array)$plugin_slugs as $slug) {
-							if( $this->is_auto_updates ) {
-								if( $bulk_action == 'enable_updates' && isset($this->plugins_update_filters['disable_updates']) && isset($this->plugins_update_filters['disable_updates'][$slug]) ) {
-									unset($this->plugins_update_filters['disable_updates'][$slug]);
-								}
+							if( $bulk_action == 'enable_updates' && isset($this->plugins_update_filters['disable_updates']) && isset($this->plugins_update_filters['disable_updates'][$slug]) ) {
+								unset($this->plugins_update_filters['disable_updates'][$slug]);
 							}
-							if( $bulk_action == 'enable_auto_updates' || $bulk_action == 'disable_updates' ) {
+
+							if( $bulk_action == 'enable_auto_updates' ) {
 								if( $this->is_auto_updates ) {
 									if( isset($this->plugins_update_filters['disable_auto_updates']) && isset($this->plugins_update_filters['disable_auto_updates'][$slug]) ) {
 										unset($this->plugins_update_filters['disable_auto_updates'][$slug]);
 									}
-								}
-								if( $bulk_action == 'disable_updates' ) {
-									$this->plugins_update_filters[$bulk_action][$slug] = true;
 								}
 							} else {
 								$this->plugins_update_filters[$bulk_action][$slug] = true;
@@ -273,9 +284,9 @@
 									<div class="row-actions visible status">
 										<?php if( !$this->is_disable_updates ): ?>
 											<?php if( !$is_disable_updates ): ?>
-												<span class="trash"><a href="<?= $this->getActionUrl('disable-plugin-updates', array('plugin_slug' => $actual_slug)) ?>"><?php _e('Disable updates', 'webcraftic-updates-manager') ?></a></span>
+												<span class="trash"><a href="<?= wp_nonce_url($this->getActionUrl('disable-plugin-updates', array('plugin_slug' => $actual_slug)), $this->getResultId() . '_' . $actual_slug) ?>"><?php _e('Disable updates', 'webcraftic-updates-manager') ?></a></span>
 											<?php else: ?>
-												<span><a href="<?= $this->getActionUrl('enable-plugin-updates', array('plugin_slug' => $actual_slug)) ?>"><?php _e('Enable updates', 'webcraftic-updates-manager') ?></a></span>
+												<span><a href="<?= wp_nonce_url($this->getActionUrl('enable-plugin-updates', array('plugin_slug' => $actual_slug)), $this->getResultId() . '_' . $actual_slug) ?>"><?php _e('Enable updates', 'webcraftic-updates-manager') ?></a></span>
 											<?php endif; ?>
 										<?php else: ?>
 											<span style="text-decoration: underline;"><?php _e('Disable updates', 'webcraftic-updates-manager') ?></span>
@@ -283,9 +294,9 @@
 										|
 										<?php if( $this->is_auto_updates && !$is_disable_updates ): ?>
 											<?php if( $is_auto_updates ): ?>
-												<span><a href="<?= $this->getActionUrl('disable-plugin-autoupdates', array('plugin_slug' => $actual_slug)) ?>"><?php _e('Disable auto-updates', 'webcraftic-updates-manager') ?></a></span>
+												<span><a href="<?= wp_nonce_url($this->getActionUrl('disable-plugin-autoupdates', array('plugin_slug' => $actual_slug)), $this->getResultId() . '_' . $actual_slug) ?>"><?php _e('Disable auto-updates', 'webcraftic-updates-manager') ?></a></span>
 											<?php else: ?>
-												<span><a href="<?= $this->getActionUrl('enable-plugin-autoupdates', array('plugin_slug' => $actual_slug)) ?>"><?php _e('Enable auto-updates', 'webcraftic-updates-manager') ?></a></span>
+												<span><a href="<?= wp_nonce_url($this->getActionUrl('enable-plugin-autoupdates', array('plugin_slug' => $actual_slug)), $this->getResultId() . '_' . $actual_slug) ?>"><?php _e('Enable auto-updates', 'webcraftic-updates-manager') ?></a></span>
 											<?php endif; ?>
 										<?php else: ?>
 											<?php if( $is_auto_updates ): ?>
