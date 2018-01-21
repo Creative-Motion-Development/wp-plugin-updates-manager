@@ -15,6 +15,7 @@
 			 * Plugin updates
 			 */
 			$plugins_update = $this->getOption('plugin_updates');
+
 			switch( $this->getOption('plugin_updates') ) {
 				case 'disable_plugin_updates':
 					add_filter('site_transient_update_plugins', '__return_false', 50);
@@ -83,6 +84,13 @@
 			 */
 			if( $this->getOption('enable_update_vcs') ) {
 				add_filter('automatic_updates_is_vcs_checkout', '__return_false', 1);
+			}
+
+			/**
+			 * disable updates nags for all users except admin
+			 */
+			if( $this->getOption('updates_nags_only_for_admin') && !current_user_can('update_core') ) {
+				remove_action('admin_notices', 'update_nag', 3);
 			}
 		}
 

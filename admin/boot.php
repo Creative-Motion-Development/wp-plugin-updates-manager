@@ -14,16 +14,16 @@
 		require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/more-features.php');
 	}
 
-	/*add_filter('wbcr_factory_imppage_bottom_sidebar_widgets', 'wbcr_upm_page_bottom_sidebar', 10, 2);
-
-	function wbcr_upm_page_bottom_sidebar($widgets, $page_id)
+	function wbcr_upm_rating_widget_url($page_url, $plugin_name)
 	{
-		if( in_array($page_id, array('updates', 'plugins', 'advanced')) ) {
-			$widgets['rating_widget'] = $this->getRatingWidget('https://goo.gl/v4QkW5');
+		if( $plugin_name == 'wbcr_updates_manager' ) {
+			return 'https://goo.gl/Be2hQU';
 		}
 
-		return $widgets;
-	}*/
+		return $page_url;
+	}
+
+	add_filter('wbcr_factory_imppage_rating_widget_url', 'wbcr_upm_rating_widget_url', 10, 2);
 
 	function wbcr_upm_group_options($options)
 	{
@@ -59,6 +59,11 @@
 			'name' => 'plugins_update_filters',
 			'title' => __('Plugin filters', 'webcraftic-updates-manager'),
 			'tags' => array()
+		);
+		$options[] = array(
+			'name' => 'updates_nags_only_for_admin',
+			'title' => __('Updates nags only for Admin', 'webcraftic-updates-manager'),
+			'tags' => array('recommended')
 		);
 
 		return $options;

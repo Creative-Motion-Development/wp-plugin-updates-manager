@@ -124,6 +124,18 @@
 				'default' => false,
 			);
 
+			$options[] = array(
+				'type' => 'checkbox',
+				'way' => 'buttons',
+				'name' => 'updates_nags_only_for_admin',
+				'title' => __('Updates nags only for Admin', 'webcraftic-updates-manager'),
+				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'green'),
+				'hint' => __('This plugin allows you to hide the update WordPress reminder from all users that are not assumed Administrators (cannot upgrade plugins).
+
+If you have multiple users then this means those who are not admins don’t need to see the message. Useful for CMS based sites, so the client doesn’t see the notice.', 'webcraftic-updates-manager'),
+				'default' => false,
+			);
+
 			/*$options[] = array(
 				'type' => 'separator',
 				'cssClass' => 'factory-separator-dashed'
