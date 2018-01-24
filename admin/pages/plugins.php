@@ -170,8 +170,8 @@
 
 				if( !$this->is_disable_updates ) {
 					if( !empty($bulk_action) && !empty($plugin_slugs) && is_array($plugin_slugs) ) {
-
 						foreach((array)$plugin_slugs as $slug) {
+
 							if( $bulk_action == 'enable_updates' && isset($this->plugins_update_filters['disable_updates']) && isset($this->plugins_update_filters['disable_updates'][$slug]) ) {
 								unset($this->plugins_update_filters['disable_updates'][$slug]);
 							}
@@ -183,6 +183,10 @@
 									}
 								}
 							} else {
+								if( $bulk_action == 'disable_auto_updates' && !$this->is_auto_updates ) {
+									continue;
+								}
+
 								$this->plugins_update_filters[$bulk_action][$slug] = true;
 							}
 						}
