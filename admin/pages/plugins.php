@@ -5,7 +5,14 @@
 	 *
 	 * @since 1.0.0
 	 */
-	class WbcrUpm_PluginsPage extends FactoryPages000_ImpressiveThemplate {
+
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
+	}
+
+
+	class WbcrUpm_PluginsPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
 		/**
 		 * The id of the page in the admin menu.
@@ -18,19 +25,42 @@
 		 */
 		public $id = "plugins";
 
+		/**
+		 * @var string
+		 */
 		public $type = "page";
 
+		/**
+		 * @var string
+		 */
 		public $page_parent_page = 'updates';
 
+		/**
+		 * @var string
+		 */
 		public $page_menu_dashicon = 'dashicons-cloud';
 
+		/**
+		 * @var
+		 */
 		private $is_disable_updates;
+
+		/**
+		 * @var
+		 */
 		private $is_auto_updates;
+
+		/**
+		 * @var array
+		 */
 		private $plugins_update_filters = array();
 
-		public function __construct(Factory000_Plugin $plugin)
+		/**
+		 * @param Wbcr_Factory000_Plugin $plugin
+		 */
+		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
-			$this->menuTitle = __('Plugins', 'webcraftic-updates-manager');
+			$this->menu_title = __('Plugins', 'webcraftic-updates-manager');
 
 			parent::__construct($plugin);
 
@@ -68,14 +98,13 @@
 		 */
 		public function assets($scripts, $styles)
 		{
-
 			parent::assets($scripts, $styles);
-			$this->styles->add(WBCR_UPM_PLUGIN_URL . '/admin/assets/css/general.css');
+			$this->styles->add(WUP_PLUGIN_URL . '/admin/assets/css/general.css');
 		}
 
 		public function savePluginsUpdateFilters()
 		{
-			update_option($this->plugin->pluginName . '_plugins_update_filters', $this->plugins_update_filters);
+			$this->plugin->updateOption('plugins_update_filters', $this->plugins_update_filters);
 		}
 
 		public function disablePluginUpdatesAction()
@@ -206,8 +235,15 @@
 					background: #FEF7F1;
 				}
 			</style>
-
 			<?php $this->warningNotice(); ?>
+			<div class="wbcr-factory-page-group-header">
+				<strong><?php _e('Wp admin paths', 'hide_my_wp') ?></strong>
+
+				<p>
+					Вы можете изменить системные пути к плагинам, темам, изображениям, к основным файловым директориям
+					ядра.
+				</p>
+			</div>
 			<form method="post">
 				<?php wp_nonce_field($this->getResultId() . '_form') ?>
 				<p>
@@ -324,5 +360,3 @@
 		<?php
 		}
 	}
-
-	FactoryPages000::register($wbcr_update_services_plugin, 'WbcrUpm_PluginsPage');

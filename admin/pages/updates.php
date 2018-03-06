@@ -5,7 +5,13 @@
 	 *
 	 * @since 1.0.0
 	 */
-	class WbcrUpm_UpdatesPage extends FactoryPages000_ImpressiveThemplate {
+
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
+	}
+
+	class WbcrUpm_UpdatesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
 		/**
 		 * The id of the page in the admin menu.
@@ -18,9 +24,15 @@
 		 */
 		public $id = "updates";
 
+		/**
+		 * @var string
+		 */
 		public $page_menu_dashicon = 'dashicons-cloud';
 
-		public function __construct(Factory000_Plugin $plugin)
+		/**
+		 * @param Wbcr_Factory000_Plugin $plugin
+		 */
+		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
 			$this->menuTitle = __('Updates manager', 'webcraftic-updates-manager');
 
@@ -49,6 +61,11 @@
 		public function getOptions()
 		{
 			$options = array();
+
+			$options[] = array(
+				'type' => 'html',
+				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Rest API', 'hide_my_wp') . '</strong><p>' . $this->getOptionState('rest_api') . '</p></div>'
+			);
 
 			$options[] = array(
 				'type' => 'dropdown',
@@ -158,4 +175,3 @@ If you have multiple users then this means those who are not admins don’t need
 		}
 	}
 
-	FactoryPages000::register($wbcr_update_services_plugin, 'WbcrUpm_UpdatesPage');

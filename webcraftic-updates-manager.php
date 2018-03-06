@@ -9,7 +9,7 @@
 	 * Domain Path: /languages/
 	 */
 
-	if( defined('WBCR_UPM_PLUGIN_ACTIVE') || (defined('WBCR_CLEARFY_PLUGIN_ACTIVE') && !defined('LOADING_UPDATES_MANAGER_AS_ADDON')) ) {
+	if( defined('WUP_PLUGIN_ACTIVE') || (defined('WCL_PLUGIN_ACTIVE') && !defined('LOADING_UPDATES_MANAGER_AS_ADDON')) ) {
 		function wbcr_upm_admin_notice_error()
 		{
 			?>
@@ -24,11 +24,11 @@
 		return;
 	} else {
 
-		define('WBCR_UPM_PLUGIN_ACTIVE', true);
+		define('WUP_PLUGIN_ACTIVE', true);
 
-		define('WBCR_UPM_PLUGIN_DIR', dirname(__FILE__));
-		define('WBCR_UPM_PLUGIN_BASE', plugin_basename(__FILE__));
-		define('WBCR_UPM_PLUGIN_URL', plugins_url(null, __FILE__));
+		define('WUP_PLUGIN_DIR', dirname(__FILE__));
+		define('WUP_PLUGIN_BASE', plugin_basename(__FILE__));
+		define('WUP_PLUGIN_URL', plugins_url(null, __FILE__));
 
 		#comp remove
 		// the following constants are used to debug features of diffrent builds
@@ -61,53 +61,22 @@
 		#endcomp
 
 		if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-			require_once(WBCR_UPM_PLUGIN_DIR . '/libs/factory/core/boot.php');
+			require_once(WUP_PLUGIN_DIR . '/libs/factory/core/boot.php');
 		}
 
-		function wbcr_upm_plugin_init()
-		{
-			global $wbcr_update_services_plugin;
+		require_once(WUP_PLUGIN_DIR . '/includes/class.plugin.php');
 
-			// Localization plugin
-			load_plugin_textdomain('webcraftic-updates-manager', false, dirname(WBCR_UPM_PLUGIN_BASE) . '/languages/');
-
-			if( defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-				//return;
-				global $wbcr_clearfy_plugin;
-				$wbcr_update_services_plugin = $wbcr_clearfy_plugin;
-			} else {
-
-				$wbcr_update_services_plugin = new Factory000_Plugin(__FILE__, array(
-					'name' => 'wbcr_updates_manager',
-					'title' => __('Webcraftic Updates Manager', 'webcraftic-updates-manager'),
-					'version' => '1.0.1',
-					'host' => 'wordpress.org',
-					'url' => 'https://wordpress.org/plugins/webcraftic-updates-manager/',
-					'assembly' => BUILD_TYPE,
-					'updates' => WBCR_UPM_PLUGIN_DIR . '/updates/'
-				));
-
-				// requires factory modules
-				$wbcr_update_services_plugin->load(array(
-					array('libs/factory/bootstrap', 'factory_bootstrap_000', 'admin'),
-					array('libs/factory/forms', 'factory_forms_000', 'admin'),
-					array('libs/factory/pages', 'factory_pages_000', 'admin'),
-					array('libs/factory/clearfy', 'factory_clearfy_000', 'all')
-				));
-			}
-
-			// loading other files
-			if( is_admin() ) {
-				require_once(WBCR_UPM_PLUGIN_DIR . '/admin/boot.php');
-			}
-
-			require(WBCR_UPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
-			new WbcrUpm_ConfigUpdates($wbcr_update_services_plugin);
-		}
-
-		if( defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-			wbcr_upm_plugin_init();
-		} else {
-			add_action('plugins_loaded', 'wbcr_upm_plugin_init');
+		if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
+			//todo: обновить опции в старом плагине на новый префикс
+			new WUP_Plugin(__FILE__, array(
+				'prefix' => 'wbcr_upm_',
+				'plugin_name' => 'updates_manager',
+				'plugin_title' => __('Webcraftic Updates Manager', 'webcraftic-updates-manager'),
+				'plugin_version' => '1.0.1',
+				'required_php_version' => '5.2',
+				'required_wp_version' => '4.2',
+				'plugin_build' => BUILD_TYPE,
+				'updates' => WDN_PLUGIN_DIR . '/updates/'
+			));
 		}
 	}

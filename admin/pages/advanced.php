@@ -1,11 +1,16 @@
 <?php
-
 	/**
 	 * The page Settings.
 	 *
 	 * @since 1.0.0
 	 */
-	class WbcrUpm_AdvancedPage extends FactoryPages000_ImpressiveThemplate {
+
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
+	}
+
+	class WbcrUpm_AdvancedPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
 		/**
 		 * The id of the page in the admin menu.
@@ -16,7 +21,7 @@
 		 * @since 1.0.0
 		 * @var string
 		 */
-		public $id = "advanced";
+		public $id = "updates_advanced";
 
 		public $type = "page";
 
@@ -24,13 +29,15 @@
 
 		public $page_menu_dashicon = 'dashicons-cloud';
 
-		public function __construct(Factory000_Plugin $plugin)
+		/**
+		 * @param Wbcr_Factory000_Plugin $plugin
+		 */
+		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
-			$this->menuTitle = __('Advanced', 'webcraftic-updates-manager');
+			$this->menu_title = __('Advanced', 'webcraftic-updates-manager');
 
 			parent::__construct($plugin);
 		}
-
 
 		public function warningNotice()
 		{
@@ -72,4 +79,3 @@
 		}
 	}
 
-	FactoryPages000::register($wbcr_update_services_plugin, 'WbcrUpm_AdvancedPage');

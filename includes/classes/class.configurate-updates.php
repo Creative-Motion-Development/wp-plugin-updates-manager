@@ -6,8 +6,13 @@
 	 * @copyright (c) 2017 Webraftic Ltd
 	 * @version 1.0
 	 */
-	class WbcrUpm_ConfigUpdates extends WbcrFactoryClearfy_Configurate {
 
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
+	}
+
+	class WbcrUpm_ConfigUpdates extends Wbcr_FactoryClearfy000_Configurate {
 
 		public function registerActionsAndFilters()
 		{
@@ -103,7 +108,7 @@
 		 */
 		public function pluginsAutoUpdate($update, $item)
 		{
-			$filters = get_option($this->plugin->pluginName . '_plugins_update_filters');
+			$filters = $this->getOption('plugins_update_filters');
 
 			$slug_parts = explode('/', $item->plugin);
 			$actual_slug = array_shift($slug_parts);
@@ -163,7 +168,7 @@
 
 			if( isset($r['body']['plugins']) ) {
 				$r_plugins = json_decode($r['body']['plugins'], true);
-				$filters = get_option($this->plugin->pluginName . '_plugins_update_filters');
+				$filters = $this->getOption('plugins_update_filters');
 
 				if( isset($r_plugins['plugins']) && !empty($r_plugins['plugins']) ) {
 					foreach($r_plugins['plugins'] as $slug => $plugin) {
@@ -211,9 +216,7 @@
 
 		/**
 		 * Initialize and load the plugin stuff
-		 *
-		 * @since        1.3
-		 * @author        scripts@schloebe.de
+		 * @author scripts@schloebe.de
 		 */
 		function adminInitForPlugins()
 		{
@@ -229,9 +232,7 @@
 
 		/**
 		 * Initialize and load the plugin stuff
-		 *
-		 * @since        1.3
-		 * @author        scripts@schloebe.de
+		 * @author scripts@schloebe.de
 		 */
 		function adminInitForCore()
 		{

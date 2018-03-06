@@ -6,14 +6,6 @@
 	 * @version 1.0
 	 */
 
-	require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/updates.php');
-	require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/plugins.php');
-	require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/advanced.php');
-
-	if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-		require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/more-features.php');
-	}
-
 	function wbcr_upm_rating_widget_url($page_url, $plugin_name)
 	{
 		if( $plugin_name == 'wbcr_updates_manager' ) {
@@ -85,7 +77,7 @@
 
 	function wbcr_ump_set_plugin_meta($links, $file)
 	{
-		if( $file == WBCR_UPM_PLUGIN_BASE ) {
+		if( $file == WUP_PLUGIN_BASE ) {
 			$links[] = '<a href="https://goo.gl/TcMcS4" style="color: #FF5722;font-weight: bold;" target="_blank">' . __('Get ultimate plugin free', 'webcraftic-updates-manager') . '</a>';
 		}
 
