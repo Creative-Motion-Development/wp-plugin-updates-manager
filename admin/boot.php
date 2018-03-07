@@ -6,6 +6,54 @@
 	 * @version 1.0
 	 */
 
+	/**
+	 * Ошибки совместимости с похожими плагинами
+	 */
+	function wbcr_upm_admin_conflict_notices_error()
+	{
+		$notices = array();
+
+		$default_notice = WUP_Plugin::app()
+				->getPluginTitle() . ': ' . __('Мы обнаружили у вас установленный плагин %s, функции этого плагина уже есть в %s. Пожалуйста, деактивируйте плагин %s, чтобы это не вызвало конфликт плагинов.', 'webcraftic-updates-manager');
+		$default_notice .= ' ' . __('Если вы по какой-то причине не хотите деактивировать плагин %s, то пожалуйста, не используйте похожие функции плагинов одновременно!', 'webcraftic-updates-manager');;
+
+		if( is_plugin_active('companion-auto-update/companion-auto-update.php') ) {
+			$notices[] = sprintf($default_notice, 'Companion Auto Update', WUP_Plugin::app()
+				->getPluginTitle(), 'Companion Auto Update', 'Companion Auto Update');
+		}
+
+		if( is_plugin_active('disable-updates/disable-updates.php') ) {
+			$notices[] = sprintf($default_notice, 'Disable Updates', WUP_Plugin::app()
+				->getPluginTitle(), 'Disable Updates', 'Disable Updates');
+		}
+
+		if( is_plugin_active('disable-wordpress-updates/disable-updates.php') ) {
+			$notices[] = sprintf($default_notice, 'Disable All WordPress Updates', WUP_Plugin::app()
+				->getPluginTitle(), 'Disable All WordPress Updates', 'Disable All WordPress Updates');
+		}
+
+		if( is_plugin_active('stops-core-theme-and-plugin-updates/main.php') ) {
+			$notices[] = sprintf($default_notice, 'Easy Updates Manager', WUP_Plugin::app()
+				->getPluginTitle(), 'Easy Updates Manager', 'Easy Updates Manager');
+		}
+
+		if( empty($notices) ) {
+			return;
+		}
+
+		?>
+		<div id="wbcr-update-manager-conflict-error" class="notice notice-error is-dismissible">
+			<?php foreach((array)$notices as $notice): ?>
+				<p>
+					<?= $notice ?>
+				</p>
+			<?php endforeach; ?>
+		</div>
+	<?php
+	}
+
+	add_action('admin_notices', 'wbcr_upm_admin_conflict_notices_error');
+
 	function wbcr_upm_rating_widget_url($page_url, $plugin_name)
 	{
 		if( $plugin_name == 'wbcr_updates_manager' ) {

@@ -75,7 +75,7 @@
 		{
 			parent::warningNotice();
 
-			$concat = __('This page you can individually disable plugin updates and auto updates.', 'webcraftic-updates-manager') . '<br>';
+			$concat = '';
 
 			if( $this->is_disable_updates ) {
 				$concat .= __('- To disable updates individually choose the “Manual or automatic plugin updates” option then save settings and comeback to this page.', 'webcraftic-updates-manager') . '<br>';
@@ -237,14 +237,13 @@
 			</style>
 			<?php $this->warningNotice(); ?>
 			<div class="wbcr-factory-page-group-header">
-				<strong><?php _e('Wp admin paths', 'hide_my_wp') ?></strong>
+				<strong><?php _e('Plugins list', 'webcraftic-updates-manager') ?></strong>
 
 				<p>
-					Вы можете изменить системные пути к плагинам, темам, изображениям, к основным файловым директориям
-					ядра.
+					<?php _e('This page you can individually disable plugin updates and auto updates.', 'webcraftic-updates-manager') ?>
 				</p>
 			</div>
-			<form method="post">
+			<form method="post" style="padding: 20px;">
 				<?php wp_nonce_field($this->getResultId() . '_form') ?>
 				<p>
 					<select name="wbcr_upm_bulk_actions" id="wbcr_upm_bulk_actions">

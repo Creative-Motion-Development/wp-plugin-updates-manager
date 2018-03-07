@@ -64,7 +64,7 @@
 
 			$options[] = array(
 				'type' => 'html',
-				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Rest API', 'hide_my_wp') . '</strong><p>' . $this->getOptionState('rest_api') . '</p></div>'
+				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Общие настройки обновлений плагинов, тем и Wordpress', 'webcraftic-updates-manager') . '</strong><p>' . __('На этой странице можете включить или отключить автоматические обновления ресурсов. Чтобы протестировать работу автоматических обновлений, перейдите на вкладку "Дополнительно".', 'webcraftic-updates-manager') . '</p></div>'
 			);
 
 			$options[] = array(
