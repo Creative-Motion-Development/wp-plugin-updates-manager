@@ -38,8 +38,8 @@
 
 			if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
 				$this->internal = false;
-				$this->menuTarget = 'options-general.php';
-				$this->addLinkToPluginActions = true;
+				$this->menu_target = 'options-general.php';
+				$this->add_link_to_plugin_actions = true;
 			}
 
 			parent::__construct($plugin);
