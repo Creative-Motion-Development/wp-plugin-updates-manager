@@ -14,8 +14,8 @@
 		$notices = array();
 
 		$default_notice = WUP_Plugin::app()
-				->getPluginTitle() . ': ' . __('Мы обнаружили у вас установленный плагин %s, функции этого плагина уже есть в %s. Пожалуйста, деактивируйте плагин %s, чтобы это не вызвало конфликт плагинов.', 'webcraftic-updates-manager');
-		$default_notice .= ' ' . __('Если вы по какой-то причине не хотите деактивировать плагин %s, то пожалуйста, не используйте похожие функции плагинов одновременно!', 'webcraftic-updates-manager');;
+				->getPluginTitle() . ': ' . __('We found that you have the plugin %s installed. The functions of this plugin already exist in %s. Please deactivate plugin %s to avoid conflicts between plugins\' functions.', 'webcraftic-updates-manager');
+		$default_notice .= ' ' . __('If you do not want to deactivate the plugin %s for some reason, we strongly recommend do not use the same plugins\' functions at the same time!', 'webcraftic-updates-manager');
 
 		if( is_plugin_active('companion-auto-update/companion-auto-update.php') ) {
 			$notices[] = sprintf($default_notice, 'Companion Auto Update', WUP_Plugin::app()
@@ -56,7 +56,7 @@
 
 	function wbcr_upm_rating_widget_url($page_url, $plugin_name)
 	{
-		if( $plugin_name == 'wbcr_updates_manager' ) {
+		if( $plugin_name == WUP_Plugin::app()->getPluginName() ) {
 			return 'https://goo.gl/Be2hQU';
 		}
 

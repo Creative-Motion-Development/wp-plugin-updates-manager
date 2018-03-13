@@ -23,7 +23,7 @@
 
 			switch( $this->getOption('plugin_updates') ) {
 				case 'disable_plugin_updates':
-					add_filter('site_transient_update_plugins', '__return_false', 50);
+					add_filter('site_transient_update_plugins', array($this, 'lastCheckedNow'), 50);
 					add_action('admin_init', array($this, 'adminInitForPlugins'));
 					add_filter('auto_update_plugin', '__return_false');
 					break;
@@ -43,7 +43,7 @@
 
 			switch( $this->getOption('theme_updates') ) {
 				case 'disable_theme_updates':
-					add_filter('site_transient_update_themes', '__return_false', 50);
+					add_filter('site_transient_update_themes', array($this, 'lastCheckedNow'), 50);
 					add_action('admin_init', array($this, 'adminInitForThemes'));
 					add_filter('auto_update_theme', '__return_false');
 					break;
@@ -51,6 +51,9 @@
 					add_filter('auto_update_theme', '__return_true', 1);
 					break;
 			}
+
+			add_action('schedule_event', array($this, 'filter_cron_events'));
+			add_filter('pre_http_request', array($this, 'block_request'), 10, 3);
 
 			/**
 			 * disable wp default translation update
@@ -97,6 +100,59 @@
 			if( $this->getOption('updates_nags_only_for_admin') && !current_user_can('update_core') ) {
 				remove_action('admin_notices', 'update_nag', 3);
 			}
+		}
+
+		/**
+		 * Check the outgoing request
+		 *
+		 * @since        1.4.4
+		 */
+		public function block_request($pre, $args, $url)
+		{
+			/* Empty url */
+			if( empty($url) ) {
+				return $pre;
+			}
+
+			/* Invalid host */
+			if( !$host = parse_url($url, PHP_URL_HOST) ) {
+				return $pre;
+			}
+
+			$url_data = parse_url($url);
+
+			/* block request */
+			if( false !== stripos($host, 'api.wordpress.org') && (false !== stripos($url_data['path'], 'update-check') || false !== stripos($url_data['path'], 'browse-happy')) ) {
+				return true;
+			}
+
+			return $pre;
+		}
+
+
+		/**
+		 * Filter cron events
+		 *
+		 * @since        1.5.0
+		 */
+		public function filter_cron_events($event)
+		{
+			$core_updates = $this->getOption('wp_update_core') == 'disable_core_updates';
+			$plugins_updates = $this->getOption('plugin_updates') == 'disable_plugin_updates';
+			$themes_updates = $this->getOption('theme_updates') == 'disable_theme_updates';
+
+			if( $core_updates && $plugins_updates && $themes_updates ) {
+				switch( $event->hook ) {
+					case 'wp_version_check':
+					case 'wp_update_plugins':
+					case 'wp_update_themes':
+					case 'wp_maybe_auto_update':
+						$event = false;
+						break;
+				}
+			}
+
+			return $event;
 		}
 
 		/**
@@ -212,6 +268,8 @@
 			add_filter('send_core_update_notification_email', '__return_false');
 			add_filter('automatic_updates_send_debug_email', '__return_false');
 			add_filter('automatic_updates_is_vcs_checkout', '__return_true');
+			remove_action('admin_notices', 'update_nag', 3);
+			remove_action('admin_notices', 'maintenance_nag');
 		}
 
 		/**

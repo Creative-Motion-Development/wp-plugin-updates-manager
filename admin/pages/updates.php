@@ -64,7 +64,7 @@
 
 			$options[] = array(
 				'type' => 'html',
-				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Общие настройки обновлений плагинов, тем и Wordpress', 'webcraftic-updates-manager') . '</strong><p>' . __('На этой странице можете включить или отключить автоматические обновления ресурсов. Чтобы протестировать работу автоматических обновлений, перейдите на вкладку "Дополнительно".', 'webcraftic-updates-manager') . '</p></div>'
+				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('General settings for WordPress, plugins and themes updates', 'webcraftic-updates-manager') . '</strong><p>' . __('This page, you can enable or disable automatic updates. To test the automatic updates, click the "Advanced" tab.', 'webcraftic-updates-manager') . '</p></div>'
 			);
 
 			$options[] = array(
