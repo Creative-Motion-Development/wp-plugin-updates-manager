@@ -85,7 +85,9 @@
 				$concat .= __('- To configure plugin auto updates individually, choose the “Enable auto updates” option then save settings and comeback to this page.', 'webcraftic-updates-manager');
 			}
 
-			$this->printWarningNotice($concat);
+			if( !empty($concat) ) {
+				$this->printWarningNotice($concat);
+			}
 		}
 
 		/**
@@ -226,6 +228,15 @@
 			}
 
 			?>
+
+			<?php $this->warningNotice(); ?>
+			<div class="wbcr-factory-page-group-header">
+				<strong><?php _e('Plugins list', 'webcraftic-updates-manager') ?></strong>
+
+				<p>
+					<?php _e('This page you can individually disable plugin updates and auto updates.', 'webcraftic-updates-manager') ?>
+				</p>
+			</div>
 			<style>
 				#the-list tr.inactive .check-column {
 					border-left: 3px solid #D54E21;
@@ -235,14 +246,6 @@
 					background: #FEF7F1;
 				}
 			</style>
-			<?php $this->warningNotice(); ?>
-			<div class="wbcr-factory-page-group-header">
-				<strong><?php _e('Plugins list', 'webcraftic-updates-manager') ?></strong>
-
-				<p>
-					<?php _e('This page you can individually disable plugin updates and auto updates.', 'webcraftic-updates-manager') ?>
-				</p>
-			</div>
 			<form method="post" style="padding: 20px;">
 				<?php wp_nonce_field($this->getResultId() . '_form') ?>
 				<p>

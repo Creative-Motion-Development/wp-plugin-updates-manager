@@ -40,7 +40,6 @@
 			/**
 			 * Theme updates
 			 */
-
 			switch( $this->getOption('theme_updates') ) {
 				case 'disable_theme_updates':
 					add_filter('site_transient_update_themes', array($this, 'lastCheckedNow'), 50);
@@ -51,9 +50,6 @@
 					add_filter('auto_update_theme', '__return_true', 1);
 					break;
 			}
-
-			add_action('schedule_event', array($this, 'filter_cron_events'));
-			add_filter('pre_http_request', array($this, 'block_request'), 10, 3);
 
 			/**
 			 * disable wp default translation update
@@ -100,56 +96,42 @@
 			if( $this->getOption('updates_nags_only_for_admin') && !current_user_can('update_core') ) {
 				remove_action('admin_notices', 'update_nag', 3);
 			}
+
+			add_action('schedule_event', array($this, 'filterCronEvents'));
 		}
-
-		/**
-		 * Check the outgoing request
-		 *
-		 * @since        1.4.4
-		 */
-		public function block_request($pre, $args, $url)
-		{
-			/* Empty url */
-			if( empty($url) ) {
-				return $pre;
-			}
-
-			/* Invalid host */
-			if( !$host = parse_url($url, PHP_URL_HOST) ) {
-				return $pre;
-			}
-
-			$url_data = parse_url($url);
-
-			/* block request */
-			if( false !== stripos($host, 'api.wordpress.org') && (false !== stripos($url_data['path'], 'update-check') || false !== stripos($url_data['path'], 'browse-happy')) ) {
-				return true;
-			}
-
-			return $pre;
-		}
-
 
 		/**
 		 * Filter cron events
-		 *
-		 * @since        1.5.0
+		 * @param $event
+		 * @return bool
 		 */
-		public function filter_cron_events($event)
+		public function filterCronEvents($event)
 		{
 			$core_updates = $this->getOption('wp_update_core') == 'disable_core_updates';
 			$plugins_updates = $this->getOption('plugin_updates') == 'disable_plugin_updates';
 			$themes_updates = $this->getOption('theme_updates') == 'disable_theme_updates';
 
-			if( $core_updates && $plugins_updates && $themes_updates ) {
-				switch( $event->hook ) {
-					case 'wp_version_check':
-					case 'wp_update_plugins':
-					case 'wp_update_themes':
-					case 'wp_maybe_auto_update':
-						$event = false;
-						break;
-				}
+			switch( $event->hook ) {
+				case 'wp_version_check':
+					$event = $core_updates && $plugins_updates && $themes_updates
+						? false
+						: $event;
+					break;
+				case 'wp_update_plugins':
+					$event = $plugins_updates
+						? false
+						: $event;
+					break;
+				case 'wp_update_themes':
+					$event = $plugins_updates
+						? false
+						: $event;
+					break;
+				case 'wp_maybe_auto_update':
+					$event = $core_updates
+						? false
+						: $event;
+					break;
 			}
 
 			return $event;
@@ -278,12 +260,36 @@
 		 */
 		function adminInitForPlugins()
 		{
+			/*
+			 * 2.8 to 3.0
+			 */
+			remove_action('load-plugins.php', 'wp_update_plugins');
+			remove_action('load-update.php', 'wp_update_plugins');
+			remove_action('admin_init', '_maybe_update_plugins');
+			remove_action('wp_update_plugins', 'wp_update_plugins');
+			wp_clear_scheduled_hook('wp_update_plugins');
+
+			/*
+			 * 3.0
+			 */
 			remove_action('load-update-core.php', 'wp_update_plugins');
 			wp_clear_scheduled_hook('wp_update_plugins');
 		}
 
 		function adminInitForThemes()
 		{
+			/*
+			 * 2.8 to 3.0
+			 */
+			remove_action('load-themes.php', 'wp_update_themes');
+			remove_action('load-update.php', 'wp_update_themes');
+			remove_action('admin_init', '_maybe_update_themes');
+			remove_action('wp_update_themes', 'wp_update_themes');
+			wp_clear_scheduled_hook('wp_update_themes');
+
+			/*
+			 * 3.0
+			 */
 			remove_action('load-update-core.php', 'wp_update_themes');
 			wp_clear_scheduled_hook('wp_update_themes');
 		}
@@ -294,6 +300,21 @@
 		 */
 		function adminInitForCore()
 		{
+			/*
+			 * 2.8 to 3.0
+			 */
+			remove_action('wp_version_check', 'wp_version_check');
+			remove_action('admin_init', '_maybe_update_core');
+			wp_clear_scheduled_hook('wp_version_check');
+
+			/*
+			 * 3.0
+			 */
+			wp_clear_scheduled_hook('wp_version_check');
+
+			/*
+			 * 3.7+
+			 */
 			remove_action('wp_maybe_auto_update', 'wp_maybe_auto_update');
 			remove_action('admin_init', 'wp_maybe_auto_update');
 			remove_action('admin_init', 'wp_auto_update_core');
