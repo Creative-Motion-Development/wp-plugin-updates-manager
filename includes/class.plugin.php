@@ -56,6 +56,8 @@
 					}
 					
 					self::$app = $plugin_parent;
+				} else {
+					self::$app = $this;
 				}
 				
 				if( !$this->as_addon ) {
@@ -73,7 +75,7 @@
 
 				add_action('plugins_loaded', array($this, 'pluginsLoaded'));
 			}
-			
+
 			/**
 			 * @return Wbcr_Factory000_Plugin
 			 */

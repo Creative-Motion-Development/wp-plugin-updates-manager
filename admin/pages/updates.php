@@ -34,7 +34,7 @@
 		 */
 		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
-			$this->menuTitle = __('Updates manager', 'webcraftic-updates-manager');
+			$this->menu_title = __('Updates manager', 'webcraftic-updates-manager');
 
 			if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
 				$this->internal = false;

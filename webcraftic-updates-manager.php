@@ -4,7 +4,7 @@
 	 * Plugin URI: https://wordpress.org/plugins/webcraftic-updates-manager/
 	 * Description: Manage all your WordPress updates, automatic updates, logs, and loads more.
 	 * Author: Webcraftic <wordpress.webraftic@gmail.com>
-	 * Version: 1.0.1
+	 * Version: 1.0.5
 	 * Text Domain: webcraftic-updates-manager
 	 * Domain Path: /languages/
 	 */
@@ -70,13 +70,13 @@
 			//todo: обновить опции в старом плагине на новый префикс
 			new WUP_Plugin(__FILE__, array(
 				'prefix' => 'wbcr_upm_',
-				'plugin_name' => 'updates_manager',
+				'plugin_name' => 'wbcr_updates_manager',
 				'plugin_title' => __('Webcraftic Updates Manager', 'webcraftic-updates-manager'),
-				'plugin_version' => '1.0.1',
+				'plugin_version' => '1.0.5',
 				'required_php_version' => '5.2',
 				'required_wp_version' => '4.2',
 				'plugin_build' => BUILD_TYPE,
-				'updates' => WDN_PLUGIN_DIR . '/updates/'
+				'updates' => WUP_PLUGIN_DIR . '/updates/'
 			));
 		}
 	}
