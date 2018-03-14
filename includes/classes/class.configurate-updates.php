@@ -113,7 +113,7 @@
 
 			switch( $event->hook ) {
 				case 'wp_version_check':
-					$event = $core_updates && $plugins_updates && $themes_updates
+					$event = $core_updates
 						? false
 						: $event;
 					break;
@@ -123,7 +123,7 @@
 						: $event;
 					break;
 				case 'wp_update_themes':
-					$event = $plugins_updates
+					$event = $themes_updates
 						? false
 						: $event;
 					break;
@@ -305,11 +305,6 @@
 			 */
 			remove_action('wp_version_check', 'wp_version_check');
 			remove_action('admin_init', '_maybe_update_core');
-			wp_clear_scheduled_hook('wp_version_check');
-
-			/*
-			 * 3.0
-			 */
 			wp_clear_scheduled_hook('wp_version_check');
 
 			/*
