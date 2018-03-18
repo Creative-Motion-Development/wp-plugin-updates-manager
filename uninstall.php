@@ -8,5 +8,5 @@
 	// remove plugin options
 	global $wpdb;
 
-	$wpdb->query("DELETE FROM {$wpdb->prefix}options WHERE option_name LIKE 'wbcr_updates_manager%';");
+	$wpdb->query("DELETE FROM {$wpdb->prefix}options WHERE option_name LIKE 'wbcr_updates_manager_%';");
 	$wpdb->query("DELETE FROM {$wpdb->prefix}options WHERE option_name LIKE 'wbcr_upm_%';");

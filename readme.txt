@@ -37,6 +37,16 @@ Some functions are taken from the following popular plugins <strong>Easy Updates
 * French - Thank you very much to user (kingteamdunet)
 * Russian
 
+#### Recommended separate modules ####
+
+We invite you to check out a few other related free plugins that our team has also produced that you may find especially useful:
+
+* [Clearfy – WordPress optimization plugin and disable ultimate tweaker](https://wordpress.org/plugins/gonzales/)
+* [Disable updates, Updates manager, Disable automatic updates](https://wordpress.org/plugins/gonzales/)
+* [Disable Comments for Any Post Types (Remove Comments)](https://wordpress.org/plugins/comments-plus/)
+* [Disable updates, Disable automatic updates, Updates manager](https://wordpress.org/plugins/webcraftic-updates-manager/)
+
+
 If you want to help with the translation, please contact me through this site or through the contacts inside the plugin.
 
 == Installation ==
@@ -47,12 +57,27 @@ This section describes how to install the plugin and get it working.
 3. Use the Settings->Webcrfatic update manager screen to configure the plugin
 
 == Screenshots ==
-1. Control panel
+1. Control panel (Base options)
+2. Control panel (Individualy updates)
 
 == Changelog ==
+= 1.0.5 =
+* Fixed: Compatibility with Clearfy plugin
+* Fixed: Slowing down the plugins page when updates were disabled
+* Fixed: The plugin interface did not work and the styles were not loaded due to security settings
+* ADDED: Plugin options caching to reduce database queries for 90%. Clearfy became lighter and faster.
+* ADDED: Compress and cache the plugin core files, to reduce the load on the admin panel
+
+= 1.0.4 =
+* Fixed bug: admin area loads slower – when theme and plugin updates: disabled
+
+= 1.0.3 =
+* Fixed: Core bugs
+
 = 1.0.1 =
 * Fixed bug whith update core
 * Update core
 * Add french translation
+
 = 1.0.0 =
 * Plugin release
