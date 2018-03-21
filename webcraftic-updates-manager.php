@@ -7,6 +7,7 @@
 	 * Version: 1.0.5
 	 * Text Domain: webcraftic-updates-manager
 	 * Domain Path: /languages/
+	 * Author URI: http://webcraftic.com
 	 */
 
 	if( defined('WUP_PLUGIN_ACTIVE') || (defined('WCL_PLUGIN_ACTIVE') && !defined('LOADING_UPDATES_MANAGER_AS_ADDON')) ) {
@@ -58,6 +59,7 @@
 			require('libs/onepress/compiler/boot.php');
 			// creating a plugin via the factory
 		}
+		// #fix compiller bug new Factory000_Plugin
 		#endcomp
 
 		if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
@@ -67,16 +69,15 @@
 		require_once(WUP_PLUGIN_DIR . '/includes/class.plugin.php');
 
 		if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-			//todo: обновить опции в старом плагине на новый префикс
 			new WUP_Plugin(__FILE__, array(
-				'prefix' => 'wbcr_upm_',
+				'prefix' => 'wbcr_updates_manager_',//wbcr_upm_
 				'plugin_name' => 'wbcr_updates_manager',
 				'plugin_title' => __('Webcraftic Updates Manager', 'webcraftic-updates-manager'),
 				'plugin_version' => '1.0.5',
 				'required_php_version' => '5.2',
 				'required_wp_version' => '4.2',
 				'plugin_build' => BUILD_TYPE,
-				'updates' => WUP_PLUGIN_DIR . '/updates/'
+				//'updates' => WUP_PLUGIN_DIR . '/updates/'
 			));
 		}
 	}

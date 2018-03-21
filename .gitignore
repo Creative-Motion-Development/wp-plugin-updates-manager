@@ -1,6 +1,3 @@
-/reports/
-reports/
-/git-submodules.sh
 /libs/factory/bootstrap/node_modules
 /libs/factory/bootstrap/assets/css-min
 /libs/factory/bootstrap/assets/js-min
