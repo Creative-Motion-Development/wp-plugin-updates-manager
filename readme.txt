@@ -41,11 +41,11 @@ Some functions are taken from the following popular plugins <strong>Easy Updates
 
 We invite you to check out a few other related free plugins that our team has also produced that you may find especially useful:
 
-* [Clearfy – WordPress optimization plugin and disable ultimate tweaker](https://wordpress.org/plugins/gonzales/)
-* [Disable updates, Updates manager, Disable automatic updates](https://wordpress.org/plugins/gonzales/)
+* [Clearfy – WordPress optimization plugin and disable ultimate tweaker](https://wordpress.org/plugins/clearfy/)
 * [Disable Comments for Any Post Types (Remove Comments)](https://wordpress.org/plugins/comments-plus/)
-* [Disable updates, Disable automatic updates, Updates manager](https://wordpress.org/plugins/webcraftic-updates-manager/)
-
+* [Cyrlitera – transliteration of links and file names](https://wordpress.org/plugins/cyrlitera/)
+* [Disable admin notices individually](https://wordpress.org/plugins/disable-admin-notices/ "Disable admin notices individually")
+* [WordPress Assets manager, dequeue scripts, dequeue styles](https://wordpress.org/plugins/gonzales/)
 
 If you want to help with the translation, please contact me through this site or through the contacts inside the plugin.
 
