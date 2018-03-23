@@ -52,7 +52,6 @@
 		
 		public function showPageContent()
 		{
-			$this->warningNotice();
 			?>
 			<div style="padding: 20px;">
 				<h4><?php _e('Force Automatic Updates', 'webcraftic-updates-manager'); ?></h4>
