@@ -229,7 +229,6 @@
 
 			?>
 
-			<?php $this->warningNotice(); ?>
 			<div class="wbcr-factory-page-group-header">
 				<strong><?php _e('Plugins list', 'webcraftic-updates-manager') ?></strong>
 
