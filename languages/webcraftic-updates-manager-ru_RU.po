@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: clearfy\n"
-"POT-Creation-Date: 2018-03-14 17:40+0300\n"
-"PO-Revision-Date: 2018-03-14 17:44+0300\n"
+"POT-Creation-Date: 2018-03-25 03:09+0300\n"
+"PO-Revision-Date: 2018-03-25 03:09+0300\n"
 "Last-Translator: alex.kovalevv@gmail.com <alex.kovalevv@gmail.com>\n"
 "Language-Team: Alex Kovalev <alex.kovalevv@gmail.com>\n"
 "Language: ru_RU\n"
@@ -85,11 +85,11 @@ msgstr ""
 "Пожалуйста, подождите 90 сек., чтобы увидеть результат принудительного "
 "автоматического обновления."
 
-#: admin/pages/advanced.php:58
+#: admin/pages/advanced.php:57
 msgid "Force Automatic Updates"
 msgstr "Принудительное автоматическое обновление"
 
-#: admin/pages/advanced.php:60
+#: admin/pages/advanced.php:59
 msgid ""
 "This will attempt to force automatic updates. This is useful for debugging."
 msgstr ""
@@ -97,7 +97,7 @@ msgstr ""
 "Настройте автоматические обновления и нажмите на эту кнопку, чтобы проверить "
 "работают они или нет."
 
-#: admin/pages/advanced.php:61
+#: admin/pages/advanced.php:60
 msgid "Force update"
 msgstr "Запустить обновление"
 
@@ -123,53 +123,53 @@ msgstr ""
 "опцию “Автоматические обновления”, сохраните настройки и вернитесь на эту "
 "страницу."
 
-#: admin/pages/plugins.php:234
+#: admin/pages/plugins.php:233
 msgid "Plugins list"
 msgstr "Ваш список плагинов"
 
-#: admin/pages/plugins.php:237
+#: admin/pages/plugins.php:236
 msgid "This page you can individually disable plugin updates and auto updates."
 msgstr ""
 "На этой странице вы можете индивидуально отключить обновления и "
 "автообновления плагинов."
 
-#: admin/pages/plugins.php:253
+#: admin/pages/plugins.php:252
 msgid "Bulk actions"
 msgstr "Массовые действия"
 
-#: admin/pages/plugins.php:254 admin/pages/plugins.php:329
-#: admin/pages/plugins.php:334 admin/pages/updates.php:78
+#: admin/pages/plugins.php:253 admin/pages/plugins.php:328
+#: admin/pages/plugins.php:333 admin/pages/updates.php:78
 #: admin/pages/updates.php:93 admin/pages/updates.php:114
 msgid "Disable updates"
 msgstr "Отключить все обновления"
 
-#: admin/pages/plugins.php:255 admin/pages/plugins.php:331
+#: admin/pages/plugins.php:254 admin/pages/plugins.php:330
 msgid "Enable updates"
 msgstr "Включить обновления"
 
-#: admin/pages/plugins.php:256 admin/pages/plugins.php:341
-#: admin/pages/plugins.php:347
+#: admin/pages/plugins.php:255 admin/pages/plugins.php:340
+#: admin/pages/plugins.php:346
 msgid "Enable auto-updates"
 msgstr "Включить авто-обновления"
 
-#: admin/pages/plugins.php:257 admin/pages/plugins.php:339
-#: admin/pages/plugins.php:345
+#: admin/pages/plugins.php:256 admin/pages/plugins.php:338
+#: admin/pages/plugins.php:344
 msgid "Disable auto-updates"
 msgstr "Отключить авто-обновления"
 
-#: admin/pages/plugins.php:259
+#: admin/pages/plugins.php:258
 msgid "Apply"
 msgstr "Применить"
 
-#: admin/pages/plugins.php:266
+#: admin/pages/plugins.php:265
 msgid "Plugin"
 msgstr "Плагин"
 
-#: admin/pages/plugins.php:268
+#: admin/pages/plugins.php:267
 msgid "Description"
 msgstr "Описание"
 
-#: admin/pages/plugins.php:315
+#: admin/pages/plugins.php:314
 msgid "Select"
 msgstr "Выбор"
 
@@ -297,7 +297,7 @@ msgstr ""
 "Если у вас несколько пользователей, это означает, что те, кто не являются "
 "админами, не должны видеть уведомления об обновлениях."
 
-#: webcraftic-updates-manager.php:17
+#: webcraftic-updates-manager.php:18
 msgid ""
 "We found that you have the \"Clearfy - disable unused features\" plugin "
 "installed, this plugin already has update manager functions, so you can "
@@ -307,6 +307,6 @@ msgstr ""
 "неиспользуемые функции», этот плагин уже имеет функции менеджера обновлений, "
 "поэтому вы можете отключить плагин «Менеджер обновлений»!"
 
-#: webcraftic-updates-manager.php:74
+#: webcraftic-updates-manager.php:75
 msgid "Webcraftic Updates Manager"
 msgstr "Webcraftic менеджер обновлений"
