@@ -19,4 +19,7 @@
 [submodule "libs/factory/clearfy"]
 	path = libs/factory/clearfy
 	url = ssh://git@bitbucket.org/webcraftic/wp-plugins-factory-clearfy
+[submodule "libs/factory/notices"]
+	path = libs/factory/notices
+	url = ssh://git@bitbucket.org/webcraftic/wp-plugins-factory-notices
 

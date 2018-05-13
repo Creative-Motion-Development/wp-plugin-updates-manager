@@ -111,6 +111,10 @@
 			$plugins_updates = $this->getOption('plugin_updates') == 'disable_plugin_updates';
 			$themes_updates = $this->getOption('theme_updates') == 'disable_theme_updates';
 
+			if( !is_object($event) || empty($event->hook) ) {
+				return $event;
+			}
+
 			switch( $event->hook ) {
 				case 'wp_version_check':
 					$event = $core_updates

@@ -54,6 +54,7 @@ We invite you to check out a few other related free plugins that our team has al
 * [Clearfy – WordPress optimization plugin and disable ultimate tweaker](https://wordpress.org/plugins/clearfy/)
 * [Disable Comments for Any Post Types (Remove Comments)](https://wordpress.org/plugins/comments-plus/)
 * [Cyrlitera – transliteration of links and file names](https://wordpress.org/plugins/cyrlitera/)
+* [Cyr-to-lat reloaded – transliteration of links and file names](https://wordpress.org/plugins/cyr-and-lat/ "Cyr-to-lat reloaded")
 * [Disable admin notices individually](https://wordpress.org/plugins/disable-admin-notices/ "Disable admin notices individually")
 * [WordPress Assets manager, dequeue scripts, dequeue styles](https://wordpress.org/plugins/gonzales/  "WordPress Assets manager, dequeue scripts, dequeue styles")
 * [Hide login page](https://wordpress.org/plugins/hide-login-page/ "Hide login page")
@@ -72,6 +73,10 @@ This section describes how to install the plugin and get it working.
 2. Control panel (Individualy updates)
 
 == Changelog ==
+= 1.0.7 =
+* Fixed: Update core
+* Fixed: It was not possible to close notifications about the incompatibility of plugins.
+
 = 1.0.6 =
 * Fixed: Update core
 * Fixed: Small bugs

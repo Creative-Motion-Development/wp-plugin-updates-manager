@@ -9,50 +9,59 @@
 	/**
 	 * Ошибки совместимости с похожими плагинами
 	 */
-	function wbcr_upm_admin_conflict_notices_error()
+	function wbcr_upm_admin_conflict_notices_error($notices, $plugin_name)
 	{
-		$notices = array();
+		if( $plugin_name != WUP_Plugin::app()->getPluginName() ) {
+			return $notices;
+		}
+
+		$warnings = array();
 
 		$default_notice = WUP_Plugin::app()
 				->getPluginTitle() . ': ' . __('We found that you have the plugin %s installed. The functions of this plugin already exist in %s. Please deactivate plugin %s to avoid conflicts between plugins\' functions.', 'webcraftic-updates-manager');
 		$default_notice .= ' ' . __('If you do not want to deactivate the plugin %s for some reason, we strongly recommend do not use the same plugins\' functions at the same time!', 'webcraftic-updates-manager');
 
 		if( is_plugin_active('companion-auto-update/companion-auto-update.php') ) {
-			$notices[] = sprintf($default_notice, 'Companion Auto Update', WUP_Plugin::app()
+			$warnings[] = sprintf($default_notice, 'Companion Auto Update', WUP_Plugin::app()
 				->getPluginTitle(), 'Companion Auto Update', 'Companion Auto Update');
 		}
 
 		if( is_plugin_active('disable-updates/disable-updates.php') ) {
-			$notices[] = sprintf($default_notice, 'Disable Updates', WUP_Plugin::app()
+			$warnings[] = sprintf($default_notice, 'Disable Updates', WUP_Plugin::app()
 				->getPluginTitle(), 'Disable Updates', 'Disable Updates');
 		}
 
 		if( is_plugin_active('disable-wordpress-updates/disable-updates.php') ) {
-			$notices[] = sprintf($default_notice, 'Disable All WordPress Updates', WUP_Plugin::app()
+			$warnings[] = sprintf($default_notice, 'Disable All WordPress Updates', WUP_Plugin::app()
 				->getPluginTitle(), 'Disable All WordPress Updates', 'Disable All WordPress Updates');
 		}
 
 		if( is_plugin_active('stops-core-theme-and-plugin-updates/main.php') ) {
-			$notices[] = sprintf($default_notice, 'Easy Updates Manager', WUP_Plugin::app()
+			$warnings[] = sprintf($default_notice, 'Easy Updates Manager', WUP_Plugin::app()
 				->getPluginTitle(), 'Easy Updates Manager', 'Easy Updates Manager');
 		}
 
-		if( empty($notices) ) {
-			return;
+		if( empty($warnings) ) {
+			return $notices;
+		}
+		$notice_text = '';
+		foreach((array)$warnings as $warning) {
+			$notice_text .= '<p>' . $warning . '</p>';
 		}
 
-		?>
-		<div id="wbcr-update-manager-conflict-error" class="notice notice-error is-dismissible">
-			<?php foreach((array)$notices as $notice): ?>
-				<p>
-					<?= $notice ?>
-				</p>
-			<?php endforeach; ?>
-		</div>
-	<?php
+		$notices[] = array(
+			'id' => 'ump_plugin_compatibility',
+			'type' => 'error',
+			'dismissible' => true,
+			'dismiss_expires' => 0,
+			'text' => $notice_text
+		);
+
+		return $notices;
 	}
 
-	add_action('admin_notices', 'wbcr_upm_admin_conflict_notices_error');
+	//add_action('admin_notices', 'wbcr_upm_admin_conflict_notices_error');
+	add_filter('wbcr_factory_admin_notices', 'wbcr_upm_admin_conflict_notices_error', 10, 2);
 
 	function wbcr_upm_rating_widget_url($page_url, $plugin_name)
 	{
@@ -126,7 +135,16 @@
 	function wbcr_ump_set_plugin_meta($links, $file)
 	{
 		if( $file == WUP_PLUGIN_BASE ) {
-			$links[] = '<a href="https://goo.gl/TcMcS4" style="color: #FF5722;font-weight: bold;" target="_blank">' . __('Get ultimate plugin free', 'webcraftic-updates-manager') . '</a>';
+
+			$url = 'https://clearfy.pro';
+
+			if( get_locale() == 'ru_RU' ) {
+				$url = 'https://ru.clearfy.pro';
+			}
+
+			$url .= '?utm_source=wordpress.org&utm_campaign=' . WUP_Plugin::app()->getPluginName();
+
+			$links[] = '<a href="' . $url . '" style="color: #FF5722;font-weight: bold;" target="_blank">' . __('Get ultimate plugin free', 'webcraftic-updates-manager') . '</a>';
 		}
 
 		return $links;
