@@ -98,7 +98,7 @@
 						array('libs/factory/forms', 'factory_forms_000', 'admin'),
 						array('libs/factory/pages', 'factory_pages_000', 'admin'),
 						array('libs/factory/clearfy', 'factory_clearfy_000', 'all'),
-						array('libs/factory/notices', 'factory_notices_000', 'all')
+						array('libs/factory/notices', 'factory_notices_000', 'admin')
 					));
 				}
 			}
