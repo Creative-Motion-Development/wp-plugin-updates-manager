@@ -30,6 +30,11 @@
 		public $page_menu_dashicon = 'dashicons-cloud';
 
 		/**
+		 * @var bool
+		 */
+		public $available_for_multisite = true;
+
+		/**
 		 * @param Wbcr_Factory000_Plugin $plugin
 		 */
 		public function __construct(Wbcr_Factory000_Plugin $plugin)

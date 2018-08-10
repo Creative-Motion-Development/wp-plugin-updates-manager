@@ -28,6 +28,8 @@
 		public $page_parent_page = 'updates';
 		
 		public $page_menu_dashicon = 'dashicons-cloud';
+
+		public $available_for_multisite = true;
 		
 		/**
 		 * @param Wbcr_Factory000_Plugin $plugin
@@ -68,15 +70,30 @@
 			if( !current_user_can('install_plugins') ) {
 				return;
 			}
-			
-			wp_schedule_single_event(time() + 10, 'wp_update_plugins');
-			wp_schedule_single_event(time() + 10, 'wp_version_check');
-			wp_schedule_single_event(time() + 10, 'wp_update_themes');
-			wp_schedule_single_event(time() + 45, 'wp_maybe_auto_update');
-			
-			if( get_option('auto_updater.lock', false) ) {
-				update_option('auto_updater.lock', time() - HOUR_IN_SECONDS * 2);
-			}
+
+			$shedule_auto_update = function() {
+				wp_schedule_single_event(time() + 10, 'wp_update_plugins');
+				wp_schedule_single_event(time() + 10, 'wp_version_check');
+				wp_schedule_single_event(time() + 10, 'wp_update_themes');
+				wp_schedule_single_event(time() + 45, 'wp_maybe_auto_update');
+
+				if( get_option('auto_updater.lock', false) ) {
+					update_option('auto_updater.lock', time() - HOUR_IN_SECONDS * 2);
+				}
+            };
+
+			if ( WUP_Plugin::app()->isMultisiteNetworkAdmin() ) {
+				foreach ( WUP_Plugin::app()->getActiveSites() as $site ) {
+					switch_to_blog( $site->blog_id );
+
+					$shedule_auto_update();
+
+					restore_current_blog();
+			    }
+            }
+			else {
+				$shedule_auto_update();
+            }
 			
 			$this->redirectToAction('index', array('wbcr_force_update' => 1));
 		}
