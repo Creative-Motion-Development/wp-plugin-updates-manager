@@ -63,17 +63,6 @@
 	//add_action('admin_notices', 'wbcr_upm_admin_conflict_notices_error');
 	add_filter('wbcr_factory_admin_notices', 'wbcr_upm_admin_conflict_notices_error', 10, 2);
 
-	function wbcr_upm_rating_widget_url($page_url, $plugin_name)
-	{
-		if( $plugin_name == WUP_Plugin::app()->getPluginName() ) {
-			return 'https://goo.gl/Be2hQU';
-		}
-
-		return $page_url;
-	}
-
-	add_filter('wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_upm_rating_widget_url', 10, 2);
-
 	function wbcr_upm_group_options($options)
 	{
 		$options[] = array(
@@ -153,6 +142,24 @@
 	if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
 		add_filter('plugin_row_meta', 'wbcr_ump_set_plugin_meta', 10, 2);
 	}
+
+	/**
+	 * Rating widget url
+	 *
+	 * @param string $page_url
+	 * @param string $plugin_name
+	 * @return string
+	 */
+	function wbcr_upm_rating_widget_url($page_url, $plugin_name)
+	{
+		if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') && ($plugin_name == WUP_Plugin::app()->getPluginName()) ) {
+			return 'https://goo.gl/Be2hQU';
+		}
+
+		return $page_url;
+	}
+
+	add_filter('wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_upm_rating_widget_url', 10, 2);
 
 
 

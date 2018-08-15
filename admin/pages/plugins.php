@@ -102,6 +102,11 @@
 		{
 			parent::assets($scripts, $styles);
 			$this->styles->add(WUP_PLUGIN_URL . '/admin/assets/css/general.css');
+
+			// Add Clearfy styles for HMWP pages
+			if( defined('WBCR_CLEARFY_PLUGIN_ACTIVE') ) {
+				$this->styles->add(WCL_PLUGIN_URL . '/admin/assets/css/general.css');
+			}
 		}
 
 		public function savePluginsUpdateFilters()
