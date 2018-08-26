@@ -61,7 +61,7 @@
 	}
 
 	//add_action('admin_notices', 'wbcr_upm_admin_conflict_notices_error');
-	add_filter('wbcr_factory_admin_notices', 'wbcr_upm_admin_conflict_notices_error', 10, 2);
+	add_filter('wbcr_factory_notices_000_list', 'wbcr_upm_admin_conflict_notices_error', 10, 2);
 
 	function wbcr_upm_group_options($options)
 	{
