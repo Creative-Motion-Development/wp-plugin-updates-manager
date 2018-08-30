@@ -37,6 +37,8 @@
 				add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
 			}
 
+            add_filter('site_transient_update_plugins', array($this, 'disablePluginTranslationUpdates'), 50);
+
 			/**
 			 * Theme updates
 			 */
@@ -332,4 +334,22 @@
 
 			return $current;
 		}
+
+		public function disablePluginTranslationUpdates($plugins){
+            if( !isset($plugins->translations) || empty($plugins->translations) ) {
+                return $plugins;
+            }
+
+            $filters = $this->getOption('plugins_update_filters');
+
+            if( !empty($filters) && isset($filters['disable_translation_updates']) ) {
+                foreach ((array)$plugins->translations as $key => $translation){
+                    if($translation['type'] == 'plugin' && array_key_exists($translation['slug'], $filters['disable_translation_updates']) && $filters['disable_translation_updates'][$translation['slug']]){
+                        unset($plugins->translations[$key]);
+                    }
+                }
+            }
+
+            return $plugins;
+        }
 	}

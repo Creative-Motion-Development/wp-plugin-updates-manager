@@ -195,6 +195,36 @@
 			$this->redirectToAction('index');
 		}
 
+		public function enablePluginTranslationUpdatesAction()
+        {
+            $plugin_slug = $this->request->get('plugin_slug', null, true);
+            check_admin_referer($this->getResultId() . '_' . $plugin_slug);
+
+            if( !empty($plugin_slug) ) {
+                if( isset($this->plugins_update_filters['disable_translation_updates']) && isset($this->plugins_update_filters['disable_translation_updates'][$plugin_slug])) {
+                    unset($this->plugins_update_filters['disable_translation_updates'][$plugin_slug]);
+                    $this->savePluginsUpdateFilters();
+                }
+            }
+            $this->redirectToAction('index');
+        }
+
+        public function disablePluginTranslationUpdatesAction()
+        {
+            $plugin_slug = $this->request->get('plugin_slug', null, true);
+            check_admin_referer($this->getResultId() . '_' . $plugin_slug);
+
+            if( !empty($plugin_slug) ) {
+                if( !isset($this->plugins_update_filters['disable_translation_updates'])) {
+                    $this->plugins_update_filters['disable_translation_updates'] = array();
+                }
+                $this->plugins_update_filters['disable_translation_updates'][$plugin_slug] = true;
+                $this->savePluginsUpdateFilters();
+            }
+
+            $this->redirectToAction('index');
+        }
+
 		public function showPageContent()
 		{
 			if( isset($_POST['wbcr_upm_apply']) ) {
@@ -225,6 +255,14 @@
 
 								$this->plugins_update_filters[$bulk_action][$slug] = true;
 							}
+
+							if( $bulk_action == 'disable_translation_updates' ){
+                                $this->plugins_update_filters['disable_translation_updates'][$slug] = true;
+                            }
+                            if( $bulk_action == 'enable_translation_updates' && array_key_exists($slug, $this->plugins_update_filters['disable_translation_updates'])){
+                                unset($this->plugins_update_filters['disable_translation_updates'][$slug]);
+                            }
+
 						}
 
 						$this->savePluginsUpdateFilters();
@@ -259,6 +297,9 @@
 						<option value="enable_updates"><?php _e('Enable updates', 'webcraftic-updates-manager'); ?></option>
 						<option value="enable_auto_updates"><?php _e('Enable auto-updates', 'webcraftic-updates-manager'); ?></option>
 						<option value="disable_auto_updates"><?php _e('Disable auto-updates', 'webcraftic-updates-manager'); ?></option>
+
+						<option value="disable_translation_updates"><?php _e('Disable translation updates', 'webcraftic-updates-manager'); ?></option>
+						<option value="enable_translation_updates"><?php _e('Enable translation updates', 'webcraftic-updates-manager'); ?></option>
 					</select>
 					<input type="submit" name="wbcr_upm_apply" id="wbcr_upm_apply" class='button button-alt' value='<?php _e("Apply", "webcraftic-updates-manager"); ?>'>
 				</p>
@@ -296,6 +337,7 @@
 							$class = 'active';
 							$is_disable_updates = false;
 							$is_auto_updates = true;
+							$is_disable_translation_update = false;
 
 							if( !empty($this->plugins_update_filters) ) {
 
@@ -312,6 +354,14 @@
 								$class = 'inactive';
 								$is_disable_updates = true;
 							}
+
+						    if( !empty($this->plugins_update_filters)){
+                                if( isset($this->plugins_update_filters['disable_translation_updates']) && isset($this->plugins_update_filters['disable_translation_updates'][$actual_slug]) ) {
+                                    $is_disable_translation_update = true;
+                                }
+                            }
+
+
 
 							?>
 							<tr id="post-<?= esc_attr($slug_hash) ?>" class="<?= $class ?>">
@@ -351,6 +401,25 @@
 												<span style="text-decoration: underline;"><?php _e('Enable auto-updates', 'webcraftic-updates-manager') ?></span>
 											<?php endif; ?>
 										<?php endif; ?>
+
+                                        |
+                                        <?php if($is_disable_updates):?>
+                                            <?php if($is_disable_translation_update):?>
+                                                <span style="text-decoration: underline;"><?php _e('Enable translation updates', 'webcraftic-updates-manager') ?></span>
+                                            <?php else: ?>
+                                                <span style="text-decoration: underline;"><?php _e('Disable translation updates', 'webcraftic-updates-manager') ?></span>
+                                            <?php endif;?>
+                                        <?php else:?>
+                                            <?php if($is_disable_translation_update):?>
+                                                <span><a href="<?= wp_nonce_url($this->getActionUrl('enable-plugin-translation-updates', array('plugin_slug' => $actual_slug)), $this->getResultId() . '_' . $actual_slug) ?>"><?php _e('Enable translation updates', 'webcraftic-updates-manager') ?></a></span>
+                                            <?php else:?>
+                                                <span><a href="<?= wp_nonce_url($this->getActionUrl('disable-plugin-translation-updates', array('plugin_slug' => $actual_slug)), $this->getResultId() . '_' . $actual_slug) ?>"><?php _e('Disable translation updates', 'webcraftic-updates-manager') ?></a></span>
+                                            <?php endif?>
+                                        <?php endif?>
+
+
+
+
 									</div>
 								</td>
 								<td class="column-description desc">
