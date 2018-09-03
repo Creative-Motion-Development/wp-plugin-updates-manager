@@ -3,9 +3,9 @@
  * @author Webcraftic <wordpress.webraftic@gmail.com> 
  * @copyright Webcraftic 03.09.2018 
  */
+
 /* wordpress default plugins page */
-.wbcr-upm-plugin-status,
-tbody .check-column:not(.hide-placeholder):after {
+.wbcr-upm-plugin-status, tbody .check-column:not(.hide-placeholder):after {
   display: block;
   content: "\f463";
   line-height: 1;
@@ -22,11 +22,14 @@ tbody .check-column:not(.hide-placeholder):after {
   height: 14px;
   width: 14px;
 }
-.wbcr-upm-plugin-status.wbcr-upm-red {
-  color: rgba(170, 0, 0, 0.58);
-  border-color: rgba(170, 0, 0, 0.45);
-}
-.wbcr-upm-plugin-status .wbcr-upm-purple {
-  color: #ac62b9;
-  border-color: #a767b3;
+
+.wbcr-upm-plugin-status {
+  &.wbcr-upm-red {
+    color: rgba(170, 0, 0, 0.58);
+    border-color: rgba(170, 0, 0, 0.45);
+  }
+  .wbcr-upm-purple {
+    color: #ac62b9;
+    border-color: #a767b3;
+  }
 }

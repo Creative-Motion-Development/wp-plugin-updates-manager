@@ -161,33 +161,38 @@
 
 	add_filter('wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_upm_rating_widget_url', 10, 2);
 
+	function wbcr_upm_customize_plugin_page()
+	{
+		$screen = get_current_screen();
+		if( $screen->id !== 'plugins' ) {
+			return;
+		}
 
+		wp_enqueue_style('wbcr-upm-plugins', WUP_PLUGIN_URL . '/admin/assets/css/plugins.css');
+		wp_enqueue_script('wbcr-upm-plugins-js', WUP_PLUGIN_URL . '/admin/assets/js/plugins.js');
 
-    function wbcr_upm_customize_plugin_page(){
-        $screen = get_current_screen();
-        if($screen->id !== 'plugins') return;
+		$filters = WUP_Plugin::app()->getOption('plugins_update_filters');
+		$updates_mode = WUP_Plugin::app()->getOption('plugin_updates');
+		$auto_update_allowed = $updates_mode == 'enable_plugin_auto_updates';
+		$updates_disabled = $updates_mode == 'disable_plugin_updates';
+		ob_start();
+		?>
 
-        wp_enqueue_style('wup-plugins', WUP_PLUGIN_URL.'/admin/assets/css/plugins.css');
-        wp_enqueue_script('wup-plugins-js', WUP_PLUGIN_URL.'/admin/assets/js/plugins.js');
+		jQuery(function($){
+		var info = <?= json_encode(array(
+		'filters' => $filters,
+		'auto_update_allowed' => $auto_update_allowed,
+		'updates_disabled' => $updates_disabled
+		)); ?>;
+		um_add_plugin_icons(info);
+		});
 
-        $filters = WUP_Plugin::app()->getOption('plugins_update_filters');
-        $updates_mode = WUP_Plugin::app()->getOption('plugin_updates');
-        $auto_update_allowed = $updates_mode == 'enable_plugin_auto_updates';
-        $updates_disabled = $updates_mode == 'disable_plugin_updates';
-        ob_start();
-        ?>
+		<?php
+		$html = ob_get_clean();
+		wp_add_inline_script('wbcr-upm-plugins-js', $html, 'after');
+	}
 
-        jQuery(function($){
-        var info = <?=json_encode(array('filters'=>$filters, 'auto_update_allowed' => $auto_update_allowed, 'updates_disabled' => $updates_disabled));?>;
-        um_add_plugin_icons(info);
-        });
-
-        <?php
-        $html = ob_get_clean();
-        wp_add_inline_script('wup-plugins-js', $html, 'after');
-    }
-
-    add_action('admin_enqueue_scripts', 'wbcr_upm_customize_plugin_page');
+	add_action('admin_enqueue_scripts', 'wbcr_upm_customize_plugin_page');
 
 
 
