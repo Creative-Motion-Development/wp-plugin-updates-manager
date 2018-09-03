@@ -26,7 +26,7 @@ tbody .check-column:not(.hide-placeholder):after {
   color: rgba(170, 0, 0, 0.58);
   border-color: rgba(170, 0, 0, 0.45);
 }
-.wbcr-upm-plugin-status .wbcr-upm-purple {
+.wbcr-upm-plugin-status.wbcr-upm-purple {
   color: #ac62b9;
   border-color: #a767b3;
 }
