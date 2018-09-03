@@ -1,5 +1,7 @@
 /* wordpress default plugins page */
-.um-plugin-status{
+.um-plugin-status, tbody .check-column:not(.hide-placeholder):after{
+    display: block;
+    content: '';
     margin: 4px 0 0 8px;
     color: #b4b9be;
     border: 1px solid #b4b9be;
@@ -17,3 +19,4 @@
     color: #ac62b9;
     border-color: #a767b3;
 }
+

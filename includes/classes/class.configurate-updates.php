@@ -39,26 +39,6 @@
 
             add_filter('site_transient_update_plugins', array($this, 'disablePluginTranslationUpdates'), 50);
 
-            add_action('admin_enqueue_scripts', function(){
-                wp_enqueue_style('wup-plugins', WUP_PLUGIN_URL.'/admin/assets/css/plugins.css');
-                wp_enqueue_script('wup-plugins-js', WUP_PLUGIN_URL.'/admin/assets/js/plugins.js');
-
-                $filters = $this->getOption('plugins_update_filters');
-                $updates_mode = $this->getOption('plugin_updates');
-                $auto_update_allowed = $updates_mode == 'enable_plugin_auto_updates';
-                $updates_disabled = $updates_mode == 'disable_plugin_updates';
-                ob_start();
-                ?>
-
-                jQuery(function($){
-                   var info = <?=json_encode(array('filters'=>$filters, 'auto_update_allowed' => $auto_update_allowed, 'updates_disabled' => $updates_disabled));?>;
-                   um_add_plugin_icons(info);
-                });
-
-                <?php
-                $html = ob_get_clean();
-                wp_add_inline_script('wup-plugins-js', $html, 'after');
-            });
 
 
             /**
