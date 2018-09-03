@@ -1,0 +1,19 @@
+/* wordpress default plugins page */
+.um-plugin-status{
+    margin: 4px 0 0 8px;
+    color: #b4b9be;
+    border: 1px solid #b4b9be;
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+}
+
+.um-plugin-status.red{
+    color: #f52111;
+    border-color: #ff7575;
+}
+
+.um-plugin-status.purple{
+    color: #ac62b9;
+    border-color: #a767b3;
+}
