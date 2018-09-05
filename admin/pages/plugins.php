@@ -50,6 +50,8 @@
 		 */
 		private $is_auto_updates;
 
+		private $is_disable_translation_updates;
+
 		/**
 		 * @var array
 		 */
@@ -68,6 +70,7 @@
 
 			$this->is_disable_updates = $updates_mode == 'disable_plugin_updates';
 			$this->is_auto_updates = $updates_mode == 'enable_plugin_auto_updates';
+			$this->is_disable_translation_updates = $this->getOption('auto_tran_update');
 			$this->plugins_update_filters = $this->getOption('plugins_update_filters');
 		}
 
@@ -197,13 +200,15 @@
 
 		public function enablePluginTranslationUpdatesAction()
         {
-            $plugin_slug = $this->request->get('plugin_slug', null, true);
-            check_admin_referer($this->getResultId() . '_' . $plugin_slug);
+            if(!$this->is_disable_translation_updates) {
+                $plugin_slug = $this->request->get('plugin_slug', null, true);
+                check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
-            if( !empty($plugin_slug) ) {
-                if( isset($this->plugins_update_filters['disable_translation_updates']) && isset($this->plugins_update_filters['disable_translation_updates'][$plugin_slug])) {
-                    unset($this->plugins_update_filters['disable_translation_updates'][$plugin_slug]);
-                    $this->savePluginsUpdateFilters();
+                if (!empty($plugin_slug)) {
+                    if (isset($this->plugins_update_filters['disable_translation_updates']) && isset($this->plugins_update_filters['disable_translation_updates'][$plugin_slug])) {
+                        unset($this->plugins_update_filters['disable_translation_updates'][$plugin_slug]);
+                        $this->savePluginsUpdateFilters();
+                    }
                 }
             }
             $this->redirectToAction('index');
@@ -211,15 +216,17 @@
 
         public function disablePluginTranslationUpdatesAction()
         {
-            $plugin_slug = $this->request->get('plugin_slug', null, true);
-            check_admin_referer($this->getResultId() . '_' . $plugin_slug);
+            if(!$this->is_disable_translation_updates){
+                $plugin_slug = $this->request->get('plugin_slug', null, true);
+                check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
-            if( !empty($plugin_slug) ) {
-                if( !isset($this->plugins_update_filters['disable_translation_updates'])) {
-                    $this->plugins_update_filters['disable_translation_updates'] = array();
+                if( !empty($plugin_slug) ) {
+                    if( !isset($this->plugins_update_filters['disable_translation_updates'])) {
+                        $this->plugins_update_filters['disable_translation_updates'] = array();
+                    }
+                    $this->plugins_update_filters['disable_translation_updates'][$plugin_slug] = true;
+                    $this->savePluginsUpdateFilters();
                 }
-                $this->plugins_update_filters['disable_translation_updates'][$plugin_slug] = true;
-                $this->savePluginsUpdateFilters();
             }
 
             $this->redirectToAction('index');
@@ -257,10 +264,15 @@
 							}
 
 							if( $bulk_action == 'disable_translation_updates' ){
-                                $this->plugins_update_filters['disable_translation_updates'][$slug] = true;
+                                if(!$this->is_disable_translation_updates) {
+                                    $this->plugins_update_filters['disable_translation_updates'][$slug] = true;
+                                }
+
                             }
                             if( $bulk_action == 'enable_translation_updates' && array_key_exists($slug, $this->plugins_update_filters['disable_translation_updates'])){
-                                unset($this->plugins_update_filters['disable_translation_updates'][$slug]);
+                                if(!$this->is_disable_translation_updates) {
+                                    unset($this->plugins_update_filters['disable_translation_updates'][$slug]);
+                                }
                             }
 
 						}
@@ -403,7 +415,7 @@
 										<?php endif; ?>
 
                                         |
-                                        <?php if($is_disable_updates):?>
+                                        <?php if($is_disable_updates or $this->is_disable_translation_updates):?>
                                             <?php if($is_disable_translation_update):?>
                                                 <span style="text-decoration: underline;"><?php _e('Enable translation updates', 'webcraftic-updates-manager') ?></span>
                                             <?php else: ?>

@@ -342,6 +342,12 @@
                 return $plugins;
             }
 
+            $is_disabled_translation_updates = $this->getOption('auto_tran_update');
+            if($is_disabled_translation_updates){
+                $plugins->translations = array();
+                return $plugins;
+            }
+
             $filters = $this->getOption('plugins_update_filters');
 
             if( !empty($filters) && isset($filters['disable_translation_updates']) ) {
