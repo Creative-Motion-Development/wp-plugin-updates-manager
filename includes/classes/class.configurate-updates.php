@@ -38,6 +38,7 @@
 			}
 
             add_filter('site_transient_update_plugins', array($this, 'disablePluginTranslationUpdates'), 50);
+            add_filter('site_transient_update_themes', array($this, 'disableThemeTranslationUpdates'), 10, 1);
 
 
 
@@ -359,5 +360,28 @@
             }
 
             return $plugins;
+        }
+
+        public function disableThemeTranslationUpdates($themes){
+            if( !isset($themes->translations) || empty($themes->translations) ) {
+                return $themes;
+            }
+
+            $is_disabled_translation_updates = $this->getOption('auto_tran_update');
+            if($is_disabled_translation_updates){
+                $themes->translations = array();
+                return $themes;
+            }
+
+            $filters = $this->getOption('themes_update_filters');
+            if(!empty($filters) && isset($filters['disable_translation_updates'])){
+                foreach((array)$themes->translations as  $key => $translation){
+                    if($translation['type'] == 'theme' && array_key_exists($translation['slug'], $filters['disable_translation_updates']) && $filters['disable_translation_updates'][$translation['slug']]){
+                        unset($themes->translations[$key]);
+                    }
+                }
+            }
+
+
         }
 	}

@@ -121,7 +121,9 @@
 
 				self::app()->registerPage('WbcrUpm_UpdatesPage', $admin_path . '/updates.php');
 				self::app()->registerPage('WbcrUpm_PluginsPage', $admin_path . '/plugins.php');
+				self::app()->registerPage('WbcrUpm_ThemesPage', $admin_path . '/themes.php');
 				self::app()->registerPage('WbcrUpm_AdvancedPage', $admin_path . '/advanced.php');
+
 
 				if( !$this->as_addon ) {
 					self::app()->registerPage('WbcrUpm_MoreFeaturesPage', $admin_path . '/more-features.php');
