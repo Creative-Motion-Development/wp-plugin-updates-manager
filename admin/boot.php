@@ -176,7 +176,7 @@
 		$auto_update_allowed = $updates_mode == 'enable_plugin_auto_updates';
 		$updates_disabled = $updates_mode == 'disable_plugin_updates';
 
-        $btn_title = __('Менеджер обновлений', 'webcraftic-updates-manager');
+        $btn_title = __('Update manager', 'webcraftic-updates-manager');
         $btn_url = '/wp-admin/admin.php?page=plugins-wbcr_updates_manager';// TODO route function?
 		ob_start();
 		?>
@@ -208,7 +208,7 @@
         wp_enqueue_style('wbcr-upm-plugins', WUP_PLUGIN_URL . '/admin/assets/css/themes.css');
         wp_enqueue_script('wbcr-upm-themes-js', WUP_PLUGIN_URL . '/admin/assets/js/themes.js');
 
-        $btn_title = __('Менеджер обновлений', 'webcraftic-updates-manager');
+        $btn_title = __('Update manager', 'webcraftic-updates-manager');
         $btn_url = '/wp-admin/admin.php?page=themes-wbcr_updates_manager';// TODO route function?
         ob_start();
         ?>

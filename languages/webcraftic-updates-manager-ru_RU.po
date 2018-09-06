@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: clearfy\n"
-"POT-Creation-Date: 2018-08-30 16:22+0400\n"
-"PO-Revision-Date: 2018-08-30 16:23+0400\n"
+"POT-Creation-Date: 2018-09-06 12:53+0400\n"
+"PO-Revision-Date: 2018-09-06 12:57+0400\n"
 "Last-Translator: alex.kovalevv@gmail.com <alex.kovalevv@gmail.com>\n"
 "Language-Team: Alex Kovalev <alex.kovalevv@gmail.com>\n"
 "Language: ru_RU\n"
@@ -75,6 +75,10 @@ msgstr "Отключить все обновления в один клик"
 msgid "Get ultimate plugin free"
 msgstr "Получите полную версию плагина бесплатно"
 
+#: admin/boot.php:179 admin/boot.php:211
+msgid "Update manager"
+msgstr "Менеджер обновлений"
+
 #: admin/pages/advanced.php:37
 msgid "Advanced"
 msgstr "Дополнительно"
@@ -101,11 +105,11 @@ msgstr ""
 msgid "Force update"
 msgstr "Запустить обновление"
 
-#: admin/pages/plugins.php:63
+#: admin/pages/plugins.php:65
 msgid "Plugins"
 msgstr "Плагины"
 
-#: admin/pages/plugins.php:81
+#: admin/pages/plugins.php:84
 msgid ""
 "- To disable updates individually choose the “Manual or automatic plugin "
 "updates” option then save settings and comeback to this page."
@@ -114,7 +118,7 @@ msgstr ""
 "автоматические обновления плагинов”, сохраните настройки и вернитесь на эту "
 "страницу."
 
-#: admin/pages/plugins.php:85
+#: admin/pages/plugins.php:88
 msgid ""
 "- To configure plugin auto updates individually, choose the “Enable auto "
 "updates” option then save settings and comeback to this page."
@@ -123,65 +127,107 @@ msgstr ""
 "опцию “Автоматические обновления”, сохраните настройки и вернитесь на эту "
 "страницу."
 
-#: admin/pages/plugins.php:276
+#: admin/pages/plugins.php:288
 msgid "Plugins list"
 msgstr "Ваш список плагинов"
 
-#: admin/pages/plugins.php:279
+#: admin/pages/plugins.php:291
 msgid "This page you can individually disable plugin updates and auto updates."
 msgstr ""
 "На этой странице вы можете индивидуально отключить обновления и "
 "автообновления плагинов."
 
-#: admin/pages/plugins.php:295
+#: admin/pages/plugins.php:307 admin/pages/themes.php:301
 msgid "Bulk actions"
 msgstr "Массовые действия"
 
-#: admin/pages/plugins.php:296 admin/pages/plugins.php:383
-#: admin/pages/plugins.php:388 admin/pages/updates.php:96
-#: admin/pages/updates.php:111 admin/pages/updates.php:132
+#: admin/pages/plugins.php:308 admin/pages/plugins.php:395
+#: admin/pages/plugins.php:400 admin/pages/themes.php:302
+#: admin/pages/themes.php:385 admin/pages/themes.php:390
+#: admin/pages/updates.php:96 admin/pages/updates.php:111
+#: admin/pages/updates.php:132
 msgid "Disable updates"
 msgstr "Отключить все обновления"
 
-#: admin/pages/plugins.php:297 admin/pages/plugins.php:385
+#: admin/pages/plugins.php:309 admin/pages/plugins.php:397
+#: admin/pages/themes.php:303 admin/pages/themes.php:387
 msgid "Enable updates"
 msgstr "Включить обновления"
 
-#: admin/pages/plugins.php:298 admin/pages/plugins.php:395
-#: admin/pages/plugins.php:401
+#: admin/pages/plugins.php:310 admin/pages/plugins.php:407
+#: admin/pages/plugins.php:413 admin/pages/themes.php:304
+#: admin/pages/themes.php:397 admin/pages/themes.php:403
 msgid "Enable auto-updates"
 msgstr "Включить авто-обновления"
 
-#: admin/pages/plugins.php:299 admin/pages/plugins.php:393
-#: admin/pages/plugins.php:399
+#: admin/pages/plugins.php:311 admin/pages/plugins.php:405
+#: admin/pages/plugins.php:411 admin/pages/themes.php:305
+#: admin/pages/themes.php:395 admin/pages/themes.php:401
 msgid "Disable auto-updates"
 msgstr "Отключить авто-обновления"
 
-#: admin/pages/plugins.php:301 admin/pages/plugins.php:410
-#: admin/pages/plugins.php:416
+#: admin/pages/plugins.php:313 admin/pages/plugins.php:422
+#: admin/pages/plugins.php:428 admin/pages/themes.php:307
+#: admin/pages/themes.php:412 admin/pages/themes.php:418
 msgid "Disable translation updates"
 msgstr "Отключить обновление переводов"
 
-#: admin/pages/plugins.php:302 admin/pages/plugins.php:408
-#: admin/pages/plugins.php:414
+#: admin/pages/plugins.php:314 admin/pages/plugins.php:420
+#: admin/pages/plugins.php:426 admin/pages/themes.php:308
+#: admin/pages/themes.php:410 admin/pages/themes.php:416
 msgid "Enable translation updates"
 msgstr "Включить обновление переводов"
 
-#: admin/pages/plugins.php:304
+#: admin/pages/plugins.php:316 admin/pages/themes.php:310
 msgid "Apply"
 msgstr "Применить"
 
-#: admin/pages/plugins.php:311
+#: admin/pages/plugins.php:323
 msgid "Plugin"
 msgstr "Плагин"
 
-#: admin/pages/plugins.php:313
+#: admin/pages/plugins.php:325 admin/pages/themes.php:319
 msgid "Description"
 msgstr "Описание"
 
-#: admin/pages/plugins.php:369
+#: admin/pages/plugins.php:381 admin/pages/themes.php:371
 msgid "Select"
 msgstr "Выбор"
+
+#: admin/pages/themes.php:64
+msgid "Themes"
+msgstr "Темы"
+
+#: admin/pages/themes.php:83
+msgid ""
+"- To disable updates individually choose the “Manual or automatic theme "
+"updates” option then save settings and comeback to this page."
+msgstr ""
+"Чтобы индивидуально отключить обновления, выберите опцию “Ручные или "
+"автоматические обновления плагинов”, сохраните настройки и вернитесь на эту "
+"страницу."
+
+#: admin/pages/themes.php:87
+msgid ""
+"- To configure theme auto updates individually, choose the “Enable auto "
+"updates” option then save settings and comeback to this page."
+msgstr ""
+"Чтобы индивидуально настроить автоматические обновления тем, выберите опцию "
+"“Автоматические обновления”, сохраните настройки и вернитесь на эту страницу."
+
+#: admin/pages/themes.php:282
+msgid "Themes list"
+msgstr "Ваш список тем"
+
+#: admin/pages/themes.php:285
+msgid "This page you can individually disable theme updates and auto updates."
+msgstr ""
+"На этой странице вы можете индивидуально отключить обновления и "
+"автообновления тем."
+
+#: admin/pages/themes.php:317
+msgid "Theme"
+msgstr "Тема"
 
 #: admin/pages/updates.php:37
 msgid "Updates manager"

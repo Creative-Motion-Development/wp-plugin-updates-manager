@@ -1,7 +1,7 @@
 /* update manager button */
 #wpbody .search-form:not(.hide-placeholder):before {
   display: inline-block;
-  content: 'Менеджер обновлений';
+  content: 'Update manager';
   margin-left: 4px;
   padding: 4px 8px;
   position: relative;
