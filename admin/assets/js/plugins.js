@@ -34,5 +34,11 @@ jQuery(function($) {
 
 			$(v).find('.check-column').addClass('hide-placeholder').append('<span class="dashicons dashicons-update wbcr-upm-plugin-status ' + update_class + '"></span>');
 		});
-	}
+	};
+
+    window.um_add_plugin_actions = function(name, url){
+        let btn = '<a href="'+ url +'" class="hide-if-no-js page-title-action">'+ name +'</a>';
+        $(btn).insertAfter('#wpbody .page-title-action');
+
+    }
 });

@@ -175,6 +175,9 @@
 		$updates_mode = WUP_Plugin::app()->getOption('plugin_updates');
 		$auto_update_allowed = $updates_mode == 'enable_plugin_auto_updates';
 		$updates_disabled = $updates_mode == 'disable_plugin_updates';
+
+        $btn_title = __('Менеджер обновлений', 'webcraftic-updates-manager');
+        $btn_url = '/wp-admin/admin.php?page=plugins-wbcr_updates_manager';// TODO route function?
 		ob_start();
 		?>
 
@@ -185,6 +188,7 @@
 		'updates_disabled' => $updates_disabled
 		)); ?>;
 		um_add_plugin_icons(info);
+        um_add_plugin_actions("<?=$btn_title?>", "<?=$btn_url?>");
 		});
 
 		<?php
@@ -193,6 +197,32 @@
 	}
 
 	add_action('admin_enqueue_scripts', 'wbcr_upm_customize_plugin_page');
+
+
+    function wbcr_upm_customize_theme_page(){
+        $screen = get_current_screen();
+        if( $screen->id !== 'themes' ) {
+            return;
+        }
+
+        wp_enqueue_style('wbcr-upm-plugins', WUP_PLUGIN_URL . '/admin/assets/css/themes.css');
+        wp_enqueue_script('wbcr-upm-themes-js', WUP_PLUGIN_URL . '/admin/assets/js/themes.js');
+
+        $btn_title = __('Менеджер обновлений', 'webcraftic-updates-manager');
+        $btn_url = '/wp-admin/admin.php?page=themes-wbcr_updates_manager';// TODO route function?
+        ob_start();
+        ?>
+
+        jQuery(function($){
+            window.um_add_theme_actions("<?=$btn_title?>", "<?=$btn_url?>");
+        });
+
+        <?php
+        $html = ob_get_clean();
+        wp_add_inline_script('wbcr-upm-themes-js', $html, 'after');
+    }
+
+    add_action('admin_enqueue_scripts', 'wbcr_upm_customize_theme_page');
 
 
 
