@@ -103,6 +103,8 @@
 			}
 
 			add_action('schedule_event', array($this, 'filterCronEvents'));
+
+			add_action('all_plugins', array($this, 'hidePlugins'), 10, 1);
 		}
 
 		/**
@@ -383,5 +385,24 @@
             }
 
 
+        }
+
+        public function hidePlugins($plugins){
+            $filters = $this->getOption('plugins_update_filters');
+            if(!isset($filters['disable_display'])){
+                return $plugins;
+            }
+            $filters = (array)$filters['disable_display'];
+
+            foreach ((array)$plugins as $plugin_path => $plugin){
+                $slug_parts = explode('/', $plugin_path);
+                $actual_slug = array_shift($slug_parts);
+                foreach ($filters as $filter => $filter_value){
+                    if($filter_value and $actual_slug == $filter){
+                        unset($plugins[$plugin_path]);
+                    }
+                }
+            }
+		    return $plugins;
         }
 	}

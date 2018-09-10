@@ -29,4 +29,30 @@ class WbcrUpm_PluginFilters extends WbcrUpm_AbstractFilters
         $this->plugin->updateOption('plugins_update_filters', $this->update_filters);
     }
 
+    public function disableDisplay($item_slug)
+    {
+        if (!empty($item_slug)) {
+            if (isset($this->update_filters['disable_display'])) {
+                if (!isset($this->update_filters['disable_display'][$item_slug])) {
+                    $this->update_filters['disable_display'][$item_slug] = true;
+                }
+            } else {
+                $this->update_filters['disable_display'] = array();
+                $this->update_filters['disable_display'][$item_slug] = true;
+            }
+
+            $this->save();
+        }
+    }
+
+    public function enableDisplay($item_slug)
+    {
+        if (!empty($item_slug)) {
+            if (isset($this->update_filters['disable_display']) && isset($this->update_filters['disable_display'][$item_slug])) {
+                unset($this->update_filters['disable_display'][$item_slug]);
+                $this->save();
+            }
+        }
+    }
+
 }

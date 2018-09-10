@@ -111,6 +111,7 @@ abstract class WbcrUpm_AbstractFilters
             'disable_updates' => array(),
             'disable_auto_updates' => array(),
             'disable_translation_updates' => array(),
+            'disable_display' => array(),
         );
 
     }
