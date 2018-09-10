@@ -33,3 +33,7 @@
 #WBCR .wp-list-table .widefat ul {
   color: #7d7d7d;
 }
+#WBCR .column-flags .factory-checkbox {
+  display: flex;
+}
+/*# sourceMappingURL=general.css.map */

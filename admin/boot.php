@@ -6,6 +6,10 @@
 	 * @version 1.0
 	 */
 
+    require_once WUP_PLUGIN_DIR.'/admin/includes/class.plugin-filters.php';
+    require_once WUP_PLUGIN_DIR.'/admin/includes/class.theme-filters.php';
+
+
 	/**
 	 * Ошибки совместимости с похожими плагинами
 	 */
@@ -225,7 +229,46 @@
     add_action('admin_enqueue_scripts', 'wbcr_upm_customize_theme_page');
 
 
+    function wbcr_updates_manager_change_flag(){
+        $is_theme = false;
+        $app = WUP_Plugin::app();
+        $slug = $app->request->post('theme');
+        if(!empty($slug)){
+            $is_theme = true;
+        }else{
+            $slug = $app->request->post('plugin');
+        }
+
+        $flag = $app->request->post('flag');
+        $new_value = (bool) $app->request->post('value');
+        if(empty($slug) or empty($flag)){
+            echo json_encode(array('error'=> array('empty arguments')));
+            exit();
+        }
+
+        if($is_theme){
+            $pluginFilters = new WbcrUpm_ThemeFilters($app);
+        }else{
+            $pluginFilters = new WbcrUpm_PluginFilters($app);
+        }
 
 
+        $method = (($new_value)? 'disable': 'enable') . $flag;
+        if(!method_exists($pluginFilters, $method)){
+            echo json_encode(
+                    array(
+                            'error'=> array(sprintf('Method %s not found', $method))
+                    ));
+            exit();
+        }
+
+        $pluginFilters->$method($slug);
+
+        $pluginFilters->save();
+        echo json_encode(array());
+        exit();
+
+    }
 
 
+    add_action('wp_ajax_wbcr_updates_manager_change_flag', 'wbcr_updates_manager_change_flag');
