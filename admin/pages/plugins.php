@@ -453,7 +453,7 @@
                                 </td>
                                 <!-- отключить авто-обновления -->
                                 <td class="column-flags">
-                                    <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?>">
+                                    <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?> <?=(!$this->is_auto_updates)? 'global-disabled': '';?>">
                                         <?php
                                         $disabled = false;
                                         if(!$this->is_auto_updates or $is_disable_updates){
@@ -472,7 +472,7 @@
                                 </td>
                                 <!-- отключить обновления переводов -->
                                 <td class="column-flags">
-                                    <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?>">
+                                    <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?>  <?=($this->is_disable_translation_updates)? 'global-disabled': '';?>">
                                         <?php
                                         $disabled = false;
                                         if($is_disable_updates or $this->is_disable_translation_updates){
