@@ -105,6 +105,11 @@
 			add_action('schedule_event', array($this, 'filterCronEvents'));
 
 			add_action('all_plugins', array($this, 'hidePlugins'), 10, 1);
+
+            require_once WUP_PLUGIN_DIR."/includes/classes/class.update-notification.php";
+            
+            add_action('wud_mail_updates', array('WbcrUpm_UpdateNotification', 'check_updates_mail'));
+
 		}
 
 		/**

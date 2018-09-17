@@ -181,6 +181,31 @@ If you have multiple users then this means those who are not admins don’t need
 				'html' => array($this, '_showFormButton')
 			);*/
 
+
+            $options[] = array(
+                'type' => 'checkbox',
+                'way' => 'buttons',
+                'name' => 'notify_update_available',
+                'title' => __('Notify me when update available', 'webcraftic-updates-manager'),
+                'default' => false,
+            );
+
+            $options[] = array(
+                'type' => 'checkbox',
+                'way' => 'buttons',
+                'name' => 'notify_updated',
+                'title' => __('Notify me when update successful installed', 'webcraftic-updates-manager'),
+                'default' => false,
+            );
+
+            $options[] = array(
+                'type' => 'textbox',
+                'way' => 'buttons',
+                'name' => 'notify_email',
+                'title' => __('Email address', 'wbcr-scrapes'),
+                'default' => false,
+            );
+
 			$formOptions = array();
 
 			$formOptions[] = array(

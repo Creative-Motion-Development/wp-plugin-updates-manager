@@ -145,5 +145,20 @@
 				require(WUP_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
 				new WbcrUpm_ConfigUpdates(self::$app);
 			}
+
+			public function activationHook(){
+			    parent::activationHook();
+
+                // schedule event for sending updates to email
+                if (! wp_next_scheduled ( 'wud_mail_updates' )){
+                    wp_schedule_event( time(), 'daily', 'wud_mail_updates');
+                }
+
+            }
+
+            public function deactivationHook(){
+			    parent::deactivationHook();
+                wp_clear_scheduled_hook('wud_mail_updates');
+            }
 		}
 	}
