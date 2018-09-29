@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 require_once "class.abstract-filters.php";
 
 
-class WbcrUpm_PluginFilters extends WbcrUpm_AbstractFilters
+class WUPM_PluginFilters extends WUPM_AbstractFilters
 {
 
     public function load()
@@ -29,6 +29,10 @@ class WbcrUpm_PluginFilters extends WbcrUpm_AbstractFilters
         $this->plugin->updateOption('plugins_update_filters', $this->update_filters);
     }
 
+    /**
+     * Disable plugin display in default page Plugins
+     * @param $item_slug - plugin slug (without main file path)
+     */
     public function disableDisplay($item_slug)
     {
         if (!empty($item_slug)) {
@@ -45,6 +49,10 @@ class WbcrUpm_PluginFilters extends WbcrUpm_AbstractFilters
         }
     }
 
+    /**
+     * Enable plugin display in default page Plugins
+     * @param $item_slug - plugin slug (without main file path)
+     */
     public function enableDisplay($item_slug)
     {
         if (!empty($item_slug)) {

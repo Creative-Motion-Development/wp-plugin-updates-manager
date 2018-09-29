@@ -11,7 +11,7 @@ if( !defined('ABSPATH') ) {
     exit;
 }
 
-class WbcrUpm_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
+class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
     /**
      * The id of the page in the admin menu.
@@ -121,6 +121,7 @@ class WbcrUpm_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     {
         if( !$this->is_disable_updates ) {
             $theme_slug = $this->request->get('theme_slug', null, true);
+            $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
 
             check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
@@ -145,6 +146,7 @@ class WbcrUpm_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     {
         if( !$this->is_disable_updates ) {
             $theme_slug = $this->request->get('theme_slug', null, true);
+            $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
 
             check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
@@ -163,6 +165,7 @@ class WbcrUpm_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     {
         if( $this->is_auto_updates ) {
             $theme_slug = $this->request->get('theme_slug', null, true);
+            $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
 
             check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
@@ -185,6 +188,7 @@ class WbcrUpm_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     {
         if( $this->is_auto_updates ) {
             $theme_slug = $this->request->get('theme_slug', null, true);
+            $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
 
             check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
@@ -201,6 +205,7 @@ class WbcrUpm_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     public function disableThemeTranslationUpdatesAction()
     {
         $theme_slug = $this->request->get('theme_slug', null, true);
+        $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
         check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
         if( !empty($theme_slug) ) {
@@ -217,6 +222,7 @@ class WbcrUpm_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     public function enableThemeTranslationUpdatesAction()
     {
         $theme_slug = $this->request->get('theme_slug', null, true);
+        $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
         check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
         if( !empty($theme_slug) ) {
@@ -235,7 +241,21 @@ class WbcrUpm_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
             $bulk_action = $this->request->post('wbcr_upm_bulk_actions', null, true);
             $theme_slugs = $this->request->post('theme_slugs', array(), true);
 
+            $theme_slugs= array_map('strip_tags', $theme_slugs);
+
+
             check_admin_referer($this->getResultId() . '_form');
+            // validate $bulk_action
+            if(!empty($bulk_action) and !in_array($bulk_action, array(
+                    'disable_updates',
+                    'enable_updates',
+                    'enable_auto_updates',
+                    'disable_auto_updates',
+                    'disable_translation_updates',
+                    'enable_translation_updates',
+                ))){
+                $bulk_action = null;
+            }
 
             if( !$this->is_disable_updates ) {
                 if( !empty($bulk_action) && !empty($theme_slugs) && is_array($theme_slugs) ) {

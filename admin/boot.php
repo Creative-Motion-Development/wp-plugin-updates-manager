@@ -15,33 +15,33 @@
 	 */
 	function wbcr_upm_admin_conflict_notices_error($notices, $plugin_name)
 	{
-		if( $plugin_name != WUP_Plugin::app()->getPluginName() ) {
+		if( $plugin_name != WUPM_Plugin::app()->getPluginName() ) {
 			return $notices;
 		}
 
 		$warnings = array();
 
-		$default_notice = WUP_Plugin::app()
+		$default_notice = WUPM_Plugin::app()
 				->getPluginTitle() . ': ' . __('We found that you have the plugin %s installed. The functions of this plugin already exist in %s. Please deactivate plugin %s to avoid conflicts between plugins\' functions.', 'webcraftic-updates-manager');
 		$default_notice .= ' ' . __('If you do not want to deactivate the plugin %s for some reason, we strongly recommend do not use the same plugins\' functions at the same time!', 'webcraftic-updates-manager');
 
 		if( is_plugin_active('companion-auto-update/companion-auto-update.php') ) {
-			$warnings[] = sprintf($default_notice, 'Companion Auto Update', WUP_Plugin::app()
+			$warnings[] = sprintf($default_notice, 'Companion Auto Update', WUPM_Plugin::app()
 				->getPluginTitle(), 'Companion Auto Update', 'Companion Auto Update');
 		}
 
 		if( is_plugin_active('disable-updates/disable-updates.php') ) {
-			$warnings[] = sprintf($default_notice, 'Disable Updates', WUP_Plugin::app()
+			$warnings[] = sprintf($default_notice, 'Disable Updates', WUPM_Plugin::app()
 				->getPluginTitle(), 'Disable Updates', 'Disable Updates');
 		}
 
 		if( is_plugin_active('disable-wordpress-updates/disable-updates.php') ) {
-			$warnings[] = sprintf($default_notice, 'Disable All WordPress Updates', WUP_Plugin::app()
+			$warnings[] = sprintf($default_notice, 'Disable All WordPress Updates', WUPM_Plugin::app()
 				->getPluginTitle(), 'Disable All WordPress Updates', 'Disable All WordPress Updates');
 		}
 
 		if( is_plugin_active('stops-core-theme-and-plugin-updates/main.php') ) {
-			$warnings[] = sprintf($default_notice, 'Easy Updates Manager', WUP_Plugin::app()
+			$warnings[] = sprintf($default_notice, 'Easy Updates Manager', WUPM_Plugin::app()
 				->getPluginTitle(), 'Easy Updates Manager', 'Easy Updates Manager');
 		}
 
@@ -135,7 +135,7 @@
 				$url = 'https://ru.clearfy.pro';
 			}
 
-			$url .= '?utm_source=wordpress.org&utm_campaign=' . WUP_Plugin::app()->getPluginName();
+			$url .= '?utm_source=wordpress.org&utm_campaign=' . WUPM_Plugin::app()->getPluginName();
 
 			$links[] = '<a href="' . $url . '" style="color: #FF5722;font-weight: bold;" target="_blank">' . __('Get ultimate plugin free', 'webcraftic-updates-manager') . '</a>';
 		}
@@ -156,7 +156,7 @@
 	 */
 	function wbcr_upm_rating_widget_url($page_url, $plugin_name)
 	{
-		if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') && ($plugin_name == WUP_Plugin::app()->getPluginName()) ) {
+		if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') && ($plugin_name == WUPM_Plugin::app()->getPluginName()) ) {
 			return 'https://goo.gl/Be2hQU';
 		}
 
@@ -165,6 +165,9 @@
 
 	add_filter('wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_upm_rating_widget_url', 10, 2);
 
+    /**
+     * add link to Update manager and auto-update icons on default page "Plugins"
+     */
 	function wbcr_upm_customize_plugin_page()
 	{
 		$screen = get_current_screen();
@@ -175,8 +178,8 @@
 		wp_enqueue_style('wbcr-upm-plugins', WUP_PLUGIN_URL . '/admin/assets/css/plugins.css');
 		wp_enqueue_script('wbcr-upm-plugins-js', WUP_PLUGIN_URL . '/admin/assets/js/plugins.js');
 
-		$filters = WUP_Plugin::app()->getOption('plugins_update_filters');
-		$updates_mode = WUP_Plugin::app()->getOption('plugin_updates');
+		$filters = WUPM_Plugin::app()->getOption('plugins_update_filters');
+		$updates_mode = WUPM_Plugin::app()->getOption('plugin_updates');
 		$auto_update_allowed = $updates_mode == 'enable_plugin_auto_updates';
 		$updates_disabled = $updates_mode == 'disable_plugin_updates';
 
@@ -202,7 +205,9 @@
 
 	add_action('admin_enqueue_scripts', 'wbcr_upm_customize_plugin_page');
 
-
+    /**
+     * add link to Update manager on default page "Themes"
+     */
     function wbcr_upm_customize_theme_page(){
         $screen = get_current_screen();
         if( $screen->id !== 'themes' ) {
@@ -225,50 +230,7 @@
         $html = ob_get_clean();
         wp_add_inline_script('wbcr-upm-themes-js', $html, 'after');
     }
-
     add_action('admin_enqueue_scripts', 'wbcr_upm_customize_theme_page');
 
 
-    function wbcr_updates_manager_change_flag(){
-        $is_theme = false;
-        $app = WUP_Plugin::app();
-        $slug = $app->request->post('theme');
-        if(!empty($slug)){
-            $is_theme = true;
-        }else{
-            $slug = $app->request->post('plugin');
-        }
 
-        $flag = $app->request->post('flag');
-        $new_value = (bool) $app->request->post('value');
-        if(empty($slug) or empty($flag)){
-            echo json_encode(array('error'=> array('empty arguments')));
-            exit();
-        }
-
-        if($is_theme){
-            $pluginFilters = new WbcrUpm_ThemeFilters($app);
-        }else{
-            $pluginFilters = new WbcrUpm_PluginFilters($app);
-        }
-
-
-        $method = (($new_value)? 'disable': 'enable') . $flag;
-        if(!method_exists($pluginFilters, $method)){
-            echo json_encode(
-                    array(
-                            'error'=> array(sprintf('Method %s not found', $method))
-                    ));
-            exit();
-        }
-
-        $pluginFilters->$method($slug);
-
-        $pluginFilters->save();
-        echo json_encode(array());
-        exit();
-
-    }
-
-
-    add_action('wp_ajax_wbcr_updates_manager_change_flag', 'wbcr_updates_manager_change_flag');

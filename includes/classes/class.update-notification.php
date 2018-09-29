@@ -1,57 +1,58 @@
 <?php
 
-/**
- * This class configures the parameters seo
- * @author Webcraftic <wordpress.webraftic@gmail.com>
- * @copyright (c) 2017 Webraftic Ltd
- * @version 1.0
- */
-
 // Exit if accessed directly
-if( !defined('ABSPATH') ) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
-class WbcrUpm_UpdateNotification {
-    static public function check_updates_mail()
+
+class WUPM_UpdateNotification
+{
+    /**
+     * Send mails when plugins & themes updated or updates available
+     */
+    static public function checkUpdatesMail()
     {
-        require_once $_SERVER['DOCUMENT_ROOT'].'/wp-admin/includes/plugin.php'; //require for get_plugins()
-        $notify_update_available = WUP_Plugin::app()->getOption('notify_update_available');
-        $notify_updated = WUP_Plugin::app()->getOption('notify_updated');
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/wp-admin/includes/plugin.php'; //require for get_plugins()
+        $notify_update_available = WUPM_Plugin::app()->getOption('notify_update_available');
+        $notify_updated = WUPM_Plugin::app()->getOption('notify_updated');
 
         if ($notify_update_available) {
             // check available updates
-            self::list_theme_updates();
-            self::list_plugin_updates();
+            self::listThemeUpdates();
+            self::listPluginUpdates();
         }
         // check completed updates
-        if ($notify_updated){
-            self::plugin_updated();
+        if ($notify_updated) {
+            self::listUpdated();
         }
     }
 
 
-
-    static private function get_emails()
+    /**
+     * @return string[] get recipient emails
+     */
+    static private function getEmails()
     {
-        $emailArray = array();
+        $email_array = array();
 
-        $notify_email = WUP_Plugin::app()->getOption('notify_email');
+        $notify_email = WUPM_Plugin::app()->getOption('notify_email');
         if ($notify_email == '') {
-            array_push($emailArray, get_option('admin_email'));
+            array_push($email_array, get_option('admin_email'));
         } else {
             $list = explode(", ", $notify_email);
             foreach ($list as $email) {
-                array_push($emailArray, $email);
+                array_push($email_array, $email);
             }
         }
-        return $emailArray;
+        return $email_array;
 
     }
 
-
-
-    static private function pending_message($single, $plural)
+    /**
+     * message for updates available
+     */
+    static private function pendingMessage($single, $plural)
     {
 
         return sprintf(esc_html__(
@@ -60,8 +61,10 @@ class WbcrUpm_UpdateNotification {
 
     }
 
-
-    static private function updated_message($type, $updatedList)
+    /**
+     * message for updated
+     */
+    static private function updatedMessage($type, $updatedList)
     {
 
         $text = sprintf(esc_html__(
@@ -74,13 +77,13 @@ class WbcrUpm_UpdateNotification {
 
     }
 
-
-
-
-    static private function list_theme_updates()
+    /**
+     * send mails if theme updates available
+     */
+    static private function listThemeUpdates()
     {
 
-        $update_mode = WUP_Plugin::app()->getOption('theme_updates');
+        $update_mode = WUPM_Plugin::app()->getOption('theme_updates');
         $auto_update_themes = 'enable_theme_auto_updates' == $update_mode;
 
         if (!$auto_update_themes) {
@@ -93,10 +96,10 @@ class WbcrUpm_UpdateNotification {
                 $subject = '[' . get_bloginfo('name') . '] ' . __('Theme update available.', 'webcraftic-updates-manager');
                 $type = __('theme', 'webcraftic-updates-manager');
                 $type_plural = __('themes', 'webcraftic-updates-manager');
-                $message = self::pending_message($type, $type_plural);
+                $message = self::pendingMessage($type, $type_plural);
 
-                foreach (self::get_emails() as $key => $email) {
-                    wp_mail($email, $subject, $message, $headers);
+                foreach (self::getEmails() as $key => $email) {
+                    wp_mail($email, $subject, $message);
                 }
             }
 
@@ -105,10 +108,12 @@ class WbcrUpm_UpdateNotification {
 
     }
 
-
-    static private function list_plugin_updates()
+    /**
+     * send mails if plugin updates available
+     */
+    static private function listPluginUpdates()
     {
-        $update_mode = WUP_Plugin::app()->getOption('plugin_updates');
+        $update_mode = WUPM_Plugin::app()->getOption('plugin_updates');
         $auto_update_plugins = 'enable_plugin_auto_updates' == $update_mode;
 
         if (!$auto_update_plugins) {
@@ -121,10 +126,10 @@ class WbcrUpm_UpdateNotification {
                 $subject = '[' . get_bloginfo('name') . '] ' . __('Plugin update available.', 'webcraftic-updates-manager');
                 $type = __('plugin', 'webcraftic-updates-manager');
                 $type_plural = __('plugins', 'webcraftic-updates-manager');
-                $message = self::pending_message($type, $type_plural);
+                $message = self::pendingMessage($type, $type_plural);
 
-                foreach (self::get_emails() as $key => $email) {
-                    wp_mail($email, $subject, $message, $headers);
+                foreach (self::getEmails() as $key => $email) {
+                    wp_mail($email, $subject, $message);
                 }
             }
 
@@ -133,136 +138,135 @@ class WbcrUpm_UpdateNotification {
     }
 
 
-
-
-
-    static private function plugin_updated()
+    /**
+     * send mails if plugin has been updated
+     */
+    static private function listUpdated()
     {
 
         // Create arrays
-        $pluginNames = array();
-        $pluginDates = array();
-        $pluginVersion = array();
-        $themeNames = array();
-        $themeDates = array();
+        $plugin_names = array();
+        $plugin_dates = array();
+        $plugin_version = array();
+        $theme_names = array();
+        $theme_dates = array();
 
         // Where to look for plugins
         $plugdir = plugin_dir_path(WUP_PLUGIN_DIR);
-        $allPlugins = get_plugins();
+        $all_plugins = get_plugins();
 
         // Where to look for themes
         $themedir = get_theme_root();
-        $allThemes = wp_get_themes();
+        $all_themes = wp_get_themes();
 
         // Loop trough all plugins
-        foreach ($allPlugins as $key => $value) {
+        foreach ($all_plugins as $key => $value) {
 
             // Get plugin data
-            $fullPath = $plugdir . '/' . $key;
-            $getFile = $path_parts = pathinfo($fullPath);
-            $pluginData = get_plugin_data($fullPath);
+            $full_path = $plugdir . '/' . $key;
+            $get_file = $path_parts = pathinfo($full_path);
+            $plugin_data = get_plugin_data($full_path);
 
             // Get last update date
-            $fileDate = date('YmdHi', filemtime($fullPath));
-            $mailSched = wp_get_schedule('wud_mail_updates');
+            $file_date = date('YmdHi', filemtime($full_path));
+            $mail_sched = wp_get_schedule('wud_mail_updates');
 
-            if ($mailSched == 'hourly') {
+            if ($mail_sched == 'hourly') {
                 $lastday = date('YmdHi', strtotime('-1 hour'));
-            } elseif ($mailSched == 'twicedaily') {
+            } elseif ($mail_sched == 'twicedaily') {
                 $lastday = date('YmdHi', strtotime('-12 hours'));
-            } elseif ($mailSched == 'daily') {
+            } elseif ($mail_sched == 'daily') {
                 $lastday = date('YmdHi', strtotime('-1 day'));
             }
 
-            if ($fileDate >= $lastday) {
+            if ($file_date >= $lastday) {
 
                 // Get plugin name
-                foreach ($pluginData as $dataKey => $dataValue) {
-                    if ($dataKey == 'Name') {
-                        array_push($pluginNames, $dataValue);
+                foreach ($plugin_data as $data_key => $data_value) {
+                    if ($data_key == 'Name') {
+                        array_push($plugin_names, $data_value);
                     }
-                    if ($dataKey == 'Version') {
-                        array_push($pluginVersion, $dataValue);
+                    if ($data_key == 'Version') {
+                        array_push($plugin_version, $data_value);
                     }
                 }
 
-                array_push($pluginDates, $fileDate);
+                array_push($plugin_dates, $file_date);
             }
 
         }
 
-        foreach ($allThemes as $key => $value) {
+        foreach ($all_themes as $key => $value) {
 
-            $fullPath = $themedir . '/' . $key;
-            $getFile = $path_parts = pathinfo($fullPath);
+            $full_path = $themedir . '/' . $key;
+            $get_file = $path_parts = pathinfo($full_path);
 
-            $dateFormat = get_option('date_format');
-            $fileDate = date('YmdHi', filemtime($fullPath));
-            $mailSched = wp_get_schedule('wud_mail_updates');
+            $date_format = get_option('date_format');
+            $file_date = date('YmdHi', filemtime($full_path));
+            $mail_sched = wp_get_schedule('wud_mail_updates');
 
-            if ($mailSched == 'hourly') {
+            if ($mail_sched == 'hourly') {
                 $lastday = date('YmdHi', strtotime('-1 hour'));
-            } elseif ($mailSched == 'twicedaily') {
+            } elseif ($mail_sched == 'twicedaily') {
                 $lastday = date('YmdHi', strtotime('-12 hours'));
-            } elseif ($mailSched == 'daily') {
+            } elseif ($mail_sched == 'daily') {
                 $lastday = date('YmdHi', strtotime('-1 day'));
             }
 
-            if ($fileDate >= $lastday) {
-                array_push($themeNames, $path_parts['filename']);
-                array_push($themeDates, $fileDate);
+            if ($file_date >= $lastday) {
+                array_push($theme_names, $path_parts['filename']);
+                array_push($theme_dates, $file_date);
             }
 
 
         }
 
-        $totalNumP = 0;
-        $totalNumT = 0;
-        $updatedListP = '';
-        $updatedListT = '';
+        $total_num_p = 0;
+        $total_num_t = 0;
+        $updated_list_p = '';
+        $updated_list_t = '';
 
-        foreach ($pluginDates as $key => $value) {
+        foreach ($plugin_dates as $key => $value) {
 
-            $updatedListP .= "- " . $pluginNames[$key] . " to version " . $pluginVersion[$key] . "\n";
-            $totalNumP++;
+            $updated_list_p .= "- " . $plugin_names[$key] . " to version " . $plugin_version[$key] . "\n";
+            $total_num_p++;
 
         }
-        foreach ($themeNames as $key => $value) {
+        foreach ($theme_names as $key => $value) {
 
-            $updatedListT .= "- " . $themeNames[$key] . "\n";
-            $totalNumT++;
+            $updated_list_t .= "- " . $theme_names[$key] . "\n";
+            $total_num_t++;
 
         }
 
 
         // If plugins have been updated, send email
-        if ($totalNumP > 0) {
+        if ($total_num_p > 0) {
 
             $subject = '[' . get_bloginfo('name') . '] ' . __('Plugins have been updated.', 'webcraftic-updates-manager');
             $type = __('plugins', 'webcraftic-updates-manager');
-            $message = self::updated_message($type, "\n" . $updatedListP);
+            $message = self::updatedMessage($type, "\n" . $updated_list_p);
 
-            foreach (self::get_emails() as $key => $email) {
-                wp_mail($email, $subject, $message, $headers);
+            foreach (self::getEmails() as $key => $email) {
+                wp_mail($email, $subject, $message);
             }
 
         }
 
         // If themes have been updated, send email
-        if ($totalNumT > 0) {
+        if ($total_num_t > 0) {
 
             $subject = '[' . get_bloginfo('name') . '] ' . __('Themes have been updated.', 'webcraftic-updates-manager');
             $type = __('themes', 'webcraftic-updates-manager');
-            $message = self::updated_message($type, "\n" . $updatedListT);
+            $message = self::updatedMessage($type, "\n" . $updated_list_t);
 
-            foreach (self::get_emails() as $key => $email) {
-                wp_mail($email, $subject, $message, $headers);
+            foreach (self::getEmails() as $key => $email) {
+                wp_mail($email, $subject, $message);
             }
 
         }
 
     }
-
 
 
 }

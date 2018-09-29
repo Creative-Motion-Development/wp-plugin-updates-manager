@@ -11,21 +11,21 @@
 		exit;
 	}
 
-	if( !class_exists('WUP_Plugin') ) {
+	if( !class_exists('WUPM_Plugin') ) {
 		
-		if( !class_exists('WUP_PluginFactory') ) {
+		if( !class_exists('WUPM_PluginFactory') ) {
 			if( defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-				class WUP_PluginFactory {
+				class WUPM_PluginFactory {
 					
 				}
 			} else {
-				class WUP_PluginFactory extends Wbcr_Factory000_Plugin {
+				class WUPM_PluginFactory extends Wbcr_Factory000_Plugin {
 					
 				}
 			}
 		}
 		
-		class WUP_Plugin extends WUP_PluginFactory {
+		class WUPM_Plugin extends WUPM_PluginFactory {
 			
 			/**
 			 * @var Wbcr_Factory000_Plugin
@@ -119,10 +119,10 @@
 
 				$admin_path = WUP_PLUGIN_DIR . '/admin/pages';
 
-				self::app()->registerPage('WbcrUpm_UpdatesPage', $admin_path . '/updates.php');
-				self::app()->registerPage('WbcrUpm_PluginsPage', $admin_path . '/plugins.php');
-				self::app()->registerPage('WbcrUpm_ThemesPage', $admin_path . '/themes.php');
-				self::app()->registerPage('WbcrUpm_AdvancedPage', $admin_path . '/advanced.php');
+				self::app()->registerPage('WUPM_UpdatesPage', $admin_path . '/updates.php');
+				self::app()->registerPage('WUPM_PluginsPage', $admin_path . '/plugins.php');
+				self::app()->registerPage('WUPM_ThemesPage', $admin_path . '/themes.php');
+				self::app()->registerPage('WUPM_AdvancedPage', $admin_path . '/advanced.php');
 
 
 				if( !$this->as_addon ) {
@@ -132,7 +132,17 @@
 			
 			private function adminScripts()
 			{
+                require_once(WUP_PLUGIN_DIR . '/admin/activation.php');
+
+                if( defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['action']) ) {
+                    if( $_REQUEST['action'] == 'wbcr_upm_change_flag' ) {
+                        require(WUP_PLUGIN_DIR . '/admin/ajax/change-flag.php');
+                    }
+                }
+
 				require_once(WUP_PLUGIN_DIR . '/admin/boot.php');
+
+                $this->initActivation();
 				$this->registerPages();
 			}
 			
@@ -143,22 +153,17 @@
 			public function pluginsLoaded()
 			{
 				require(WUP_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
-				new WbcrUpm_ConfigUpdates(self::$app);
+				new WUPM_ConfigUpdates(self::$app);
 			}
 
-			public function activationHook(){
-			    parent::activationHook();
 
-                // schedule event for sending updates to email
-                if (! wp_next_scheduled ( 'wud_mail_updates' )){
-                    wp_schedule_event( time(), 'daily', 'wud_mail_updates');
-                }
 
-            }
-
-            public function deactivationHook(){
-			    parent::deactivationHook();
-                wp_clear_scheduled_hook('wud_mail_updates');
+            protected function initActivation()
+            {
+                include_once(WUP_PLUGIN_DIR . '/admin/activation.php');
+                $this->registerActivation('WUPM_Activation');
             }
 		}
+
+
 	}

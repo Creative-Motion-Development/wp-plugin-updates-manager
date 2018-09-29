@@ -11,7 +11,7 @@
 		exit;
 	}
 
-	class WbcrUpm_UpdatesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
+	class WUPM_UpdatesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
 		/**
 		 * The id of the page in the admin menu.
@@ -214,7 +214,7 @@ If you have multiple users then this means those who are not admins don’t need
 				//'cssClass' => 'postbox'
 			);
 
-			return apply_filters('wbcr_upm_updates_form_options', $formOptions);
+			return apply_filters('wbcr/upm/updates_form_options', $formOptions);
 		}
 	}
 

@@ -6,7 +6,6 @@
  */
 
 jQuery(function($) {
-	'use strict';
 
 	window.um_add_plugin_icons = function(info) {
 		$('#the-list tr[data-plugin]').each(function(k, v) {
@@ -37,7 +36,7 @@ jQuery(function($) {
 	};
 
     window.um_add_plugin_actions = function(name, url){
-        let btn = '<a href="'+ url +'" class="hide-if-no-js page-title-action">'+ name +'</a>';
+        var btn = '<a href="'+ url +'" class="hide-if-no-js page-title-action">'+ name +'</a>';
         $(btn).insertAfter('#wpbody .page-title-action');
 
     }

@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 require_once "class.abstract-filters.php";
 
 
-class WbcrUpm_ThemeFilters extends WbcrUpm_AbstractFilters
+class WUPM_ThemeFilters extends WUPM_AbstractFilters
 {
 
     public function load()

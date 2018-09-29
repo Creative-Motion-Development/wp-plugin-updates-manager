@@ -12,7 +12,7 @@
 		exit;
 	}
 
-	class WbcrUpm_ConfigUpdates extends Wbcr_FactoryClearfy000_Configurate {
+	class WUPM_ConfigUpdates extends Wbcr_FactoryClearfy000_Configurate {
 
 		public function registerActionsAndFilters()
 		{
@@ -106,9 +106,11 @@
 
 			add_action('all_plugins', array($this, 'hidePlugins'), 10, 1);
 
+            /**
+             * check updates and send mails
+             */
             require_once WUP_PLUGIN_DIR."/includes/classes/class.update-notification.php";
-            
-            add_action('wud_mail_updates', array('WbcrUpm_UpdateNotification', 'check_updates_mail'));
+            add_action('wud_mail_updates', array('WUPM_UpdateNotification', 'checkUpdatesMail'));
 
 		}
 

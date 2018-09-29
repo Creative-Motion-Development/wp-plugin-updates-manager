@@ -12,7 +12,7 @@
 	}
 
 
-	class WbcrUpm_PluginsPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
+	class WUPM_PluginsPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
 		/**
 		 * The id of the page in the admin menu.
@@ -122,6 +122,7 @@
 		{
 			if( !$this->is_disable_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
+                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
 
 				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
@@ -146,6 +147,7 @@
 		{
 			if( !$this->is_disable_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
+                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
 
 				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
@@ -164,6 +166,7 @@
 		{
 			if( $this->is_auto_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
+                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
 
 				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
@@ -186,6 +189,7 @@
 		{
 			if( $this->is_auto_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
+                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
 
 				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
@@ -203,6 +207,7 @@
         {
             if(!$this->is_disable_translation_updates) {
                 $plugin_slug = $this->request->get('plugin_slug', null, true);
+                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
                 check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
                 if (!empty($plugin_slug)) {
@@ -219,6 +224,7 @@
         {
             if(!$this->is_disable_translation_updates){
                 $plugin_slug = $this->request->get('plugin_slug', null, true);
+                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
                 check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
                 if( !empty($plugin_slug) ) {
@@ -240,8 +246,22 @@
 				$bulk_action = $this->request->post('wbcr_upm_bulk_actions', null, true);
 				$plugin_slugs = $this->request->post('plugin_slugs', array(), true);
 
-				check_admin_referer($this->getResultId() . '_form');
+                $plugin_slugs= array_map('strip_tags', $plugin_slugs);
 
+				check_admin_referer($this->getResultId() . '_form');
+                // validate $bulk_action
+                if(!empty($bulk_action) and !in_array($bulk_action, array(
+                        'disable_updates',
+                        'enable_updates',
+                        'enable_auto_updates',
+                        'disable_auto_updates',
+                        'disable_translation_updates',
+                        'enable_translation_updates',
+                        'disable_display',
+                        'enable_display'
+                    ))){
+                    $bulk_action = null;
+                }
 				if( !$this->is_disable_updates ) {
 					if( !empty($bulk_action) && !empty($plugin_slugs) && is_array($plugin_slugs) ) {
 						foreach((array)$plugin_slugs as $slug) {

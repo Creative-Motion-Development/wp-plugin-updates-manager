@@ -10,7 +10,7 @@
 		exit;
 	}
 	
-	class WbcrUpm_AdvancedPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
+	class WUPM_AdvancedPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 		
 		/**
 		 * The id of the page in the admin menu.

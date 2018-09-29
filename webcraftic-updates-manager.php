@@ -69,8 +69,8 @@
 		require_once(WUP_PLUGIN_DIR . '/includes/class.plugin.php');
 
 		if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-			new WUP_Plugin(__FILE__, array(
-				'prefix' => 'wbcr_updates_manager_',//wbcr_upm_
+			new WUPM_Plugin(__FILE__, array(
+				'prefix' => 'wbcr_upm_',//wbcr_upm_
 				'plugin_name' => 'wbcr_updates_manager',
 				'plugin_title' => __('Webcraftic Updates Manager', 'webcraftic-updates-manager'),
 				'plugin_version' => '1.0.7',

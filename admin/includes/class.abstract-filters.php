@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-abstract class WbcrUpm_AbstractFilters
+abstract class WUPM_AbstractFilters
 {
     protected $plugin;
     protected $update_filters;
@@ -20,6 +20,10 @@ abstract class WbcrUpm_AbstractFilters
         $this->load();
     }
 
+    /**
+     * disable all updates for item
+     * @param $item_slug string - theme or plugin slug (without main file path)
+     */
     public function disableUpdates($item_slug)
     {
         if (!$this->is_disable_updates) {
@@ -40,6 +44,10 @@ abstract class WbcrUpm_AbstractFilters
         }
     }
 
+    /**
+     * enable all updates for item
+     * @param $item_slug string - theme or plugin slug (without main file path)
+     */
     public function enableUpdates($item_slug)
     {
         if (!$this->is_disable_updates) {
@@ -52,6 +60,10 @@ abstract class WbcrUpm_AbstractFilters
         }
     }
 
+    /**
+     * disable auto-update for item
+     * @param $item_slug string - theme or plugin slug (without main file path)
+     */
     public function disableAutoUpdates($item_slug)
     {
         if ($this->is_auto_updates) {
@@ -69,6 +81,10 @@ abstract class WbcrUpm_AbstractFilters
         }
     }
 
+    /**
+     * enable auto-update for item
+     * @param $item_slug string - theme or plugin slug (without main file path)
+     */
     public function enableAutoUpdates($item_slug)
     {
         if ($this->is_auto_updates) {
@@ -81,6 +97,10 @@ abstract class WbcrUpm_AbstractFilters
         }
     }
 
+    /**
+     * enable translation updates for item
+     * @param $item_slug string - theme or plugin slug (without main file path)
+     */
     public function enableTranslationUpdates($item_slug)
     {
         if (!$this->is_disable_translation_updates) {
@@ -93,6 +113,10 @@ abstract class WbcrUpm_AbstractFilters
         }
     }
 
+    /**
+     * disable translation updates for item
+     * @param $item_slug string - theme or plugin slug (without main file path)
+     */
     public function disableTranslationUpdates($item_slug)
     {
         if (!$this->is_disable_translation_updates) {
@@ -106,6 +130,10 @@ abstract class WbcrUpm_AbstractFilters
         }
     }
 
+    /**
+     * Default filters data
+     * @return array
+     */
     protected function getDefaultOptions(){
         return array(
             'disable_updates' => array(),
@@ -116,9 +144,14 @@ abstract class WbcrUpm_AbstractFilters
 
     }
 
-
+    /**
+     * load filters data from db
+     */
     abstract public function load();
 
+    /**
+     * save filters data to db
+     */
     abstract public function save();
 
 
