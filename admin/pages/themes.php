@@ -121,7 +121,6 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     {
         if( !$this->is_disable_updates ) {
             $theme_slug = $this->request->get('theme_slug', null, true);
-            $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
 
             check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
@@ -146,7 +145,6 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     {
         if( !$this->is_disable_updates ) {
             $theme_slug = $this->request->get('theme_slug', null, true);
-            $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
 
             check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
@@ -165,7 +163,6 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     {
         if( $this->is_auto_updates ) {
             $theme_slug = $this->request->get('theme_slug', null, true);
-            $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
 
             check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
@@ -188,7 +185,6 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     {
         if( $this->is_auto_updates ) {
             $theme_slug = $this->request->get('theme_slug', null, true);
-            $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
 
             check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
@@ -205,7 +201,6 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     public function disableThemeTranslationUpdatesAction()
     {
         $theme_slug = $this->request->get('theme_slug', null, true);
-        $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
         check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
         if( !empty($theme_slug) ) {
@@ -222,7 +217,6 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     public function enableThemeTranslationUpdatesAction()
     {
         $theme_slug = $this->request->get('theme_slug', null, true);
-        $theme_slug = filter_var($theme_slug, FILTER_SANITIZE_STRING);
         check_admin_referer($this->getResultId() . '_' . $theme_slug);
 
         if( !empty($theme_slug) ) {

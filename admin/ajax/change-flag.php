@@ -12,16 +12,14 @@ if( !defined('ABSPATH') ) {
 function wbcr_upm_change_flag(){
     $is_theme = false;
     $app = WUPM_Plugin::app();
-    $slug = $app->request->post('theme');
+    $slug = $app->request->post('theme', null, true);
     if(!empty($slug)){
         $is_theme = true;
     }else{
-        $slug = $app->request->post('plugin');
+        $slug = $app->request->post('plugin', null, true);
     }
-    $slug = filter_var($slug, FILTER_SANITIZE_STRING);
 
-    $flag = $app->request->post('flag');
-    $flag = filter_var($flag, FILTER_SANITIZE_STRING);
+    $flag = $app->request->post('flag', null, true);
     $new_value = (bool) $app->request->post('value');
     if(empty($slug) or empty($flag)){
         echo json_encode(array('error'=> array('empty arguments')));

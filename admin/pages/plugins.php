@@ -122,7 +122,6 @@
 		{
 			if( !$this->is_disable_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
-                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
 
 				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
@@ -147,7 +146,6 @@
 		{
 			if( !$this->is_disable_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
-                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
 
 				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
@@ -166,7 +164,6 @@
 		{
 			if( $this->is_auto_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
-                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
 
 				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
@@ -189,7 +186,6 @@
 		{
 			if( $this->is_auto_updates ) {
 				$plugin_slug = $this->request->get('plugin_slug', null, true);
-                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
 
 				check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
@@ -207,7 +203,6 @@
         {
             if(!$this->is_disable_translation_updates) {
                 $plugin_slug = $this->request->get('plugin_slug', null, true);
-                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
                 check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
                 if (!empty($plugin_slug)) {
@@ -224,7 +219,6 @@
         {
             if(!$this->is_disable_translation_updates){
                 $plugin_slug = $this->request->get('plugin_slug', null, true);
-                $plugin_slug = filter_var($plugin_slug, FILTER_SANITIZE_STRING);
                 check_admin_referer($this->getResultId() . '_' . $plugin_slug);
 
                 if( !empty($plugin_slug) ) {
