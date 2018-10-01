@@ -112,6 +112,17 @@
             require_once WUP_PLUGIN_DIR."/includes/classes/class.update-notification.php";
             add_action('wud_mail_updates', array('WUPM_UpdateNotification', 'checkUpdatesMail'));
 
+            /**
+             * if off email notifications disabled for wp core updates
+             */
+            if($this->getOption('wp_update_core') != 'disable_core_updates'){
+                if($this->getOption('disable_core_notifications')){
+                    add_filter( 'auto_core_update_send_email', '__return_true' );
+                }else{
+                    add_filter( 'auto_core_update_send_email', '__return_false' );
+                }
+            }
+
 		}
 
 		/**

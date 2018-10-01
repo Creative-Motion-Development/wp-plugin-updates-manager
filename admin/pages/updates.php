@@ -124,6 +124,8 @@
 				//'hint' => __('', 'webcraftic-updates-manager') . '<br><br><b>Clearfy: </b>' . __('', 'webcraftic-updates-manager'),
 				'default' => false,
 			);
+
+
 			$options[] = array(
 				'type' => 'dropdown',
 				'name' => 'wp_update_core',
@@ -146,8 +148,35 @@
 				),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'hint' => __('You can disable all core WordPress updates, or disable only automatic updates. Also you can select the update mode. By default (minor)', 'webcraftic-updates-manager') . '<br>-' . __('Major - automatically update to major releases (e.g., 4.1, 4.2, 4.3).', 'webcraftic-updates-manager') . '<br>-' . __('Minor - automatically update to minor releases (e.g., 4.1.1, 4.1.2, 4.1.3)..', 'webcraftic-updates-manager') . '<br>-' . __('Development - update automatically to Bleeding Edge releases.', 'webcraftic-updates-manager'),
-				'default' => 'allow_minor_core_auto_updates'
+				'default' => 'allow_minor_core_auto_updates',
+                'events' => array(
+                    'disable_core_updates' => array(
+                        'hide' => '.factory-control-disable_core_notifications'
+                    ),
+                    'disable_core_auto_updates' => array(
+                        'show' => '.factory-control-disable_core_notifications'
+                    ),
+                    'allow_minor_core_auto_updates' => array(
+                        'show' => '.factory-control-disable_core_notifications'
+                    ),
+                    'allow_major_core_auto_updates' => array(
+                        'show' => '.factory-control-disable_core_notifications'
+                    ),
+                    'allow_dev_core_auto_updates' => array(
+                        'show' => '.factory-control-disable_core_notifications'
+                    ),
+
+                ),
 			);
+
+            $options[] = array(
+                'type' => 'checkbox',
+                'way' => 'buttons',
+                'name' => 'disable_core_notifications',
+                'title' => __('Core notifications', 'webcraftic-updates-manager'),
+                'hint' => __('If off email notifications disabled for wp core updates', 'webcraftic-updates-manager'),
+                'default' => true,
+            );
 
 			$options[] = array(
 				'type' => 'checkbox',
@@ -205,6 +234,8 @@ If you have multiple users then this means those who are not admins don’t need
                 'title' => __('Email address', 'wbcr-scrapes'),
                 'default' => false,
             );
+
+
 
 			$formOptions = array();
 
