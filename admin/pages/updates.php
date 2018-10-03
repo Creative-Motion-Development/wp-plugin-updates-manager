@@ -231,7 +231,7 @@ If you have multiple users then this means those who are not admins don’t need
                 'type' => 'textbox',
                 'way' => 'buttons',
                 'name' => 'notify_email',
-                'title' => __('Email address', 'wbcr-scrapes'),
+                'title' => __('Email address', 'webcraftic-updates-manager'),
                 'default' => false,
             );
 
