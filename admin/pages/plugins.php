@@ -58,6 +58,11 @@
 		private $plugins_update_filters = array();
 
 		/**
+		 * @var bool
+		 */
+		public $available_for_multisite = true;
+
+		/**
 		 * @param Wbcr_Factory000_Plugin $plugin
 		 */
 		public function __construct(Wbcr_Factory000_Plugin $plugin)
