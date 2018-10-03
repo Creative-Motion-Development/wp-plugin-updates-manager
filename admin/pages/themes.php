@@ -330,8 +330,6 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                     <td id='cb' class='manage-column column-cb check-column'>&nbsp;</td>
                     <th id='name' class='manage-column column-name column-primary'>
                         <strong><?php _e('Theme', 'webcraftic-updates-manager'); ?></strong></th>
-                    <th id='description' class='manage-column column-description'>
-                        <strong><?php _e('Description', 'webcraftic-updates-manager'); ?></strong></th>
                     <th id="disable_updates">
                         <strong><?php _e('Disable updates', 'webcraftic-updates-manager');?></strong>
                     </th>
@@ -402,11 +400,6 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                             <strong class="plugin-name">
                                 <?= esc_html($name) ?>
                             </strong>
-                        </td>
-                        <td class="column-description desc">
-                            <div class="plugin-description">
-                                <p><?= esc_html($description); ?></p>
-                            </div>
                         </td>
 
                         <!-- отключить все обновления -->

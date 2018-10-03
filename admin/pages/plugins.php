@@ -351,14 +351,13 @@
 					</select>
 					<input type="submit" name="wbcr_upm_apply" id="wbcr_upm_apply" class='button button-alt' value='<?php _e("Apply", "webcraftic-updates-manager"); ?>'>
 				</p>
-				<table class="wp-list-table widefat autoupdate striped plugins">
+				<table class="wp-list-table widefat autoupdate striped plugins wp-list-table__plugins">
 					<thead>
 					<tr>
 						<td id='cb' class='manage-column column-cb check-column'>&nbsp;</td>
 						<th id='name' class='manage-column column-name column-primary'>
 							<strong><?php _e('Plugin', 'webcraftic-updates-manager'); ?></strong></th>
-						<th id='description' class='manage-column column-description'>
-							<strong><?php _e('Description', 'webcraftic-updates-manager'); ?></strong></th>
+
                         <th id="disable_updates">
                             <strong><?php _e('Disable updates', 'webcraftic-updates-manager');?></strong>
                         </th>
@@ -443,12 +442,9 @@
 									<strong class="plugin-name">
 										<?= esc_html($name) ?>
 									</strong>
+
 								</td>
-								<td class="column-description desc">
-									<div class="plugin-description">
-										<p><?= esc_html($description) ?></p>
-									</div>
-								</td>
+
                                 <!-- отключить все обновления -->
                                 <td class="column-flags">
                                     <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group">
