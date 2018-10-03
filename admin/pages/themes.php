@@ -103,8 +103,8 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     public function assets($scripts, $styles)
     {
         parent::assets($scripts, $styles);
-        $this->styles->add(WUP_PLUGIN_URL . '/admin/assets/css/general.css');
-        $this->scripts->add(WUP_PLUGIN_URL . '/admin/assets/js/ajax-components.js');
+        $this->styles->add(WUPM_PLUGIN_URL . '/admin/assets/css/general.css');
+        $this->scripts->add(WUPM_PLUGIN_URL . '/admin/assets/js/ajax-components.js');
 
         // Add Clearfy styles for HMWP pages
         if( defined('WBCR_CLEARFY_PLUGIN_ACTIVE') ) {

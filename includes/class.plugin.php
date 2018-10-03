@@ -62,7 +62,7 @@
 					parent::__construct($plugin_path, $data);
 				}
 
-				self::app()->setTextDomain('webcraftic-updates-manager', WUP_PLUGIN_DIR);
+				self::app()->setTextDomain('webcraftic-updates-manager', WUPM_PLUGIN_DIR);
 
 				$this->setModules();
 				
@@ -99,7 +99,7 @@
 			private function registerPages()
 			{
 
-				$admin_path = WUP_PLUGIN_DIR . '/admin/pages';
+				$admin_path = WUPM_PLUGIN_DIR . '/admin/pages';
 
 				self::app()->registerPage('WUPM_UpdatesPage', $admin_path . '/updates.php');
 				self::app()->registerPage('WUPM_PluginsPage', $admin_path . '/plugins.php');
@@ -114,15 +114,15 @@
 			
 			private function adminScripts()
 			{
-                require_once(WUP_PLUGIN_DIR . '/admin/activation.php');
+                require_once(WUPM_PLUGIN_DIR . '/admin/activation.php');
 
                 if( defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['action']) ) {
                     if( $_REQUEST['action'] == 'wbcr_upm_change_flag' ) {
-                        require(WUP_PLUGIN_DIR . '/admin/ajax/change-flag.php');
+                        require(WUPM_PLUGIN_DIR . '/admin/ajax/change-flag.php');
                     }
                 }
 
-				require_once(WUP_PLUGIN_DIR . '/admin/boot.php');
+				require_once(WUPM_PLUGIN_DIR . '/admin/boot.php');
 
                 $this->initActivation();
 				$this->registerPages();
@@ -134,7 +134,7 @@
 
 			public function pluginsLoaded()
 			{
-				require(WUP_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
+				require(WUPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
 				new WUPM_ConfigUpdates(self::$app);
 			}
 
@@ -142,7 +142,7 @@
 
             protected function initActivation()
             {
-                include_once(WUP_PLUGIN_DIR . '/admin/activation.php');
+                include_once(WUPM_PLUGIN_DIR . '/admin/activation.php');
                 $this->registerActivation('WUPM_Activation');
             }
 		}

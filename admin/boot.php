@@ -6,8 +6,8 @@
 	 * @version 1.0
 	 */
 
-    require_once WUP_PLUGIN_DIR.'/admin/includes/class.plugin-filters.php';
-    require_once WUP_PLUGIN_DIR.'/admin/includes/class.theme-filters.php';
+    require_once WUPM_PLUGIN_DIR.'/admin/includes/class.plugin-filters.php';
+    require_once WUPM_PLUGIN_DIR.'/admin/includes/class.theme-filters.php';
 
 
 	/**
@@ -125,9 +125,9 @@
 
 	add_filter("wbcr_clearfy_allow_quick_mods", 'wbcr_upm_allow_quick_mods');
 
-	function wbcr_ump_set_plugin_meta($links, $file)
+	function wbcr_upm_set_plugin_meta($links, $file)
 	{
-		if( $file == WUP_PLUGIN_BASE ) {
+		if( $file == WUPM_PLUGIN_BASE ) {
 
 			$url = 'https://clearfy.pro';
 
@@ -144,7 +144,7 @@
 	}
 
 	if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-		add_filter('plugin_row_meta', 'wbcr_ump_set_plugin_meta', 10, 2);
+		add_filter('plugin_row_meta', 'wbcr_upm_set_plugin_meta', 10, 2);
 	}
 
 	/**
@@ -175,8 +175,8 @@
 			return;
 		}
 
-		wp_enqueue_style('wbcr-upm-plugins', WUP_PLUGIN_URL . '/admin/assets/css/plugins.css');
-		wp_enqueue_script('wbcr-upm-plugins-js', WUP_PLUGIN_URL . '/admin/assets/js/plugins.js');
+		wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/plugins.css');
+		wp_enqueue_script('wbcr-upm-plugins-js', WUPM_PLUGIN_URL . '/admin/assets/js/plugins.js');
 
 		$filters = WUPM_Plugin::app()->getOption('plugins_update_filters');
 		$updates_mode = WUPM_Plugin::app()->getOption('plugin_updates');
@@ -214,8 +214,8 @@
             return;
         }
 
-        wp_enqueue_style('wbcr-upm-plugins', WUP_PLUGIN_URL . '/admin/assets/css/themes.css');
-        wp_enqueue_script('wbcr-upm-themes-js', WUP_PLUGIN_URL . '/admin/assets/js/themes.js');
+        wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/themes.css');
+        wp_enqueue_script('wbcr-upm-themes-js', WUPM_PLUGIN_URL . '/admin/assets/js/themes.js');
 
         $btn_title = __('Update manager', 'webcraftic-updates-manager');
         $btn_url = '/wp-admin/admin.php?page=themes-wbcr_updates_manager';// TODO route function?

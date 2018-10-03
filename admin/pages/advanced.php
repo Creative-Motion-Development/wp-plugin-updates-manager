@@ -100,8 +100,8 @@
 				}
             };
 
-			if ( WUP_Plugin::app()->isMultisiteNetworkAdmin() ) {
-				foreach ( WUP_Plugin::app()->getActiveSites() as $site ) {
+			if ( WUPM_Plugin::app()->isMultisiteNetworkAdmin() ) {
+				foreach ( WUPM_Plugin::app()->getActiveSites() as $site ) {
 					switch_to_blog( $site->blog_id );
 
 					$shedule_auto_update();

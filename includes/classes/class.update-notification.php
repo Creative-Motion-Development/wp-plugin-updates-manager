@@ -152,7 +152,7 @@ class WUPM_UpdateNotification
         $theme_dates = array();
 
         // Where to look for plugins
-        $plugdir = plugin_dir_path(WUP_PLUGIN_DIR);
+        $plugdir = plugin_dir_path(WUPM_PLUGIN_DIR);
         $all_plugins = get_plugins();
 
         // Where to look for themes
