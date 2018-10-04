@@ -291,6 +291,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                 }
             }
         }
+        $is_premium = defined('WUPMP_PLUGIN_ACTIVE');
 
         ?>
         <div class="wbcr-factory-page-group-header">
@@ -312,7 +313,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
         <form method="post" style="padding: 20px;">
             <?php wp_nonce_field($this->getResultId() . '_form') ?>
             <p>
-                <select name="wbcr_upm_bulk_actions" id="wbcr_upm_bulk_actions">
+                <select name="wbcr_upm_bulk_actions" id="wbcr_upm_bulk_actions" <?=(!$is_premium)? 'disabled' : ''; ?>>
                     <option value="0"><?php _e('Bulk actions', 'webcraftic-updates-manager'); ?></option>
                     <option value="disable_updates"><?php _e('Disable updates', 'webcraftic-updates-manager'); ?></option>
                     <option value="enable_updates"><?php _e('Enable updates', 'webcraftic-updates-manager'); ?></option>
@@ -322,7 +323,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                     <option value="disable_translation_updates"><?php _e('Disable translation updates', 'webcraftic-updates-manager'); ?></option>
                     <option value="enable_translation_updates"><?php _e('Enable translation updates', 'webcraftic-updates-manager'); ?></option>
                 </select>
-                <input type="submit" name="wbcr_upm_apply" id="wbcr_upm_apply" class='button button-alt' value='<?php _e("Apply", "webcraftic-updates-manager"); ?>'>
+                <input type="submit" name="wbcr_upm_apply" id="wbcr_upm_apply" class='button button-alt' value='<?php _e("Apply", "webcraftic-updates-manager"); ?>' <?=(!$is_premium)? 'disabled' : ''; ?>>
             </p>
             <table class="wp-list-table widefat autoupdate striped plugins">
                 <thead>
@@ -391,7 +392,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                     <tr id="post-<?= esc_attr($slug_hash) ?>" class="<?= $class ?>">
                         <th scope="row" class="check-column">
                             <label class="screen-reader-text" for="cb-select-<?= esc_attr($slug_hash) ?>"><?php _e('Select', 'webcraftic-updates-manager') ?><?= esc_html($name) ?></label>
-                            <input id="cb-select-<?= esc_attr($slug_hash) ?>" type="checkbox" name="theme_slugs[]" value="<?= esc_attr($actual_slug) ?>">
+                            <input id="cb-select-<?= esc_attr($slug_hash) ?>" type="checkbox" name="theme_slugs[]" value="<?= esc_attr($actual_slug) ?>" <?=(!$is_premium)? 'disabled' : ''; ?>>
                             <label></label>
 
                             <div class="locked-indicator"></div>
@@ -404,12 +405,15 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
                         <!-- отключить все обновления -->
                         <td class="column-flags">
-                            <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group">
+                            <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group" >
                                 <?php
                                 $disabled = $this->is_disable_updates ;
                                 $checked = false;
                                 if($is_disable_updates){
                                     $checked = true;
+                                }
+                                if(!$is_premium){
+                                    $disabled = true;
                                 }
                                 ?>
                                 <button type="button" class="btn btn-default btn-small btn-sm factory-on <?=($checked)? 'active' : ''; ?>"  <?=($disabled)? 'disabled' : '';?>><?php _e('On', 'webcraftic-updates-manager'); ?></button>
@@ -420,10 +424,10 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                         </td>
                         <!-- отключить авто-обновления -->
                         <td class="column-flags">
-                            <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?>  <?=(!$this->is_auto_updates)? 'global-disabled': '';?>">
+                            <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?>  <?=(!$is_premium or !$this->is_auto_updates)? 'global-disabled': '';?>">
                                 <?php
                                 $disabled = false;
-                                if(!$this->is_auto_updates or $is_disable_updates){
+                                if(!$is_premium or !$this->is_auto_updates or $is_disable_updates){
                                     $disabled = true;
                                 }
                                 $checked = false;
@@ -439,10 +443,10 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                         </td>
                         <!-- отключить обновления переводов -->
                         <td class="column-flags">
-                            <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?> <?=($this->is_disable_translation_updates)? 'global-disabled': '';?>">
+                            <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?> <?=(!$is_premium or $this->is_disable_translation_updates)? 'global-disabled': '';?>">
                                 <?php
                                 $disabled = false;
-                                if($is_disable_updates or $this->is_disable_translation_updates){
+                                if(!$is_premium or $is_disable_updates or $this->is_disable_translation_updates){
                                     $disabled = true;
                                 }
                                 $checked = false;

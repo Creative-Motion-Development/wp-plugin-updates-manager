@@ -320,6 +320,8 @@
 
 			}
 
+            $is_premium = defined('WUPMP_PLUGIN_ACTIVE');
+
 			?>
 
 			<div class="wbcr-factory-page-group-header">
@@ -348,11 +350,11 @@
 						<option value="enable_auto_updates"><?php _e('Enable auto-updates', 'webcraftic-updates-manager'); ?></option>
 						<option value="disable_auto_updates"><?php _e('Disable auto-updates', 'webcraftic-updates-manager'); ?></option>
 
-						<option value="disable_translation_updates"><?php _e('Disable translation updates', 'webcraftic-updates-manager'); ?></option>
-						<option value="enable_translation_updates"><?php _e('Enable translation updates', 'webcraftic-updates-manager'); ?></option>
+						<option value="disable_translation_updates" <?=(!$is_premium)? 'disabled':''?>><?php _e('Disable translation updates', 'webcraftic-updates-manager'); ?></option>
+						<option value="enable_translation_updates" <?=(!$is_premium)? 'disabled':''?>><?php _e('Enable translation updates', 'webcraftic-updates-manager'); ?></option>
 
-                        <option value="disable_display"><?php _e('Hide plugin', 'webcraftic-updates-manager'); ?></option>
-                        <option value="enable_display"><?php _e('Show plugin', 'webcraftic-updates-manager'); ?></option>
+                        <option value="disable_display" <?=(!$is_premium)? 'disabled':''?>><?php _e('Hide plugin', 'webcraftic-updates-manager'); ?></option>
+                        <option value="enable_display" <?=(!$is_premium)? 'disabled':''?>><?php _e('Show plugin', 'webcraftic-updates-manager'); ?></option>
 					</select>
 					<input type="submit" name="wbcr_upm_apply" id="wbcr_upm_apply" class='button button-alt' value='<?php _e("Apply", "webcraftic-updates-manager"); ?>'>
 				</p>
@@ -421,6 +423,7 @@
 								$is_disable_updates = true;
 							}
 
+
 						    if( !empty($this->plugins_update_filters)){
                                 if( isset($this->plugins_update_filters['disable_translation_updates']) && isset($this->plugins_update_filters['disable_translation_updates'][$actual_slug]) ) {
                                     $is_disable_translation_update = true;
@@ -487,10 +490,10 @@
                                 </td>
                                 <!-- отключить обновления переводов -->
                                 <td class="column-flags">
-                                    <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?>  <?=($this->is_disable_translation_updates)? 'global-disabled': '';?>">
+                                    <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?='group-'.$slug_hash;?>  <?=(!$is_premium or $this->is_disable_translation_updates)? 'global-disabled': '';?>">
                                         <?php
                                         $disabled = false;
-                                        if($is_disable_updates or $this->is_disable_translation_updates){
+                                        if(!$is_premium or $is_disable_updates or $this->is_disable_translation_updates){
                                             $disabled = true;
                                         }
                                         $checked = false;
@@ -506,10 +509,13 @@
                                 </td>
                                 <!-- скрыть плагин -->
                                 <td class="column-flags">
-                                    <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group">
+                                    <div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?=(!$is_premium)? 'global-disabled': '';?>">
                                         <?php
                                         $checked = $is_disable_display;
                                         $disabled = false;
+                                        if(!$is_premium){
+                                            $disabled = true;
+                                        }
                                         ?>
                                         <button type="button" class="btn btn-default btn-small btn-sm factory-on <?=($checked)? 'active' : ''; ?>"  <?=($disabled)? 'disabled' : '';?>><?php _e('On', 'webcraftic-updates-manager'); ?></button>
                                         <button type="button" class="btn btn-default btn-small btn-sm factory-off <?=(!$checked)? 'active' : ''; ?>" data-value="0"  <?=($disabled)? 'disabled' : '';?>><?php _e('Off', 'webcraftic-updates-manager'); ?></button>

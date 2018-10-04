@@ -134,8 +134,7 @@
 
 			public function pluginsLoaded()
 			{
-				require(WUPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
-				new WUPM_ConfigUpdates(self::$app);
+
 			}
 
 

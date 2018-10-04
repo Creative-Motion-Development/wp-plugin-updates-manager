@@ -68,7 +68,7 @@
 		public function assets($scripts, $styles)
 		{
 			parent::assets($scripts, $styles);
-
+            $this->styles->add(WUPM_PLUGIN_URL . '/admin/assets/css/general.css');
 			// Add Clearfy styles for HMWP pages
 			if( defined('WBCR_CLEARFY_PLUGIN_ACTIVE') ) {
 				$this->styles->add(WCL_PLUGIN_URL . '/admin/assets/css/general.css');
@@ -83,6 +83,7 @@
 		 */
 		public function getOptions()
 		{
+            $is_premium = defined('WUPMP_PLUGIN_ACTIVE');
 			$options = array();
 
 			$options[] = array(
@@ -181,6 +182,7 @@
                 'title' => __('Core notifications', 'webcraftic-updates-manager'),
                 'hint' => __('If off email notifications disabled for wp core updates', 'webcraftic-updates-manager'),
                 'default' => true,
+                'cssClass' => (!$is_premium)? array('factory-checkbox-disabled') : array(),
             );
 
 			$options[] = array(
@@ -215,13 +217,14 @@ If you have multiple users then this means those who are not admins don’t need
 				'html' => array($this, '_showFormButton')
 			);*/
 
-
+            /* todo disable if !$is_premium */
             $options[] = array(
                 'type' => 'checkbox',
                 'way' => 'buttons',
                 'name' => 'notify_update_available',
                 'title' => __('Notify me when update available', 'webcraftic-updates-manager'),
                 'default' => false,
+                'cssClass' => (!$is_premium)? array('factory-checkbox-disabled') : array(),
             );
 
             $options[] = array(
@@ -230,6 +233,7 @@ If you have multiple users then this means those who are not admins don’t need
                 'name' => 'notify_updated',
                 'title' => __('Notify me when update successful installed', 'webcraftic-updates-manager'),
                 'default' => false,
+                'cssClass' => (!$is_premium)? array('factory-checkbox-disabled') : array(),
             );
 
             $options[] = array(
@@ -238,6 +242,8 @@ If you have multiple users then this means those who are not admins don’t need
                 'name' => 'notify_email',
                 'title' => __('Email address', 'webcraftic-updates-manager'),
                 'default' => false,
+                'htmlAttrs' => (!$is_premium)? array('disabled'=> 'disabled') : array(),
+
             );
 
 
