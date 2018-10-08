@@ -109,7 +109,7 @@
             /**
              * check updates and send mails
              */
-            require_once WUP_PLUGIN_DIR."/includes/classes/class.update-notification.php";
+            require_once WUPM_PLUGIN_DIR."/includes/classes/class.update-notification.php";
             add_action('wud_mail_updates', array('WUPM_UpdateNotification', 'checkUpdatesMail'));
 
             /**

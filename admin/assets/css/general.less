@@ -6,6 +6,11 @@
 
 #WBCR {
   .wp-list-table {
+    th, .plugin-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
     .plugin-update-tr.active td, &.plugins .active th.check-column {
       border-left: 4px solid #e6e6e6 !important;
       padding-left: 8px !important;
@@ -23,24 +28,27 @@
     .widefat ol, .widefat p, .widefat tfoot tr td, .widefat tfoot tr th, .widefat thead tr td, .widefat thead tr th, .widefat ul {
       color: #7d7d7d;
     }
+
+    #disable_updates, #disable_auto_updates, #disable_translation_updates, #hide_item {
+      width: 100px;
+    }
   }
 
-  .column-flags .factory-checkbox{
+  .column-flags .factory-checkbox {
     display: inline-flex;
   }
 
-
   /* upm */
-  .wp-list-table.autoupdate{
-    th{
+  .wp-list-table.autoupdate {
+    th {
       white-space: normal !important;
     }
-    .plugin-title{
+    .plugin-title {
       white-space: normal !important;
     }
   }
-  .wp-list-table__plugins{
-    .plugin-title{
+  .wp-list-table__plugins {
+    .plugin-title {
       max-width: 12rem;
     }
   }

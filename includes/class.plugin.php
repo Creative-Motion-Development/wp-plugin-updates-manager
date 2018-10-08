@@ -47,9 +47,7 @@
 				$this->as_addon = isset($data['as_addon']);
 				
 				if( $this->as_addon ) {
-					$plugin_parent = isset($data['plugin_parent'])
-						? $data['plugin_parent']
-						: null;
+					$plugin_parent = isset($data['plugin_parent']) ? $data['plugin_parent'] : null;
 					
 					if( !($plugin_parent instanceof Wbcr_Factory000_Plugin) ) {
 						throw new Exception('An invalid instance of the class was passed.');
@@ -64,11 +62,10 @@
 					parent::__construct($plugin_path, $data);
 				}
 
-				$this->setTextDomain();
+				self::app()->setTextDomain('webcraftic-updates-manager', WUPM_PLUGIN_DIR);
+
 				$this->setModules();
-				
-				$this->globalScripts();
-				
+
 				if( is_admin() ) {
 					$this->adminScripts();
 				}
@@ -84,23 +81,6 @@
 				return self::$app;
 			}
 
-			// todo: перенести этот медот в фреймворк
-			protected function setTextDomain()
-			{
-				// Localization plugin
-				//load_plugin_textdomain('webcraftic-updates-manager', false, dirname(WCL_PLUGIN_BASE) . '/languages/');
-
-				$domain = 'webcraftic-updates-manager';
-				$locale = apply_filters('plugin_locale', is_admin()
-					? get_user_locale()
-					: get_locale(), $domain);
-				$mofile = $domain . '-' . $locale . '.mo';
-
-				if( !load_textdomain($domain, WUP_PLUGIN_DIR . '/languages/' . $mofile) ) {
-					load_muplugin_textdomain($domain);
-				}
-			}
-			
 			protected function setModules()
 			{
 				if( !$this->as_addon ) {
@@ -117,13 +97,12 @@
 			private function registerPages()
 			{
 
-				$admin_path = WUP_PLUGIN_DIR . '/admin/pages';
+				$admin_path = WUPM_PLUGIN_DIR . '/admin/pages';
 
 				self::app()->registerPage('WUPM_UpdatesPage', $admin_path . '/updates.php');
 				self::app()->registerPage('WUPM_PluginsPage', $admin_path . '/plugins.php');
 				self::app()->registerPage('WUPM_ThemesPage', $admin_path . '/themes.php');
 				self::app()->registerPage('WUPM_AdvancedPage', $admin_path . '/advanced.php');
-
 
 				if( !$this->as_addon ) {
 					self::app()->registerPage('WbcrUpm_MoreFeaturesPage', $admin_path . '/more-features.php');
@@ -132,38 +111,31 @@
 			
 			private function adminScripts()
 			{
-                require_once(WUP_PLUGIN_DIR . '/admin/activation.php');
+				require_once(WUPM_PLUGIN_DIR . '/admin/activation.php');
 
-                if( defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['action']) ) {
-                    if( $_REQUEST['action'] == 'wbcr_upm_change_flag' ) {
-                        require(WUP_PLUGIN_DIR . '/admin/ajax/change-flag.php');
-                    }
-                }
+				if( defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['action']) ) {
+					if( $_REQUEST['action'] == 'wbcr_upm_change_flag' ) {
+						require(WUPM_PLUGIN_DIR . '/admin/ajax/change-flag.php');
+					}
+				}
 
-				require_once(WUP_PLUGIN_DIR . '/admin/boot.php');
+				require_once(WUPM_PLUGIN_DIR . '/admin/boot.php');
 
-                $this->initActivation();
+				$this->initActivation();
 				$this->registerPages();
-			}
-			
-			private function globalScripts()
-			{
 			}
 
 			public function pluginsLoaded()
 			{
-				require(WUP_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
+				require(WUPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
 				new WUPM_ConfigUpdates(self::$app);
 			}
 
 
-
-            protected function initActivation()
-            {
-                include_once(WUP_PLUGIN_DIR . '/admin/activation.php');
-                $this->registerActivation('WUPM_Activation');
-            }
+			protected function initActivation()
+			{
+				include_once(WUPM_PLUGIN_DIR . '/admin/activation.php');
+				self::app()->registerActivation('WUPM_Activation');
+			}
 		}
-
-
 	}

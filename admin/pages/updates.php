@@ -11,7 +11,7 @@
 		exit;
 	}
 
-	class WUPM_UpdatesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
+	class WUPM_UpdatesPage extends Wbcr_FactoryClearfy000_PageBase {
 
 		/**
 		 * The id of the page in the admin menu.
@@ -35,6 +35,7 @@
 		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
 			$this->menu_title = __('Updates manager', 'webcraftic-updates-manager');
+			$this->page_menu_short_description = __('Manage all site updates', 'clearfy');
 
 			if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
 				$this->internal = false;
@@ -47,9 +48,7 @@
 
 		public function getMenuTitle()
 		{
-			return defined('LOADING_UPDATES_MANAGER_AS_ADDON')
-				? __('Updates', 'webcraftic-updates-manager')
-				: __('General', 'webcraftic-updates-manager');
+			return defined('LOADING_UPDATES_MANAGER_AS_ADDON') ? __('Updates', 'webcraftic-updates-manager') : __('General', 'webcraftic-updates-manager');
 		}
 
 		/**
@@ -125,7 +124,6 @@
 				'default' => false,
 			);
 
-
 			$options[] = array(
 				'type' => 'dropdown',
 				'name' => 'wp_update_core',
@@ -149,34 +147,25 @@
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'hint' => __('You can disable all core WordPress updates, or disable only automatic updates. Also you can select the update mode. By default (minor)', 'webcraftic-updates-manager') . '<br>-' . __('Major - automatically update to major releases (e.g., 4.1, 4.2, 4.3).', 'webcraftic-updates-manager') . '<br>-' . __('Minor - automatically update to minor releases (e.g., 4.1.1, 4.1.2, 4.1.3)..', 'webcraftic-updates-manager') . '<br>-' . __('Development - update automatically to Bleeding Edge releases.', 'webcraftic-updates-manager'),
 				'default' => 'allow_minor_core_auto_updates',
-                'events' => array(
-                    'disable_core_updates' => array(
-                        'hide' => '.factory-control-disable_core_notifications'
-                    ),
-                    'disable_core_auto_updates' => array(
-                        'show' => '.factory-control-disable_core_notifications'
-                    ),
-                    'allow_minor_core_auto_updates' => array(
-                        'show' => '.factory-control-disable_core_notifications'
-                    ),
-                    'allow_major_core_auto_updates' => array(
-                        'show' => '.factory-control-disable_core_notifications'
-                    ),
-                    'allow_dev_core_auto_updates' => array(
-                        'show' => '.factory-control-disable_core_notifications'
-                    ),
+				'events' => array(
+					'disable_core_updates' => array(
+						'hide' => '.factory-control-disable_core_notifications'
+					),
+					'disable_core_auto_updates' => array(
+						'show' => '.factory-control-disable_core_notifications'
+					),
+					'allow_minor_core_auto_updates' => array(
+						'show' => '.factory-control-disable_core_notifications'
+					),
+					'allow_major_core_auto_updates' => array(
+						'show' => '.factory-control-disable_core_notifications'
+					),
+					'allow_dev_core_auto_updates' => array(
+						'show' => '.factory-control-disable_core_notifications'
+					),
 
-                ),
+				),
 			);
-
-            $options[] = array(
-                'type' => 'checkbox',
-                'way' => 'buttons',
-                'name' => 'disable_core_notifications',
-                'title' => __('Core notifications', 'webcraftic-updates-manager'),
-                'hint' => __('If off email notifications disabled for wp core updates', 'webcraftic-updates-manager'),
-                'default' => true,
-            );
 
 			$options[] = array(
 				'type' => 'checkbox',
@@ -200,6 +189,21 @@ If you have multiple users then this means those who are not admins don’t need
 				'default' => false,
 			);
 
+			$options[] = array(
+				'type' => 'html',
+				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('General settings for WordPress, plugins and themes updates', 'webcraftic-updates-manager') . '</strong><p>' . __('This page, you can enable or disable automatic updates. To test the automatic updates, click the "Advanced" tab.', 'webcraftic-updates-manager') . '</p></div>'
+			);
+
+			$options[] = array(
+				'type' => 'checkbox',
+				'way' => 'buttons',
+				'name' => 'disable_core_notifications',
+				'title' => __('Core notifications', 'webcraftic-updates-manager'),
+				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
+				'hint' => __('If off email notifications disabled for wp core updates', 'webcraftic-updates-manager'),
+				'default' => true,
+			);
+
 			/*$options[] = array(
 				'type' => 'separator',
 				'cssClass' => 'factory-separator-dashed'
@@ -210,32 +214,32 @@ If you have multiple users then this means those who are not admins don’t need
 				'html' => array($this, '_showFormButton')
 			);*/
 
+			// todo: Добавить подсказку
+			$options[] = array(
+				'type' => 'checkbox',
+				'way' => 'buttons',
+				'name' => 'notify_update_available',
+				'title' => __('Notify me when update available', 'webcraftic-updates-manager'),
+				'default' => false,
+			);
 
-            $options[] = array(
-                'type' => 'checkbox',
-                'way' => 'buttons',
-                'name' => 'notify_update_available',
-                'title' => __('Notify me when update available', 'webcraftic-updates-manager'),
-                'default' => false,
-            );
+			// todo: Добавить подсказку
+			$options[] = array(
+				'type' => 'checkbox',
+				'way' => 'buttons',
+				'name' => 'notify_updated',
+				'title' => __('Notify me when update successful installed', 'webcraftic-updates-manager'),
+				'default' => false,
+			);
 
-            $options[] = array(
-                'type' => 'checkbox',
-                'way' => 'buttons',
-                'name' => 'notify_updated',
-                'title' => __('Notify me when update successful installed', 'webcraftic-updates-manager'),
-                'default' => false,
-            );
-
-            $options[] = array(
-                'type' => 'textbox',
-                'way' => 'buttons',
-                'name' => 'notify_email',
-                'title' => __('Email address', 'webcraftic-updates-manager'),
-                'default' => false,
-            );
-
-
+			// todo: Добавить подсказку
+			$options[] = array(
+				'type' => 'textbox',
+				'way' => 'buttons',
+				'name' => 'notify_email',
+				'title' => __('Email address', 'webcraftic-updates-manager'),
+				'default' => $this->plugin->isNetworkActive() ? get_site_option('admin_email') : get_option('admin_email'),
+			);
 
 			$formOptions = array();
 

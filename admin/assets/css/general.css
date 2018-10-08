@@ -6,6 +6,11 @@
 #WBCR {
   /* upm */
 }
+#WBCR .wp-list-table th,
+#WBCR .wp-list-table .plugin-name {
+  font-size: 13px;
+  font-weight: 600;
+}
 #WBCR .wp-list-table .plugin-update-tr.active td,
 #WBCR .wp-list-table.plugins .active th.check-column {
   border-left: 4px solid #e6e6e6 !important;
@@ -36,6 +41,12 @@
 #WBCR .wp-list-table .widefat ul {
   color: #7d7d7d;
 }
+#WBCR .wp-list-table #disable_updates,
+#WBCR .wp-list-table #disable_auto_updates,
+#WBCR .wp-list-table #disable_translation_updates,
+#WBCR .wp-list-table #hide_item {
+  width: 100px;
+}
 #WBCR .column-flags .factory-checkbox {
   display: inline-flex;
 }
@@ -48,4 +59,3 @@
 #WBCR .wp-list-table__plugins .plugin-title {
   max-width: 12rem;
 }
-/*# sourceMappingURL=general.css.map */
