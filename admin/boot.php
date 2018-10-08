@@ -134,7 +134,7 @@
 
 	add_filter("wbcr_clearfy_allow_quick_mods", 'wbcr_upm_allow_quick_mods');
 
-	function wbcr_ump_set_plugin_meta($links, $file)
+	function wbcr_upm_set_plugin_meta($links, $file)
 	{
 		if( $file == WUPM_PLUGIN_BASE ) {
 
@@ -153,7 +153,7 @@
 	}
 
 	if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
-		add_filter('plugin_row_meta', 'wbcr_ump_set_plugin_meta', 10, 2);
+		add_filter('plugin_row_meta', 'wbcr_upm_set_plugin_meta', 10, 2);
 	}
 
 	/**
@@ -185,7 +185,7 @@
 			return;
 		}
 
-		wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/plugins.css');
+		wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/plugins.css', array(), WUPM_Plugin::app()->getPluginVersion());
 		wp_enqueue_script('wbcr-upm-plugins-js', WUPM_PLUGIN_URL . '/admin/assets/js/plugins.js', array('jquery'), WUPM_Plugin::app()->getPluginVersion());
 
 		$filters = WUPM_Plugin::app()->getOption('plugins_update_filters');
@@ -227,8 +227,8 @@
 			return;
 		}
 
-		wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/themes.css');
-		wp_enqueue_script('wbcr-upm-themes-js', WUPM_PLUGIN_URL . '/admin/assets/js/themes.js');
+		wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/themes.css', array(), WUPM_Plugin::app()->getPluginVersion());
+		wp_enqueue_script('wbcr-upm-themes-js', WUPM_PLUGIN_URL . '/admin/assets/js/themes.js', array('jquery'), WUPM_Plugin::app()->getPluginVersion());
 
 		$btn_title = __('Update manager', 'webcraftic-updates-manager');
 
@@ -247,6 +247,7 @@
 	}
 
 	add_action('admin_enqueue_scripts', 'wbcr_upm_customize_theme_page');
+
 
 
 

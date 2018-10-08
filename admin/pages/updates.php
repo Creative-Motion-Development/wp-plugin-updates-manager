@@ -30,6 +30,11 @@
 		public $page_menu_dashicon = 'dashicons-cloud';
 
 		/**
+		 * @var bool
+		 */
+		public $available_for_multisite = true;
+
+		/**
 		 * @param Wbcr_Factory000_Plugin $plugin
 		 */
 		public function __construct(Wbcr_Factory000_Plugin $plugin)
@@ -62,7 +67,7 @@
 		public function assets($scripts, $styles)
 		{
 			parent::assets($scripts, $styles);
-
+			$this->styles->add(WUPM_PLUGIN_URL . '/admin/assets/css/general.css');
 			// Add Clearfy styles for HMWP pages
 			if( defined('WBCR_CLEARFY_PLUGIN_ACTIVE') ) {
 				$this->styles->add(WCL_PLUGIN_URL . '/admin/assets/css/general.css');
@@ -77,6 +82,7 @@
 		 */
 		public function getOptions()
 		{
+			$is_premium = defined('WUPMP_PLUGIN_ACTIVE');
 			$options = array();
 
 			$options[] = array(
@@ -163,8 +169,7 @@
 					'allow_dev_core_auto_updates' => array(
 						'show' => '.factory-control-disable_core_notifications'
 					),
-
-				),
+				)
 			);
 
 			$options[] = array(
@@ -191,7 +196,45 @@ If you have multiple users then this means those who are not admins don’t need
 
 			$options[] = array(
 				'type' => 'html',
-				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('General settings for WordPress, plugins and themes updates', 'webcraftic-updates-manager') . '</strong><p>' . __('This page, you can enable or disable automatic updates. To test the automatic updates, click the "Advanced" tab.', 'webcraftic-updates-manager') . '</p></div>'
+				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Email Notifications', 'webcraftic-updates-manager') . '</strong><p>' . __('Email notifications are send once a day, you can choose what notifications to send below.', 'webcraftic-updates-manager') . '</p></div>'
+			);
+
+			$options[] = array(
+				'type' => 'checkbox',
+				'way' => 'buttons',
+				'name' => 'notify_update_available',
+				'title' => __('Update available', 'webcraftic-updates-manager'),
+				'hint' => __('Send me emails when an update is available.', 'webcraftic-updates-manager'),
+				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
+				'default' => false,
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
+			);
+
+			$options[] = array(
+				'type' => 'checkbox',
+				'way' => 'buttons',
+				'name' => 'notify_updated',
+				'title' => __('Successful update', 'webcraftic-updates-manager'),
+				'hint' => __('Send me emails when something has been updated.', 'webcraftic-updates-manager'),
+				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
+				'default' => false,
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
+			);
+
+			$options[] = array(
+				'type' => 'textbox',
+				'way' => 'buttons',
+				'name' => 'notify_email',
+				'title' => __('Email address', 'webcraftic-updates-manager'),
+				'hint' => __('Seperate email addresses using commas.', 'webcraftic-updates-manager'),
+				'default' => $this->plugin->isNetworkActive() ? get_site_option('admin_email') : get_option('admin_email'),
+				'htmlAttrs' => (!$is_premium) ? array('disabled' => 'disabled') : array(),
+
+			);
+
+			$options[] = array(
+				'type' => 'html',
+				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Core notifications', 'webcraftic-updates-manager') . '</strong><p>' . __('Core notifications are handled by WordPress and not by this plugin. You can only disable them, changing your email address in the settings above will not affect these notifications.', 'webcraftic-updates-manager') . '</p></div>'
 			);
 
 			$options[] = array(
@@ -199,46 +242,10 @@ If you have multiple users then this means those who are not admins don’t need
 				'way' => 'buttons',
 				'name' => 'disable_core_notifications',
 				'title' => __('Core notifications', 'webcraftic-updates-manager'),
+				'hint' => __('By default wordpress sends an email when a core update happend. Uncheck this box to disable these emails.', 'webcraftic-updates-manager'),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
-				'hint' => __('If off email notifications disabled for wp core updates', 'webcraftic-updates-manager'),
 				'default' => true,
-			);
-
-			/*$options[] = array(
-				'type' => 'separator',
-				'cssClass' => 'factory-separator-dashed'
-			);
-
-			$options[] = array(
-				'type' => 'html',
-				'html' => array($this, '_showFormButton')
-			);*/
-
-			// todo: Добавить подсказку
-			$options[] = array(
-				'type' => 'checkbox',
-				'way' => 'buttons',
-				'name' => 'notify_update_available',
-				'title' => __('Notify me when update available', 'webcraftic-updates-manager'),
-				'default' => false,
-			);
-
-			// todo: Добавить подсказку
-			$options[] = array(
-				'type' => 'checkbox',
-				'way' => 'buttons',
-				'name' => 'notify_updated',
-				'title' => __('Notify me when update successful installed', 'webcraftic-updates-manager'),
-				'default' => false,
-			);
-
-			// todo: Добавить подсказку
-			$options[] = array(
-				'type' => 'textbox',
-				'way' => 'buttons',
-				'name' => 'notify_email',
-				'title' => __('Email address', 'webcraftic-updates-manager'),
-				'default' => $this->plugin->isNetworkActive() ? get_site_option('admin_email') : get_option('admin_email'),
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
 			);
 
 			$formOptions = array();

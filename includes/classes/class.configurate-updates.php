@@ -37,8 +37,6 @@
 				add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
 			}
 
-            add_filter('site_transient_update_plugins', array($this, 'disablePluginTranslationUpdates'), 50);
-            add_filter('site_transient_update_themes', array($this, 'disableThemeTranslationUpdates'), 10, 1);
 
 
 
@@ -103,26 +101,6 @@
 			}
 
 			add_action('schedule_event', array($this, 'filterCronEvents'));
-
-			add_action('all_plugins', array($this, 'hidePlugins'), 10, 1);
-
-            /**
-             * check updates and send mails
-             */
-            require_once WUPM_PLUGIN_DIR."/includes/classes/class.update-notification.php";
-            add_action('wud_mail_updates', array('WUPM_UpdateNotification', 'checkUpdatesMail'));
-
-            /**
-             * if off email notifications disabled for wp core updates
-             */
-            if($this->getOption('wp_update_core') != 'disable_core_updates'){
-                if($this->getOption('disable_core_notifications')){
-                    add_filter( 'auto_core_update_send_email', '__return_true' );
-                }else{
-                    add_filter( 'auto_core_update_send_email', '__return_false' );
-                }
-            }
-
 		}
 
 		/**
@@ -358,69 +336,7 @@
 			return $current;
 		}
 
-		public function disablePluginTranslationUpdates($plugins){
-            if( !isset($plugins->translations) || empty($plugins->translations) ) {
-                return $plugins;
-            }
-
-            $is_disabled_translation_updates = $this->getOption('auto_tran_update');
-            if($is_disabled_translation_updates){
-                $plugins->translations = array();
-                return $plugins;
-            }
-
-            $filters = $this->getOption('plugins_update_filters');
-
-            if( !empty($filters) && isset($filters['disable_translation_updates']) ) {
-                foreach ((array)$plugins->translations as $key => $translation){
-                    if($translation['type'] == 'plugin' && array_key_exists($translation['slug'], $filters['disable_translation_updates']) && $filters['disable_translation_updates'][$translation['slug']]){
-                        unset($plugins->translations[$key]);
-                    }
-                }
-            }
-
-            return $plugins;
-        }
-
-        public function disableThemeTranslationUpdates($themes){
-            if( !isset($themes->translations) || empty($themes->translations) ) {
-                return $themes;
-            }
-
-            $is_disabled_translation_updates = $this->getOption('auto_tran_update');
-            if($is_disabled_translation_updates){
-                $themes->translations = array();
-                return $themes;
-            }
-
-            $filters = $this->getOption('themes_update_filters');
-            if(!empty($filters) && isset($filters['disable_translation_updates'])){
-                foreach((array)$themes->translations as  $key => $translation){
-                    if($translation['type'] == 'theme' && array_key_exists($translation['slug'], $filters['disable_translation_updates']) && $filters['disable_translation_updates'][$translation['slug']]){
-                        unset($themes->translations[$key]);
-                    }
-                }
-            }
 
 
-        }
 
-        public function hidePlugins($plugins){
-            $filters = $this->getOption('plugins_update_filters');
-            if(!isset($filters['disable_display'])){
-                return $plugins;
-            }
-            $filters = (array)$filters['disable_display'];
-
-            foreach ((array)$plugins as $plugin_path => $plugin){
-                $slug_parts = explode('/', $plugin_path);
-                $actual_slug = array_shift($slug_parts);
-                foreach ($filters as $filter => $filter_value){
-                    if($filter_value and $actual_slug == $filter){
-                        unset($plugins[$plugin_path]);
-                    }
-                }
-            }
-		    return $plugins;
-        }
 	}

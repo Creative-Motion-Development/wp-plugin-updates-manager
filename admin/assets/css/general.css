@@ -59,3 +59,12 @@
 #WBCR .wp-list-table__plugins .plugin-title {
   max-width: 12rem;
 }
+.factory-checkbox-disabled input,
+.factory-checkbox-disabled button {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: .65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
