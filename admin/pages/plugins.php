@@ -40,6 +40,13 @@
 		 */
 		public $page_menu_dashicon = 'dashicons-cloud';
 
+
+		/**
+		 * Доступена для мультисайтов
+		 * @var bool
+		 */
+		public $available_for_multisite = true;
+
 		/**
 		 * @var
 		 */
@@ -56,11 +63,6 @@
 		 * @var array
 		 */
 		private $plugins_update_filters = array();
-
-		/**
-		 * @var bool
-		 */
-		public $available_for_multisite = true;
 
 		/**
 		 * @param Wbcr_Factory000_Plugin $plugin

@@ -62,8 +62,6 @@
 					parent::__construct($plugin_path, $data);
 				}
 
-				self::app()->setTextDomain('webcraftic-updates-manager', WUPM_PLUGIN_DIR);
-
 				$this->setModules();
 
 				if( is_admin() ) {
@@ -79,6 +77,15 @@
 			public static function app()
 			{
 				return self::$app;
+			}
+
+
+			public function pluginsLoaded()
+			{
+				self::app()->setTextDomain('webcraftic-updates-manager', WUPM_PLUGIN_DIR);
+
+				require(WUPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
+				new WUPM_ConfigUpdates(self::$app);
 			}
 
 			protected function setModules()
@@ -124,13 +131,6 @@
 				$this->initActivation();
 				$this->registerPages();
 			}
-
-			public function pluginsLoaded()
-			{
-				require(WUPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
-				new WUPM_ConfigUpdates(self::$app);
-			}
-
 
 			protected function initActivation()
 			{

@@ -30,6 +30,7 @@
 		public $page_menu_dashicon = 'dashicons-cloud';
 
 		/**
+		 * Доступена для мультисайтов
 		 * @var bool
 		 */
 		public $available_for_multisite = true;
