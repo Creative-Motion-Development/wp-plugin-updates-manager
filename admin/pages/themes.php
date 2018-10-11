@@ -56,6 +56,11 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
     private $themes_update_filters = array();
 
     /**
+     * @var bool
+     */
+    public $available_for_multisite = true;
+
+    /**
      * @param Wbcr_Factory000_Plugin $plugin
      */
     public function __construct(Wbcr_Factory000_Plugin $plugin)
@@ -294,7 +299,11 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
         ?>
         <div class="wbcr-factory-page-group-header">
-            <strong><?php _e('Themes list', 'webcraftic-updates-manager') ?></strong>
+            <strong><?php _e('Themes list', 'webcraftic-updates-manager') ?>
+                <?php if(!$is_premium):?>
+                <i class="wup-icon-pro"></i>
+                <?php endif; ?>
+            </strong>
 
             <p>
                 <?php _e('This page you can individually disable theme updates and auto updates.', 'webcraftic-updates-manager') ?>
@@ -324,7 +333,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                 </select>
                 <input type="submit" name="wbcr_upm_apply" id="wbcr_upm_apply" class='button button-alt' value='<?php _e("Apply", "webcraftic-updates-manager"); ?>' <?=(!$is_premium)? 'disabled' : ''; ?>>
             </p>
-            <table class="wp-list-table widefat autoupdate striped plugins">
+            <table class="wp-list-table widefat autoupdate striped plugins <?=(!$is_premium)? "column-premium": ""; ?>">
                 <thead>
                 <tr>
                     <td id='cb' class='manage-column column-cb check-column'>&nbsp;</td>

@@ -365,10 +365,19 @@
 							<strong><?php _e('Auto-updates', 'webcraftic-updates-manager'); ?></strong>
 						</th>
 						<th id="disable_translation_updates">
-							<strong><?php _e('Translation updates', 'webcraftic-updates-manager'); ?></strong>
+							<strong><?php _e('Translation updates', 'webcraftic-updates-manager'); ?>
+                                <?php if(!$is_premium):?>
+                                <i class="wup-icon-pro"></i>
+                                <?php endif; ?>
+                            </strong>
+
 						</th>
 						<th id="hide_item">
-							<strong><?php _e('Hide plugin', 'webcraftic-updates-manager'); ?></strong>
+							<strong><?php _e('Hide plugin', 'webcraftic-updates-manager'); ?>
+                                <?php if(!$is_premium):?>
+                                <i class="wup-icon-pro"></i>
+                                <?php endif; ?>
+                            </strong>
 						</th>
 					</tr>
 					</thead>
@@ -474,7 +483,7 @@
 									</div>
 								</td>
 								<!-- отключить обновления переводов -->
-								<td class="column-flags">
+								<td class="column-flags <?=(!$is_premium)? "column-premium": ""; ?>">
 									<div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?= 'group-' . $slug_hash; ?>  <?= (!$is_premium or $this->is_disable_translation_updates) ? 'global-disabled' : ''; ?>">
 										<?php
 											$disabled = false;
@@ -493,7 +502,7 @@
 									</div>
 								</td>
 								<!-- скрыть плагин -->
-								<td class="column-flags">
+								<td class="column-flags <?=(!$is_premium)? "column-premium": ""; ?>">
 									<div class="factory-checkbox factory-from-control-checkbox factory-buttons-way btn-group <?= (!$is_premium) ? 'global-disabled' : ''; ?>">
 										<?php
 											$checked = $is_disable_display;

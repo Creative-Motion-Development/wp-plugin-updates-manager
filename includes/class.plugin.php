@@ -66,12 +66,24 @@
 
 				$this->setModules();
 
+				// admin scripts only for super admin
 				if( is_admin() ) {
-					$this->adminScripts();
+				    add_action('set_current_user', array($this, 'checkSuperAdmin'));
+
 				}
 
 				add_action('plugins_loaded', array($this, 'pluginsLoaded'));
+
+				$filters = $this->getOption('plugins_update_filters');
 			}
+
+			public function checkSuperAdmin(){
+			    // is_super_admin and in page network, or admin and multi_disabled
+			    if(is_super_admin()){
+                    $this->adminScripts();
+                }
+
+            }
 
 			/**
 			 * @return Wbcr_Factory000_Plugin

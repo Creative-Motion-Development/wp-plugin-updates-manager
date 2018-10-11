@@ -9,7 +9,7 @@ jQuery(function($) {
 
 	window.um_add_plugin_icons = function(info) {
 		$('#the-list tr[data-plugin]').each(function(k, v) {
-
+			var title = window.um_lang_text['default'];
 			var plugin_path = $(v).data('plugin'),
 				slug_parts = plugin_path.split('/'),
 				slug = slug_parts[0],
@@ -26,12 +26,14 @@ jQuery(function($) {
 
 			if( is_auto_update ) {
 				update_class = 'wbcr-upm-purple';
+                title = window.um_lang_text['auto_update'];
 			}
 			if( is_update_disabled ) {
 				update_class = 'wbcr-upm-red';
+                title = window.um_lang_text['disable_updates'];
 			}
 
-			$(v).find('.check-column').addClass('hide-placeholder').append('<span class="dashicons dashicons-update wbcr-upm-plugin-status ' + update_class + '"></span>');
+			$(v).find('.check-column').addClass('hide-placeholder').append('<span class="dashicons dashicons-update wbcr-upm-plugin-status ' + update_class + '" title="' + title + '"></span>');
 		});
 	};
 

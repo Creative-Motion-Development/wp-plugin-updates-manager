@@ -32,6 +32,12 @@
     #disable_updates, #disable_auto_updates, #disable_translation_updates, #hide_item {
       width: 100px;
     }
+    td.column-premium, th.column-premium, &.column-premium td:not(.column-cb), &.column-premium .check-column:not(.column-cb){
+      background: rgba(253, 180, 71, 0.35) !important;
+      .factory-buttons-way{
+        border-color: transparent;
+      }
+    }
   }
 
   .column-flags .factory-checkbox {
@@ -52,6 +58,37 @@
       max-width: 12rem;
     }
   }
+
+
+  i.wup-icon-pro:after{
+    display: inline-block;
+    content: 'PRO';
+    background: #ff4646;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+    font-style: normal;
+    padding: 4px 6px;
+    margin-left: 4px;
+    vertical-align: top;;
+  }
+  .factory-checkbox.wup-icon-pro:after{
+    display: inline-block;
+    content: 'PRO';
+    background: #ff4646;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+    font-style: normal;
+    padding: 4px 6px;
+    margin-left: 4px;
+    vertical-align: top;;
+    position: relative;
+    top: -8px;
+  }
+
 
 }
 

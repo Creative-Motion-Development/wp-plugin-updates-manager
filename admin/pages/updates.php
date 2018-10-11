@@ -207,7 +207,7 @@ If you have multiple users then this means those who are not admins don’t need
 				'hint' => __('Send me emails when an update is available.', 'webcraftic-updates-manager'),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'default' => false,
-				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled wup-icon-pro') : array(),
 			);
 
 			$options[] = array(
@@ -218,7 +218,7 @@ If you have multiple users then this means those who are not admins don’t need
 				'hint' => __('Send me emails when something has been updated.', 'webcraftic-updates-manager'),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'default' => false,
-				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled wup-icon-pro') : array(),
 			);
 
 			$options[] = array(
@@ -245,7 +245,7 @@ If you have multiple users then this means those who are not admins don’t need
 				'hint' => __('By default wordpress sends an email when a core update happend. Uncheck this box to disable these emails.', 'webcraftic-updates-manager'),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'default' => true,
-				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled wup-icon-pro') : array(),
 			);
 
 			$formOptions = array();
