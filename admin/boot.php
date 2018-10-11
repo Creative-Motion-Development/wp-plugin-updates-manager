@@ -201,10 +201,10 @@
 		?>
         // l10n strings
         window.um_lang_text = window.um_lang_text || {};
-        um_lang_text['default'] = '<?=__("Автообновление отключено", 'webcraftic-updates-manager');?>';
-        um_lang_text['auto_update'] = '<?=__("Автообновление включено", 'webcraftic-updates-manager');?>';
-        um_lang_text['disable_updates'] = '<?=__("Все обновления отключены", 'webcraftic-updates-manager');?>';
-        um_lang_text['disable_tran_update'] = '<?=__("Обновление переводов отключено", 'webcraftic-updates-manager');?>';
+        um_lang_text['default'] = '<?=__("Auto-update disabled", 'webcraftic-updates-manager');?>';
+        um_lang_text['auto_update'] = '<?=__("Auto-update enabled", 'webcraftic-updates-manager');?>';
+        um_lang_text['disable_updates'] = '<?=__("Update disabled", 'webcraftic-updates-manager');?>';
+        um_lang_text['disable_tran_update'] = '<?=__("Translation update disabled", 'webcraftic-updates-manager');?>';
 
 		jQuery(function($){
 		var info = <?= json_encode(array(

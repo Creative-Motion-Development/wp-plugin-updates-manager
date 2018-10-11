@@ -301,7 +301,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
         <div class="wbcr-factory-page-group-header">
             <strong><?php _e('Themes list', 'webcraftic-updates-manager') ?>
                 <?php if(!$is_premium):?>
-                <i class="wup-icon-pro"></i>
+                <i class="wbcr-upm-icon-pro"></i>
                 <?php endif; ?>
             </strong>
 
@@ -333,7 +333,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
                 </select>
                 <input type="submit" name="wbcr_upm_apply" id="wbcr_upm_apply" class='button button-alt' value='<?php _e("Apply", "webcraftic-updates-manager"); ?>' <?=(!$is_premium)? 'disabled' : ''; ?>>
             </p>
-            <table class="wp-list-table widefat autoupdate striped plugins <?=(!$is_premium)? "column-premium": ""; ?>">
+            <table class="wp-list-table widefat autoupdate striped plugins <?=(!$is_premium)? "wbcr-upm-column-premium": ""; ?>">
                 <thead>
                 <tr>
                     <td id='cb' class='manage-column column-cb check-column'>&nbsp;</td>
