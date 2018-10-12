@@ -29,4 +29,27 @@ class WUPM_ThemeFilters extends WUPM_AbstractFilters
         $this->plugin->updateOption('themes_update_filters', $this->update_filters);
     }
 
+    public function disableUpdates($item_slug)
+    {
+        parent::disableUpdates($item_slug);
+        $this->clearThemeUpdateCache();
+    }
+
+    public function enableUpdates($item_slug)
+    {
+        parent::enableUpdates($item_slug);
+        $this->clearThemeUpdateCache();
+    }
+
+    public function clearThemeUpdateCache(){
+        $last_update = get_site_transient('update_themes');
+        if ( ! is_object($last_update) ){
+            $last_update = new stdClass;
+        }
+        // set expired time
+        $last_update->last_checked = 0;
+        set_site_transient( 'update_themes', $last_update );
+    }
+
+
 }
