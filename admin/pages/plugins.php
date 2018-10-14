@@ -73,12 +73,12 @@
 
 			parent::__construct($plugin);
 
-			$updates_mode = $this->getOption('plugin_updates');
+			$updates_mode = $this->getPopulateOption('plugin_updates');
 
 			$this->is_disable_updates = $updates_mode == 'disable_plugin_updates';
 			$this->is_auto_updates = $updates_mode == 'enable_plugin_auto_updates';
-			$this->is_disable_translation_updates = $this->getOption('auto_tran_update');
-			$this->plugins_update_filters = $this->getOption('plugins_update_filters');
+			$this->is_disable_translation_updates = $this->getPopulateOption('auto_tran_update');
+			$this->plugins_update_filters = $this->getPopulateOption('plugins_update_filters');
 		}
 
 		public function warningNotice()
@@ -122,7 +122,7 @@
 
 		public function savePluginsUpdateFilters()
 		{
-			$this->plugin->updateOption('plugins_update_filters', $this->plugins_update_filters);
+			$this->plugin->updatePopulateOption('plugins_update_filters', $this->plugins_update_filters);
 		}
 
 		public function disablePluginUpdatesAction()

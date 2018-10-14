@@ -104,7 +104,7 @@
 				}
             };
 
-			if ( WUPM_Plugin::app()->isMultisiteNetworkAdmin() ) {
+			if ( WUPM_Plugin::app()->isNetworkAdmin() ) {
 				foreach ( WUPM_Plugin::app()->getActiveSites() as $site ) {
 					switch_to_blog( $site->blog_id );
 

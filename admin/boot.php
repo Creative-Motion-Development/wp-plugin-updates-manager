@@ -192,8 +192,8 @@
 		wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/plugins.css', array(), WUPM_Plugin::app()->getPluginVersion());
 		wp_enqueue_script('wbcr-upm-plugins-js', WUPM_PLUGIN_URL . '/admin/assets/js/plugins.js', array('jquery'), WUPM_Plugin::app()->getPluginVersion());
 
-		$filters = WUPM_Plugin::app()->getOption('plugins_update_filters');
-		$updates_mode = WUPM_Plugin::app()->getOption('plugin_updates');
+		$filters = WUPM_Plugin::app()->getPopulateOption('plugins_update_filters');
+		$updates_mode = WUPM_Plugin::app()->getPopulateOption('plugin_updates');
 		$auto_update_allowed = $updates_mode == 'enable_plugin_auto_updates';
 		$updates_disabled = $updates_mode == 'disable_plugin_updates';
 

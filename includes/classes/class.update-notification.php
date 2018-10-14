@@ -14,8 +14,8 @@
 		static public function checkUpdatesMail()
 		{
 			require_once $_SERVER['DOCUMENT_ROOT'] . '/wp-admin/includes/plugin.php'; //require for get_plugins()
-			$notify_update_available = WUPM_Plugin::app()->getOption('notify_update_available');
-			$notify_updated = WUPM_Plugin::app()->getOption('notify_updated');
+			$notify_update_available = WUPM_Plugin::app()->getPopulateOption('notify_update_available');
+			$notify_updated = WUPM_Plugin::app()->getPopulateOption('notify_updated');
 
 			if( $notify_update_available ) {
 				// check available updates
@@ -36,7 +36,7 @@
 		{
 			$email_array = array();
 
-			$notify_email = WUPM_Plugin::app()->getOption('notify_email');
+			$notify_email = WUPM_Plugin::app()->getPopulateOption('notify_email');
 			if( $notify_email == '' ) {
 				array_push($email_array, WUPM_Plugin::app()->isNetworkActive() ? get_site_option('admin_email') : get_option('admin_email'));
 			} else {
@@ -77,7 +77,7 @@
 		static private function listThemeUpdates()
 		{
 
-			$update_mode = WUPM_Plugin::app()->getOption('theme_updates');
+			$update_mode = WUPM_Plugin::app()->getPopulateOption('theme_updates');
 			$auto_update_themes = 'enable_theme_auto_updates' == $update_mode;
 
 			if( !$auto_update_themes ) {
@@ -104,7 +104,7 @@
 		 */
 		static private function listPluginUpdates()
 		{
-			$update_mode = WUPM_Plugin::app()->getOption('plugin_updates');
+			$update_mode = WUPM_Plugin::app()->getPopulateOption('plugin_updates');
 			$auto_update_plugins = 'enable_plugin_auto_updates' == $update_mode;
 
 			if( !$auto_update_plugins ) {

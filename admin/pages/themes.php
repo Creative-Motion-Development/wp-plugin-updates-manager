@@ -70,12 +70,12 @@
 
 			parent::__construct($plugin);
 
-			$updates_mode = $this->getOption('theme_updates');
+			$updates_mode = $this->getPopulateOption('theme_updates');
 
 			$this->is_disable_updates = $updates_mode == 'disable_theme_updates';
 			$this->is_auto_updates = $updates_mode == 'enable_theme_auto_updates';
-			$this->is_disable_translation_updates = $this->getOption('auto_tran_update');
-			$this->themes_update_filters = $this->getOption('themes_update_filters');
+			$this->is_disable_translation_updates = $this->getPopulateOption('auto_tran_update');
+			$this->themes_update_filters = $this->getPopulateOption('themes_update_filters');
 		}
 
 		public function warningNotice()
@@ -119,7 +119,7 @@
 
 		public function saveThemesUpdateFilters()
 		{
-			$this->plugin->updateOption('themes_update_filters', $this->themes_update_filters);
+			$this->plugin->updatePopulateOption('themes_update_filters', $this->themes_update_filters);
 		}
 
 		public function disableThemeUpdatesAction()

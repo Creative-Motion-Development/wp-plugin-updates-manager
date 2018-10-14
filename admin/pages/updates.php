@@ -81,7 +81,7 @@
 		 * @since 1.0.0
 		 * @return mixed[]
 		 */
-		public function getOptions()
+		public function getPopulateOptions()
 		{
 			$is_premium = defined('WUPMP_PLUGIN_ACTIVE');
 			$options = array();
