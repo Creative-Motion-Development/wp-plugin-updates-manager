@@ -5,10 +5,50 @@
  */
 
 #WBCR {
+  .premium-label(@position: relative, @positionTop:-8px, @positionLeft:-10px, @positionRight:auto) {
+    display: inline-block;
+    position: @position;
+    content: 'PRO';
+    background: #ff5722;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+    font-style: normal;
+    padding: 4px 6px;
+    margin-left: 4px;
+    vertical-align: top;
+    top: @positionTop;
+    left: @positionLeft;
+    right: @positionRight;
+    z-index: 11;
+  }
+
   .wp-list-table {
     th, .plugin-name {
       font-size: 13px;
       font-weight: 600;
+    }
+    &.wbcr-upm-list-table-pro {
+      &.wbcr-upm-column-premium {
+        td {
+          background: rgb(249, 242, 240) !important;
+          .factory-buttons-way, input[type="checkbox"] {
+            border-color: #fff;
+            background: #fff;
+          }
+        }
+      }
+    }
+
+    th, td {
+      &.wbcr-upm-column-premium {
+        background: rgb(249, 242, 240) !important;
+        .factory-buttons-way, input[type="checkbox"] {
+          border-color: #fff;
+          background: #fff;
+        }
+      }
     }
 
     .plugin-update-tr.active td, &.plugins .active th.check-column {
@@ -53,9 +93,27 @@
     }
   }
 
+  .wbcr-upm-group-header-pro {
+    position: relative;
+    display: inline-block;
+    &:after {
+      .premium-label(relative, 0, auto, 0);
+    }
+  }
+
+  #disable_translation_updates, #hide_item {
+    position: relative;
+    &.wbcr-upm-column-pro:after {
+      .premium-label(absolute, -10px, auto, 0);
+    }
+  }
+
+  .factory-checkbox.wbcr-upm-icon-pro:after {
+    .premium-label();
+  }
 }
 
-.factory-checkbox-disabled input, .factory-checkbox-disabled button{
+.factory-checkbox-disabled input, .factory-checkbox-disabled button {
   pointer-events: none;
   cursor: not-allowed;
   opacity: .65;

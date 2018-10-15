@@ -208,7 +208,7 @@ If you have multiple users then this means those who are not admins don’t need
 				'hint' => __('Send me emails when an update is available.', 'webcraftic-updates-manager'),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'default' => false,
-				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled wbcr-upm-icon-pro') : array(),
 			);
 
 			$options[] = array(
@@ -219,7 +219,7 @@ If you have multiple users then this means those who are not admins don’t need
 				'hint' => __('Send me emails when something has been updated.', 'webcraftic-updates-manager'),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'default' => false,
-				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled wbcr-upm-icon-pro') : array(),
 			);
 
 			$options[] = array(
@@ -235,7 +235,7 @@ If you have multiple users then this means those who are not admins don’t need
 
 			$options[] = array(
 				'type' => 'html',
-				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Core notifications', 'webcraftic-updates-manager') . '</strong><p>' . __('Core notifications are handled by WordPress and not by this plugin. You can only disable them, changing your email address in the settings above will not affect these notifications.', 'webcraftic-updates-manager') . '</p></div>'
+				'html' => '<div class="wbcr-factory-page-group-header factory-control-disable_core_notifications"><strong>' . __('Core notifications', 'webcraftic-updates-manager') . '</strong><p>' . __('Core notifications are handled by WordPress and not by this plugin. You can only disable them, changing your email address in the settings above will not affect these notifications.', 'webcraftic-updates-manager') . '</p></div>'
 			);
 
 			$options[] = array(
@@ -246,7 +246,7 @@ If you have multiple users then this means those who are not admins don’t need
 				'hint' => __('By default wordpress sends an email when a core update happend. Uncheck this box to disable these emails.', 'webcraftic-updates-manager'),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'default' => true,
-				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled') : array(),
+				'cssClass' => (!$is_premium) ? array('factory-checkbox-disabled wbcr-upm-icon-pro') : array(),
 			);
 
 			$formOptions = array();

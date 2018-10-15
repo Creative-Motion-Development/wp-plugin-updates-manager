@@ -240,6 +240,7 @@
 		public function disableAllCoreUpdates()
 		{
 			add_action('admin_init', array($this, 'adminInitForCore'));
+			add_action('admin_init', array($this, 'disableUpdateNag'));
 
 			/*
 			 * Disable All Automatic Updates
@@ -257,9 +258,17 @@
 			add_filter('send_core_update_notification_email', '__return_false');
 			add_filter('automatic_updates_send_debug_email', '__return_false');
 			add_filter('automatic_updates_is_vcs_checkout', '__return_true');
-			remove_action('admin_notices', 'update_nag', 3);
-			remove_action('admin_notices', 'maintenance_nag');
 		}
+
+        /**
+         * callback for action "admin_init"
+         * remove update nag in admin pages
+         */
+		function disableUpdateNag(){
+            remove_action('admin_notices', 'update_nag', 3);
+            remove_action('admin_notices', 'maintenance_nag');
+            remove_action( 'network_admin_notices', 'update_nag', 3 );
+        }
 
 		/**
 		 * Initialize and load the plugin stuff

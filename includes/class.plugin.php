@@ -64,12 +64,22 @@
 
 				$this->setModules();
 
-				if( is_admin() ) {
-					$this->adminScripts();
-				}
+				$this->adminScripts();
+				// admin scripts only for super admin
+				//if( is_admin() ) {
+				//add_action('set_current_user', array($this, 'checkSuperAdmin'));
+				//}
 
 				add_action('plugins_loaded', array($this, 'pluginsLoaded'));
 			}
+
+			//public function checkSuperAdmin()
+			//{
+			// is_super_admin and in page network, or admin and multi_disabled
+			//if( is_super_admin() ) {
+			//$this->adminScripts();
+			//}
+			//}
 
 			/**
 			 * @return Wbcr_Factory000_Plugin
@@ -103,7 +113,6 @@
 			
 			private function registerPages()
 			{
-
 				$admin_path = WUPM_PLUGIN_DIR . '/admin/pages';
 
 				self::app()->registerPage('WUPM_UpdatesPage', $admin_path . '/updates.php');
@@ -120,10 +129,8 @@
 			{
 				require_once(WUPM_PLUGIN_DIR . '/admin/activation.php');
 
-				if( defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['action']) ) {
-					if( $_REQUEST['action'] == 'wbcr_upm_change_flag' ) {
-						require(WUPM_PLUGIN_DIR . '/admin/ajax/change-flag.php');
-					}
+				if( defined('DOING_AJAX') && DOING_AJAX ) {
+					require_once(WUPM_PLUGIN_DIR . '/admin/ajax/change-flag.php');
 				}
 
 				require_once(WUPM_PLUGIN_DIR . '/admin/boot.php');
