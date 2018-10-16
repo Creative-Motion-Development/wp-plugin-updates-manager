@@ -45,7 +45,8 @@
 		// creating a plugin via the factory
 	}
 	// #fix compiller bug new Factory000_Plugin
-	#endcomps
+	#endcomp
+
 	if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
 		require_once(WUPM_PLUGIN_DIR . '/libs/factory/core/includes/check-compatibility.php');
 		require_once(WUPM_PLUGIN_DIR . '/libs/factory/clearfy/includes/check-clearfy-compatibility.php');
