@@ -17,10 +17,10 @@ jQuery(function($) {
 				is_auto_update = false,
 				is_update_disabled = false;
 
-			if( (info['filters']['disable_auto_updates'] === undefined || !info['filters']['disable_auto_updates'][slug]) && info['auto_update_allowed'] ) {
+			if( (info['filters']['disable_auto_updates'] === undefined || !info['filters']['disable_auto_updates'][slug]) ) {
 				is_auto_update = true;
 			}
-			if( info['updates_disabled'] || (info['filters']['disable_updates'] !== undefined && info['filters']['disable_updates'][slug]) ) {
+			if( (info['filters']['disable_updates'] !== undefined && info['filters']['disable_updates'][slug]) ) {
 				is_update_disabled = true;
 			}
 

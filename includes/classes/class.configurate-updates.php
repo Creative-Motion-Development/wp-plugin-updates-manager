@@ -12,6 +12,8 @@
 		exit;
 	}
 
+    require_once WUPM_PLUGIN_DIR . '/admin/includes/class.plugin-filters.php';
+
 	class WUPM_ConfigUpdates extends Wbcr_FactoryClearfy000_Configurate {
 
 		public function registerActionsAndFilters()
@@ -23,9 +25,8 @@
 
 			switch( $this->getOption('plugin_updates') ) {
 				case 'disable_plugin_updates':
-					add_filter('site_transient_update_plugins', array($this, 'lastCheckedNow'), 50);
-					add_action('admin_init', array($this, 'adminInitForPlugins'));
-					add_filter('auto_update_plugin', '__return_false');
+                    add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
+                    add_filter('site_transient_update_plugins', array($this, 'disablePluginNotifications'), 50);
 					break;
 				case 'enable_plugin_auto_updates':
 					add_filter('auto_update_plugin', array($this, 'pluginsAutoUpdate'), 50, 2);
@@ -124,11 +125,7 @@
 						? false
 						: $event;
 					break;
-				case 'wp_update_plugins':
-					$event = $plugins_updates
-						? false
-						: $event;
-					break;
+
 				case 'wp_update_themes':
 					$event = $themes_updates
 						? false
@@ -153,17 +150,14 @@
 		 */
 		public function pluginsAutoUpdate($update, $item)
 		{
-			$filters = $this->getOption('plugins_update_filters');
-
 			$slug_parts = explode('/', $item->plugin);
 			$actual_slug = array_shift($slug_parts);
 
-			if( !empty($filters) ) {
-				if( isset($filters['disable_auto_updates']) && isset($filters['disable_auto_updates'][$actual_slug]) ) {
-					return false;
-				}
+			$pluginFilters = new WUPM_PluginFilters($this->plugin);
+			$filters = $pluginFilters->getFilters(array($actual_slug));
 
-				if( isset($filters['disable_updates']) && isset($filters['disable_updates'][$actual_slug]) ) {
+			if( !empty($filters) ) {
+				if( isset($filters['disable_auto_updates'][$actual_slug]) and $filters['disable_auto_updates'][$actual_slug] ) {
 					return false;
 				}
 			}
@@ -183,23 +177,22 @@
 				return $plugins;
 			}
 
-			$filters = $this->getOption('plugins_update_filters');
+            $pluginFilters = new WUPM_PluginFilters($this->plugin);
+            foreach((array)$plugins->response as $slug => $plugin) {
+                $slug_parts = explode('/', $slug);
+                $actual_slug = array_shift($slug_parts);
 
-			if( !empty($filters) && isset($filters['disable_updates']) ) {
-				foreach((array)$plugins->response as $slug => $plugin) {
-					$slug_parts = explode('/', $slug);
-					$actual_slug = array_shift($slug_parts);
-					if( isset($filters['disable_updates'][$actual_slug]) ) {
-						unset($plugins->response[$slug]);
-					}
-				}
-			}
+                $filters = $pluginFilters->getPlugins(array($actual_slug));
+                if( $filters['disable_updates'][$actual_slug] ) {
+                    unset($plugins->response[$slug]);
+                }
+            }
 
 			return $plugins;
 		}
 
 		/**
-		 * Disables theme and plugin http requests on an individual basis.
+		 * Disables plugin http requests on an individual basis.
 		 *
 		 * @param array $r Request array
 		 * @param string $url URL requested
@@ -213,14 +206,16 @@
 
 			if( isset($r['body']['plugins']) ) {
 				$r_plugins = json_decode($r['body']['plugins'], true);
-				$filters = $this->getOption('plugins_update_filters');
+                $pluginFilters = new WUPM_PluginFilters($this->plugin);
 
 				if( isset($r_plugins['plugins']) && !empty($r_plugins['plugins']) ) {
 					foreach($r_plugins['plugins'] as $slug => $plugin) {
 						$slug_parts = explode('/', $slug);
 						$actual_slug = array_shift($slug_parts);
 
-						if( isset($filters['disable_updates']) && isset($filters['disable_updates'][$actual_slug]) ) {
+                        $filters = $pluginFilters->getPlugins(array($actual_slug));
+
+						if( $filters['disable_updates'][$actual_slug] ) {
 							unset($r_plugins['plugins'][$slug]);
 
 							if( false !== $key = array_search($slug, $r_plugins['active']) ) {
