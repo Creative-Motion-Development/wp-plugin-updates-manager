@@ -185,6 +185,10 @@
 			return;
 		}
 
+		if( WUPM_Plugin::app()->isNetworkActive() && !is_network_admin() ) {
+			return;
+		}
+
 		wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/plugins.css', array(), WUPM_Plugin::app()->getPluginVersion());
 		wp_enqueue_script('wbcr-upm-plugins-js', WUPM_PLUGIN_URL . '/admin/assets/js/plugins.js', array('jquery'), WUPM_Plugin::app()->getPluginVersion());
 
@@ -226,6 +230,10 @@
 	{
 		$screen = get_current_screen();
 		if( $screen->id !== 'themes' ) {
+			return;
+		}
+
+		if( WUPM_Plugin::app()->isNetworkActive() && !is_network_admin() ) {
 			return;
 		}
 

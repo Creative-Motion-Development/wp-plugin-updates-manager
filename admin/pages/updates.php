@@ -30,6 +30,7 @@
 		public $page_menu_dashicon = 'dashicons-cloud';
 
 		/**
+		 * Доступена для мультисайтов
 		 * @var bool
 		 */
 		public $available_for_multisite = true;
@@ -80,7 +81,7 @@
 		 * @since 1.0.0
 		 * @return mixed[]
 		 */
-		public function getOptions()
+		public function getPopulateOptions()
 		{
 			$is_premium = defined('WUPMP_PLUGIN_ACTIVE');
 			$options = array();

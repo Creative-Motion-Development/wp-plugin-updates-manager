@@ -62,28 +62,24 @@
 					parent::__construct($plugin_path, $data);
 				}
 
-				self::app()->setTextDomain('webcraftic-updates-manager', WUPM_PLUGIN_DIR);
-
 				$this->setModules();
 
+				$this->adminScripts();
 				// admin scripts only for super admin
-				if( is_admin() ) {
-				    add_action('set_current_user', array($this, 'checkSuperAdmin'));
-
-				}
+				//if( is_admin() ) {
+				//add_action('set_current_user', array($this, 'checkSuperAdmin'));
+				//}
 
 				add_action('plugins_loaded', array($this, 'pluginsLoaded'));
-
-				$filters = $this->getOption('plugins_update_filters');
 			}
 
-			public function checkSuperAdmin(){
-			    // is_super_admin and in page network, or admin and multi_disabled
-			    if(is_super_admin()){
-                    $this->adminScripts();
-                }
-
-            }
+			//public function checkSuperAdmin()
+			//{
+			// is_super_admin and in page network, or admin and multi_disabled
+			//if( is_super_admin() ) {
+			//$this->adminScripts();
+			//}
+			//}
 
 			/**
 			 * @return Wbcr_Factory000_Plugin
@@ -91,6 +87,15 @@
 			public static function app()
 			{
 				return self::$app;
+			}
+
+
+			public function pluginsLoaded()
+			{
+				self::app()->setTextDomain('webcraftic-updates-manager', WUPM_PLUGIN_DIR);
+
+				require(WUPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
+				new WUPM_ConfigUpdates(self::$app);
 			}
 
 			protected function setModules()
@@ -108,7 +113,6 @@
 			
 			private function registerPages()
 			{
-
 				$admin_path = WUPM_PLUGIN_DIR . '/admin/pages';
 
 				self::app()->registerPage('WUPM_UpdatesPage', $admin_path . '/updates.php');
@@ -125,10 +129,8 @@
 			{
 				require_once(WUPM_PLUGIN_DIR . '/admin/activation.php');
 
-				if( defined('DOING_AJAX') && DOING_AJAX && isset($_REQUEST['action']) ) {
-					if( $_REQUEST['action'] == 'wbcr_upm_change_flag' ) {
-						require(WUPM_PLUGIN_DIR . '/admin/ajax/change-flag.php');
-					}
+				if( defined('DOING_AJAX') && DOING_AJAX ) {
+					require_once(WUPM_PLUGIN_DIR . '/admin/ajax/change-flag.php');
 				}
 
 				require_once(WUPM_PLUGIN_DIR . '/admin/boot.php');
@@ -136,13 +138,6 @@
 				$this->initActivation();
 				$this->registerPages();
 			}
-
-			public function pluginsLoaded()
-			{
-				require(WUPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
-				new WUPM_ConfigUpdates(self::$app);
-			}
-
 
 			protected function initActivation()
 			{

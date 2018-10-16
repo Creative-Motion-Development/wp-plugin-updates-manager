@@ -29,6 +29,10 @@
 		
 		public $page_menu_dashicon = 'dashicons-cloud';
 
+		/**
+		 * Доступена для мультисайтов
+		 * @var bool
+		 */
 		public $available_for_multisite = true;
 		
 		/**
@@ -100,7 +104,7 @@
 				}
             };
 
-			if ( WUPM_Plugin::app()->isMultisiteNetworkAdmin() ) {
+			if ( WUPM_Plugin::app()->isNetworkAdmin() ) {
 				foreach ( WUPM_Plugin::app()->getActiveSites() as $site ) {
 					switch_to_blog( $site->blog_id );
 

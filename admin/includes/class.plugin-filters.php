@@ -13,14 +13,14 @@ class WUPM_PluginFilters extends WUPM_AbstractFilters
 
     public function load()
     {
-        $updates_mode = $this->plugin->getOption('plugin_updates');
+        $updates_mode = $this->plugin->getPopulateOption('plugin_updates');
 
         $this->is_disable_updates = $updates_mode == 'disable_plugin_updates';
         $this->is_auto_updates = $updates_mode == 'enable_plugin_auto_updates';
-        $this->is_disable_translation_updates = $this->plugin->getOption('auto_tran_update');
+        $this->is_disable_translation_updates = $this->plugin->getPopulateOption('auto_tran_update');
 
         $default_options = $this->getDefaultOptions();
-        $options = $this->plugin->getOption('plugins_update_filters');
+        $options = $this->plugin->getPopulateOption('plugins_update_filters');
         $this->update_filters = array_merge($default_options, (array)$options);
         $this->update_filters = apply_filters('wbcr/upm/plugin_filters', $this->update_filters);
         $this->ignorePersistentPlugins($this->update_filters);
@@ -28,7 +28,7 @@ class WUPM_PluginFilters extends WUPM_AbstractFilters
 
     public function save()
     {
-        $this->plugin->updateOption('plugins_update_filters', $this->update_filters);
+        $this->plugin->updatePopulateOption('plugins_update_filters', $this->update_filters);
     }
 
     /**
@@ -87,9 +87,9 @@ class WUPM_PluginFilters extends WUPM_AbstractFilters
         }
 
         $result = $this->getDefaultOptions();
-        $all_update_disabled = $this->plugin->getOption('plugin_updates') === 'disable_plugin_updates';
-        $update_tran_disabled = $this->plugin->getOption('auto_tran_update');
-        $auto_update_disabled = $this->plugin->getOption('plugin_updates') !== 'enable_plugin_auto_updates';;
+        $all_update_disabled = $this->plugin->getPopulateOption('plugin_updates') === 'disable_plugin_updates';
+        $update_tran_disabled = $this->plugin->getPopulateOption('auto_tran_update');
+        $auto_update_disabled = $this->plugin->getPopulateOption('plugin_updates') !== 'enable_plugin_auto_updates';;
 
         foreach ($plugin_list as $plugin_slug){
             // individual rules

@@ -21,9 +21,9 @@
 			/**
 			 * Plugin updates
 			 */
-			$plugins_update = $this->getOption('plugin_updates');
+			$plugins_update = $this->getPopulateOption('plugin_updates');
 
-			switch( $this->getOption('plugin_updates') ) {
+			switch( $this->getPopulateOption('plugin_updates') ) {
 				case 'disable_plugin_updates':
                     add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
                     add_filter('site_transient_update_plugins', array($this, 'disablePluginNotifications'), 50);
@@ -44,7 +44,7 @@
             /**
 			 * Theme updates
 			 */
-			switch( $this->getOption('theme_updates') ) {
+			switch( $this->getPopulateOption('theme_updates') ) {
 				case 'disable_theme_updates':
 					add_filter('site_transient_update_themes', array($this, 'lastCheckedNow'), 50);
 					add_action('admin_init', array($this, 'adminInitForThemes'));
@@ -59,7 +59,7 @@
 			 * disable wp default translation update
 			 */
 
-			if( $this->getOption('auto_tran_update') ) {
+			if( $this->getPopulateOption('auto_tran_update') ) {
 				add_filter('auto_update_translation', '__return_false', 1);
 			}
 
@@ -67,7 +67,7 @@
 			 * control WP Auto core update
 			 */
 
-			switch( $this->getOption('wp_update_core') ) {
+			switch( $this->getPopulateOption('wp_update_core') ) {
 				case 'disable_core_updates':
 					$this->disableAllCoreUpdates();
 					break;
@@ -90,14 +90,14 @@
 			/**
 			 * disable wp default translation update
 			 */
-			if( $this->getOption('enable_update_vcs') ) {
+			if( $this->getPopulateOption('enable_update_vcs') ) {
 				add_filter('automatic_updates_is_vcs_checkout', '__return_false', 1);
 			}
 
 			/**
 			 * disable updates nags for all users except admin
 			 */
-			if( $this->getOption('updates_nags_only_for_admin') && !current_user_can('update_core') ) {
+			if( $this->getPopulateOption('updates_nags_only_for_admin') && !current_user_can('update_core') ) {
 				remove_action('admin_notices', 'update_nag', 3);
 			}
 
@@ -111,9 +111,9 @@
 		 */
 		public function filterCronEvents($event)
 		{
-			$core_updates = $this->getOption('wp_update_core') == 'disable_core_updates';
-			$plugins_updates = $this->getOption('plugin_updates') == 'disable_plugin_updates';
-			$themes_updates = $this->getOption('theme_updates') == 'disable_theme_updates';
+			$core_updates = $this->getPopulateOption('wp_update_core') == 'disable_core_updates';
+			$plugins_updates = $this->getPopulateOption('plugin_updates') == 'disable_plugin_updates';
+			$themes_updates = $this->getPopulateOption('theme_updates') == 'disable_theme_updates';
 
 			if( !is_object($event) || empty($event->hook) ) {
 				return $event;
