@@ -93,9 +93,18 @@ class WUPM_PluginFilters extends WUPM_AbstractFilters
 
         foreach ($plugin_list as $plugin_slug){
             // individual rules
-            $result['disable_updates'][$plugin_slug] = (bool)$this->update_filters['disable_updates'][$plugin_slug];
-            $result['disable_auto_updates'][$plugin_slug] = (bool)$this->update_filters['disable_auto_updates'][$plugin_slug];
-            $result['disable_translation_updates'][$plugin_slug] = (bool)$this->update_filters['disable_translation_updates'][$plugin_slug];
+            $result['disable_updates'][$plugin_slug] = false;
+            if(isset($this->update_filters['disable_updates'][$plugin_slug]) and $this->update_filters['disable_updates'][$plugin_slug]){
+                $result['disable_updates'][$plugin_slug] = true;
+            }
+            $result['disable_auto_updates'][$plugin_slug] = false;
+            if(isset($this->update_filters['disable_auto_updates'][$plugin_slug]) and $this->update_filters['disable_auto_updates'][$plugin_slug]){
+                $result['disable_auto_updates'][$plugin_slug] = true;
+            }
+            $result['disable_translation_updates'][$plugin_slug] = false;
+            if(isset($this->update_filters['disable_translation_updates'][$plugin_slug]) and $this->update_filters['disable_translation_updates'][$plugin_slug]){
+                $result['disable_translation_updates'][$plugin_slug] = true;
+            }
 
             // global rules
             if($all_update_disabled){
