@@ -449,6 +449,10 @@
 											if( $is_disable_updates ) {
 												$checked = true;
 											}
+                                            if(in_array($key, WUPM_PluginFilters::getPersistentPlugins())){
+                                                // deny disable update for update manager
+                                                $disabled = true;
+                                            }
 										?>
 										<button type="button" class="btn btn-default btn-small btn-sm factory-on <?= ($checked ? 'active' : ''); ?>"  <?= ($disabled ? 'disabled' : ''); ?>><?php _e('On', 'webcraftic-updates-manager'); ?></button>
 										<button type="button" class="btn btn-default btn-small btn-sm factory-off <?= (!$checked ? 'active' : ''); ?>" data-value="0"  <?= ($disabled ? 'disabled' : ''); ?>><?php _e('Off', 'webcraftic-updates-manager'); ?></button>
@@ -468,6 +472,7 @@
 											if( !$is_auto_updates ) {
 												$checked = true;
 											}
+
 										?>
 										<button type="button" class="btn btn-default btn-small btn-sm factory-on <?= ($checked ? 'active' : ''); ?>"  <?= ($disabled) ? 'disabled' : ''; ?>><?php _e('On', 'webcraftic-updates-manager'); ?></button>
 										<button type="button" class="btn btn-default btn-small btn-sm factory-off <?= (!$checked ? 'active' : ''); ?>" data-value="0"  <?= ($disabled ? 'disabled' : ''); ?>><?php _e('Off', 'webcraftic-updates-manager'); ?></button>

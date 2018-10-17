@@ -192,10 +192,8 @@
 		wp_enqueue_style('wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/plugins.css', array(), WUPM_Plugin::app()->getPluginVersion());
 		wp_enqueue_script('wbcr-upm-plugins-js', WUPM_PLUGIN_URL . '/admin/assets/js/plugins.js', array('jquery'), WUPM_Plugin::app()->getPluginVersion());
 
-		$filters = WUPM_Plugin::app()->getPopulateOption('plugins_update_filters');
-		$updates_mode = WUPM_Plugin::app()->getPopulateOption('plugin_updates');
-		$auto_update_allowed = $updates_mode == 'enable_plugin_auto_updates';
-		$updates_disabled = $updates_mode == 'disable_plugin_updates';
+        $pluginFilters = new WUPM_PluginFilters(WUPM_Plugin::app());
+        $filters = $pluginFilters->getPlugins();
 
 		$btn_title = __('Update manager', 'webcraftic-updates-manager');
 
@@ -213,8 +211,6 @@
 		jQuery(function($){
 		var info = <?= json_encode(array(
 		'filters' => $filters,
-		'auto_update_allowed' => $auto_update_allowed,
-		'updates_disabled' => $updates_disabled
 	)); ?>;
 		um_add_plugin_icons(info);
 		um_add_plugin_actions("<?= $btn_title ?>", "<?= $btn_url ?>");
