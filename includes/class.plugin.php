@@ -84,6 +84,10 @@
 			{
 				self::app()->setTextDomain('webcraftic-updates-manager', WUPM_PLUGIN_DIR);
 
+				if( is_admin() ) {
+					$this->registerPages();
+				}
+
 				require(WUPM_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
 				new WUPM_ConfigUpdates(self::$app);
 			}
@@ -126,7 +130,6 @@
 				require_once(WUPM_PLUGIN_DIR . '/admin/boot.php');
 
 				$this->initActivation();
-				$this->registerPages();
 			}
 
 			protected function initActivation()

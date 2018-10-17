@@ -41,7 +41,7 @@
 		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
 			$this->menu_title = __('Updates manager', 'webcraftic-updates-manager');
-			$this->page_menu_short_description = __('Manage all site updates', 'clearfy');
+			$this->page_menu_short_description = __('Manage all site updates', 'webcraftic-updates-manager');
 
 			if( !defined('LOADING_UPDATES_MANAGER_AS_ADDON') ) {
 				$this->internal = false;
@@ -81,7 +81,7 @@
 		 * @since 1.0.0
 		 * @return mixed[]
 		 */
-		public function getPopulateOptions()
+		public function getPageOptions()
 		{
 			$is_premium = defined('WUPMP_PLUGIN_ACTIVE');
 			$options = array();
