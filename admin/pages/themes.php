@@ -335,7 +335,7 @@
 						<th id='name' class='manage-column column-name column-primary'>
 							<strong><?php _e('Theme', 'webcraftic-updates-manager'); ?></strong></th>
 						<th id="disable_updates">
-							<strong><?php _e('Updates', 'webcraftic-updates-manager');?></strong>
+							<strong><?php _e('Disable updates', 'webcraftic-updates-manager');?></strong>
 						</th>
 						<th id="disable_auto_updates">
 							<strong><?php _e('Auto-updates', 'webcraftic-updates-manager'); ?></strong>
