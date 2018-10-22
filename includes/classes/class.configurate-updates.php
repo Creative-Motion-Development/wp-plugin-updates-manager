@@ -215,7 +215,7 @@
 
                         $filters = $pluginFilters->getPlugins(array($actual_slug));
 
-						if( $filters['disable_updates'][$actual_slug] ) {
+                        if( isset($filters['disable_updates'][$actual_slug]) and $filters['disable_updates'][$actual_slug] ) {
 							unset($r_plugins['plugins'][$slug]);
 
 							if( false !== $key = array_search($slug, $r_plugins['active']) ) {
