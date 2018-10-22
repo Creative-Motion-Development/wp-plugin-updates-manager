@@ -16,14 +16,17 @@ jQuery(function($) {
 
 			var disable_group = $(this).data('disable-group');
 			if( disable_group ) {
+
 				if( new_value == true ) {
 					$("." + disable_group).find('button, input').prop('disabled', true);
 					var row = $(this).parents('tr');
 					row.removeClass('active').addClass('inactive');
 
 				} else {
+
 					$("." + disable_group).each(function(k, v) {
 						if( !$(v).hasClass('global-disabled') ) {
+							// не выполняется это условие
 							$(v).find('button, input').prop('disabled', false);
 							var row = $(this).parents('tr');
 							row.removeClass('inactive').addClass('active');
