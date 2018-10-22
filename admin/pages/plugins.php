@@ -413,7 +413,7 @@
 							}
 
 							if( $this->is_disable_updates ) {
-								$class = 'inactive';
+								$class = 'inactive row-global-disabled';
 								$is_disable_updates = true;
 							}
 

@@ -23,15 +23,16 @@ jQuery(function($) {
 					row.removeClass('active').addClass('inactive');
 
 				} else {
+                    $("." + disable_group).each(function(k, v) {
+                        if( !$(v).hasClass('global-disabled') ) {
+                            $(v).find('button, input').prop('disabled', false);
+                        }
 
-					$("." + disable_group).each(function(k, v) {
-						if( !$(v).hasClass('global-disabled') ) {
-							// не выполняется это условие
-							$(v).find('button, input').prop('disabled', false);
-							var row = $(this).parents('tr');
-							row.removeClass('inactive').addClass('active');
-						}
-					});
+                        var row = $(this).parents('tr');
+                        if( !row.hasClass('row-global-disabled') ){
+                            row.removeClass('inactive').addClass('active');
+                        }
+                    });
 				}
 
 			}
@@ -48,8 +49,11 @@ jQuery(function($) {
 						return false;
 					}
 
-					// todo: добавить уведомления об успешном выполнении действия
-					//$.wbcr_factory_clearfy_000.app.showNotice('Success', 'success');
+					/*var noticeId = $.wbcr_factory_clearfy_000.app.showNotice('Settings successfully updated', 'success');
+
+					setTimeout(function() {
+						$.wbcr_factory_clearfy_000.app.hideNotice(noticeId);
+					}, 5000);*/
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					console.log(xhr.status);
