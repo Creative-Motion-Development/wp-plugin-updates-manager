@@ -64,7 +64,7 @@
 	/**
 	 * Проверяет совместимость с Wordpress, php и другими плагинами.
 	 */
-	$compatibility = new Wbcr_FactoryClearfy000_Compatibility(array_merge($plugin_info, array(
+	$compatibility = new Wbcr_FactoryClearfy_Compatibility(array_merge($plugin_info, array(
 		'plugin_already_activate' => defined('WUPM_PLUGIN_ACTIVE'),
 		'plugin_as_component' => defined('LOADING_UPDATES_MANAGER_AS_ADDON'),
 		'plugin_dir' => WUPM_PLUGIN_DIR,
