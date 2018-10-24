@@ -8,6 +8,6 @@
 
 		public function install()
 		{
-
+			//$this->plugin->
 		}
 	}

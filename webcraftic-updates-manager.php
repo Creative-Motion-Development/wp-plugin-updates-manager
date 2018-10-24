@@ -8,6 +8,7 @@
 	 * Text Domain: webcraftic-updates-manager
 	 * Domain Path: /languages/
 	 * Author URI: https://clearfy.pro
+	 * Framework Version: FACTORY_000_VERSION
 	 */
 
 	define('WUPM_PLUGIN_VERSION', '1.0.8');
