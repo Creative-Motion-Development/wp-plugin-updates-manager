@@ -12,7 +12,7 @@
 		exit;
 	}
 
-    require_once WUPM_PLUGIN_DIR . '/admin/includes/class.plugin-filters.php';
+	require_once WUPM_PLUGIN_DIR . '/admin/includes/class.plugin-filters.php';
 
 	class WUPM_ConfigUpdates extends Wbcr_FactoryClearfy000_Configurate {
 
@@ -25,8 +25,8 @@
 
 			switch( $this->getPopulateOption('plugin_updates') ) {
 				case 'disable_plugin_updates':
-                    add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
-                    add_filter('site_transient_update_plugins', array($this, 'disablePluginNotifications'), 50);
+					add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
+					add_filter('site_transient_update_plugins', array($this, 'disablePluginNotifications'), 50);
 					break;
 				case 'enable_plugin_auto_updates':
 					add_filter('auto_update_plugin', array($this, 'pluginsAutoUpdate'), 50, 2);
@@ -38,10 +38,7 @@
 				add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
 			}
 
-
-
-
-            /**
+			/**
 			 * Theme updates
 			 */
 			switch( $this->getPopulateOption('theme_updates') ) {
@@ -112,7 +109,7 @@
 		public function filterCronEvents($event)
 		{
 			$core_updates = $this->getPopulateOption('wp_update_core') == 'disable_core_updates';
-			$plugins_updates = $this->getPopulateOption('plugin_updates') == 'disable_plugin_updates';
+			//$plugins_updates = $this->getPopulateOption('plugin_updates') == 'disable_plugin_updates';
 			$themes_updates = $this->getPopulateOption('theme_updates') == 'disable_theme_updates';
 
 			if( !is_object($event) || empty($event->hook) ) {
@@ -121,20 +118,14 @@
 
 			switch( $event->hook ) {
 				case 'wp_version_check':
-					$event = $core_updates
-						? false
-						: $event;
+					$event = $core_updates ? false : $event;
 					break;
 
 				case 'wp_update_themes':
-					$event = $themes_updates
-						? false
-						: $event;
+					$event = $themes_updates ? false : $event;
 					break;
 				case 'wp_maybe_auto_update':
-					$event = $core_updates
-						? false
-						: $event;
+					$event = $core_updates ? false : $event;
 					break;
 			}
 
@@ -177,16 +168,18 @@
 				return $plugins;
 			}
 
-            $pluginFilters = new WUPM_PluginFilters($this->plugin);
-            foreach((array)$plugins->response as $slug => $plugin) {
-                $slug_parts = explode('/', $slug);
-                $actual_slug = array_shift($slug_parts);
+			$pluginFilters = new WUPM_PluginFilters($this->plugin);
 
-                $filters = $pluginFilters->getPlugins(array($actual_slug));
-                if( $filters['disable_updates'][$actual_slug] ) {
-                    unset($plugins->response[$slug]);
-                }
-            }
+			foreach((array)$plugins->response as $slug => $plugin) {
+				$slug_parts = explode('/', $slug);
+				$actual_slug = array_shift($slug_parts);
+
+				$filters = $pluginFilters->getPlugins(array($actual_slug));
+
+				if( isset($filters['disable_updates'][$actual_slug]) && $filters['disable_updates'][$actual_slug] ) {
+					unset($plugins->response[$slug]);
+				}
+			}
 
 			return $plugins;
 		}
@@ -206,16 +199,16 @@
 
 			if( isset($r['body']['plugins']) ) {
 				$r_plugins = json_decode($r['body']['plugins'], true);
-                $pluginFilters = new WUPM_PluginFilters($this->plugin);
+				$pluginFilters = new WUPM_PluginFilters($this->plugin);
 
 				if( isset($r_plugins['plugins']) && !empty($r_plugins['plugins']) ) {
 					foreach($r_plugins['plugins'] as $slug => $plugin) {
 						$slug_parts = explode('/', $slug);
 						$actual_slug = array_shift($slug_parts);
 
-                        $filters = $pluginFilters->getPlugins(array($actual_slug));
+						$filters = $pluginFilters->getPlugins(array($actual_slug));
 
-                        if( isset($filters['disable_updates'][$actual_slug]) and $filters['disable_updates'][$actual_slug] ) {
+						if( isset($filters['disable_updates'][$actual_slug]) and $filters['disable_updates'][$actual_slug] ) {
 							unset($r_plugins['plugins'][$slug]);
 
 							if( false !== $key = array_search($slug, $r_plugins['active']) ) {
@@ -255,15 +248,16 @@
 			add_filter('automatic_updates_is_vcs_checkout', '__return_true');
 		}
 
-        /**
-         * callback for action "admin_init"
-         * remove update nag in admin pages
-         */
-		function disableUpdateNag(){
-            remove_action('admin_notices', 'update_nag', 3);
-            remove_action('admin_notices', 'maintenance_nag');
-            remove_action( 'network_admin_notices', 'update_nag', 3 );
-        }
+		/**
+		 * callback for action "admin_init"
+		 * remove update nag in admin pages
+		 */
+		function disableUpdateNag()
+		{
+			remove_action('admin_notices', 'update_nag', 3);
+			remove_action('admin_notices', 'maintenance_nag');
+			remove_action('network_admin_notices', 'update_nag', 3);
+		}
 
 		/**
 		 * Initialize and load the plugin stuff
@@ -339,8 +333,4 @@
 
 			return $current;
 		}
-
-
-
-
 	}
