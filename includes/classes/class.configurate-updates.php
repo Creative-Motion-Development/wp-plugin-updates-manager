@@ -25,10 +25,13 @@
 
 			switch( $this->getPopulateOption('plugin_updates') ) {
 				case 'disable_plugin_updates':
-					add_filter('http_request_args', array($this, 'httpRequestArgsRemovePlugins'), 5, 2);
-					add_filter('site_transient_update_plugins', array($this, 'disablePluginNotifications'), 50);
+				    // and disable version check
+                    add_filter('site_transient_update_plugins', array($this, 'lastCheckedNow'), 50);
+                    add_action('admin_init', array($this, 'adminInitForPlugins'));
+                    add_filter('auto_update_plugin', '__return_false');
 					break;
 				case 'enable_plugin_auto_updates':
+				    // exclude some plugins in update list
 					add_filter('auto_update_plugin', array($this, 'pluginsAutoUpdate'), 50, 2);
 					break;
 			}
