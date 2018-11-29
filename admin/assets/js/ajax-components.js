@@ -80,6 +80,17 @@ jQuery(function($) {
 			});
 		});
 
+        $('.wbcr_um_select_item').on('change', function(){
+            $('.wbcr_um_select_all').prop('checked', false);
+        });
+        $('.wbcr_um_select_all').on('change', function(){
+            if($(this).prop('checked')){
+                $('.wbcr_um_select_item').prop('checked', true);
+            }else{
+                $('.wbcr_um_select_item').prop('checked', false);
+            }
+        });
+
 	};
 
 	initAjaxControls();

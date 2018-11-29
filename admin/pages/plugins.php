@@ -357,7 +357,9 @@
 				<table class="wp-list-table widefat autoupdate striped plugins wp-list-table__plugins">
 					<thead>
 					<tr>
-						<th id='cb' class='manage-column column-cb check-column'>&nbsp;</th>
+						<th id='cb' class='manage-column column-cb check-column'>
+                            <input class="wbcr_um_select_all" type="checkbox">
+                        </th>
 						<th id='name' class='manage-column column-name column-primary'>
 							<strong><?php _e('Plugin', 'webcraftic-updates-manager'); ?></strong></th>
 						<th id="disable_updates">

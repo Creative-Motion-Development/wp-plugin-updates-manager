@@ -331,7 +331,9 @@
 				<table class="wp-list-table wbcr-upm-list-table-pro widefat autoupdate striped plugins <?= (!$is_premium ? "wbcr-upm-column-premium" : ""); ?>">
 					<thead>
 					<tr>
-						<th id='cb' class='manage-column column-cb check-column'>&nbsp;</th>
+						<th id='cb' class='manage-column column-cb check-column'>
+                            <input class="wbcr_um_select_all" type="checkbox">
+                        </th>
 						<th id='name' class='manage-column column-name column-primary'>
 							<strong><?php _e('Theme', 'webcraftic-updates-manager'); ?></strong></th>
 						<th id="disable_updates">
@@ -392,7 +394,7 @@
 							<tr id="post-<?= esc_attr($slug_hash) ?>" class="<?= $class ?>">
 								<td scope="row" class="check-column">
 									<label class="screen-reader-text" for="cb-select-<?= esc_attr($slug_hash) ?>"><?php _e('Select', 'webcraftic-updates-manager') ?><?= esc_html($name) ?></label>
-									<input id="cb-select-<?= esc_attr($slug_hash) ?>" type="checkbox" name="theme_slugs[]" value="<?= esc_attr($actual_slug) ?>" <?= (!$is_premium ? 'disabled' : ''); ?>>
+									<input id="cb-select-<?= esc_attr($slug_hash) ?>" class="wbcr_um_select_item" type="checkbox" name="theme_slugs[]" value="<?= esc_attr($actual_slug) ?>" <?= (!$is_premium ? 'disabled' : ''); ?>>
 									<label></label>
 
 									<div class="locked-indicator"></div>
