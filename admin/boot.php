@@ -245,7 +245,7 @@
 		'filters' => $filters,
 	)); ?>;
 		um_add_plugin_icons(info);
-		um_add_plugin_actions("<?= $btn_title ?>", "<?= $btn_url ?>");
+		// um_add_plugin_actions("<?= $btn_title ?>", "<?= $btn_url ?>");
 		});
 
 		<?php
@@ -281,7 +281,7 @@
 
 
 		jQuery(function($){
-		window.um_add_theme_actions("<?= $btn_title ?>", "<?= $btn_url ?>");
+		 // window.um_add_theme_actions("<?= $btn_title ?>", "<?= $btn_url ?>");
 		});
 
 		<?php

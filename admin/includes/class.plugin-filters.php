@@ -105,6 +105,11 @@ class WUPM_PluginFilters extends WUPM_AbstractFilters
             if(isset($this->update_filters['disable_translation_updates'][$plugin_slug]) and $this->update_filters['disable_translation_updates'][$plugin_slug]){
                 $result['disable_translation_updates'][$plugin_slug] = true;
             }
+            if(isset($this->update_filters['disable_display'][$plugin_slug]) and $this->update_filters['disable_display'][$plugin_slug]){
+                $result['disable_updates'][$plugin_slug] = true;
+                $result['disable_auto_updates'][$plugin_slug] = true;
+                $result['disable_translation_updates'][$plugin_slug] = true;
+            }
 
             // global rules
             if($all_update_disabled){

@@ -430,14 +430,14 @@
 												$disabled = true;
 											}
 											$checked = false;
-											if( !$is_auto_updates ) {
+											if( $is_auto_updates ) {
 												$checked = true;
 											}
 										?>
 										<button type="button" class="btn btn-default btn-small btn-sm factory-on <?= ($checked ? 'active' : ''); ?>"  <?= ($disabled ? 'disabled' : ''); ?>><?php _e('On', 'webcraftic-updates-manager'); ?></button>
 										<button type="button" class="btn btn-default btn-small btn-sm factory-off <?= (!$checked) ? 'active' : ''; ?>" data-value="0"  <?= ($disabled ? 'disabled' : ''); ?>><?php _e('Off', 'webcraftic-updates-manager'); ?></button>
 										<input type="checkbox" style="display: none" id="wbcr_updates_manager_disable_auto_updates" class="factory-result factory-ajax-checkbox"
-										       data-action="AutoUpdates" data-theme-slug="<?= $actual_slug ?>" value="<?= (int)$checked ?>" <?= ($checked ? 'checked' : ''); ?>  <?= ($disabled ? 'disabled' : ''); ?>>
+										       data-action="AutoUpdates"  data-inverse="1" data-theme-slug="<?= $actual_slug ?>" value="<?= (int)$checked ?>" <?= ($checked ? 'checked' : ''); ?>  <?= ($disabled ? 'disabled' : ''); ?>>
 									</div>
 								</td>
 								<!-- отключить обновления переводов -->
@@ -449,14 +449,14 @@
 												$disabled = true;
 											}
 											$checked = false;
-											if( $is_disable_translation_update ) {
+											if( !$is_disable_translation_update ) {
 												$checked = true;
 											}
 										?>
 										<button type="button" class="btn btn-default btn-small btn-sm factory-on <?= ($checked ? 'active' : ''); ?>"  <?= ($disabled ? 'disabled' : ''); ?>><?php _e('On', 'webcraftic-updates-manager'); ?></button>
 										<button type="button" class="btn btn-default btn-small btn-sm factory-off <?= (!$checked) ? 'active' : ''; ?>" data-value="0"  <?= ($disabled ? 'disabled' : ''); ?>><?php _e('Off', 'webcraftic-updates-manager'); ?></button>
 										<input type="checkbox" style="display: none" id="wbcr_updates_manager_disable_translation_updates" class="factory-result factory-ajax-checkbox"
-										       data-action="TranslationUpdates" data-theme-slug="<?= $actual_slug ?>" value="<?= (int)$checked ?>" <?= ($checked ? 'checked' : ''); ?>  <?= ($disabled ? 'disabled' : ''); ?>>
+										       data-action="TranslationUpdates"  data-inverse="1"  data-theme-slug="<?= $actual_slug ?>" value="<?= (int)$checked ?>" <?= ($checked ? 'checked' : ''); ?>  <?= ($disabled ? 'disabled' : ''); ?>>
 									</div>
 								</td>
 							</tr>
