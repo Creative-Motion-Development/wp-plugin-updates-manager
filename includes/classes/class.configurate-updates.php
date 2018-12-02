@@ -196,7 +196,7 @@
 		 */
 		public function httpRequestArgsRemovePlugins($r, $url)
 		{
-			if( 0 !== strpos($url, 'https://api.wordpress.org/plugins/update-check/1.1/') ) {
+			if( !is_string($url) || 0 !== strpos($url, 'https://api.wordpress.org/plugins/update-check/1.1/') ) {
 				return $r;
 			}
 
