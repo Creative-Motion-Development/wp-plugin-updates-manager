@@ -249,6 +249,10 @@
 			add_filter('send_core_update_notification_email', '__return_false');
 			add_filter('automatic_updates_send_debug_email', '__return_false');
 			add_filter('automatic_updates_is_vcs_checkout', '__return_true');
+
+            // change update nag
+            add_filter('wp_get_update_data', array($this, 'updateCounter'), 10, 2);
+            add_filter('site_transient_update_core',  array($this, 'hideCoreUpdateForm'), 10, 2);
 		}
 
 		/**
@@ -336,4 +340,33 @@
 
 			return $current;
 		}
+
+        /**
+         * callback for filter wp_get_update_data
+         * If disableAllCoreUpdates recalc the update badge
+         * @param $update_data
+         * @param $titles
+         * @return mixed $update_data
+         */
+        function updateCounter( $update_data, $titles){
+            if($update_data['counts']['wordpress'] > 0){
+                $new_num = $update_data['counts']['total']  =  $update_data['counts']['total'] - $update_data['counts']['wordpress'];
+                preg_replace('/[0-9]+/',$new_num, $titles['wordpress']);
+                $update_data['counts']['wordpress'] = 0;
+            }
+            return $update_data;
+        }
+
+        /** Modify data about core available updates
+         * Hide update buttons on update page and dashboard home page
+         * @param $val
+         * @param $transient
+         * @return mixed $val
+         */
+        function hideCoreUpdateForm($val, $transient){
+            if(is_object($val)){
+                $val->updates = array();
+            }
+            return $val;
+        }
 	}
