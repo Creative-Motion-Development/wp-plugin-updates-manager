@@ -5,14 +5,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Plugin class
+ * Основной класс плагина Updates manager
  *
- * @author        Alex Kovalev <alex.kovalevv@gmail.com>
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, git: https://github.com/alexkovalevv
  * @copyright (c) 19.02.2018, Webcraftic
  */
 class WUPM_Plugin extends Wbcr_Factory000_Plugin {
 
 	/**
+	 * @see self::app()
 	 * @var Wbcr_Factory000_Plugin
 	 */
 	private static $app;
@@ -24,9 +25,10 @@ class WUPM_Plugin extends Wbcr_Factory000_Plugin {
 	private $plugin_data;
 
 	/**
-	 * WUPM_Plugin constructor.
+	 * Конструктор
 	 *
-	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
+	 * Применяет конструктор родительского класса и записывает экземпляр текущего класса в свойство $app.
+	 * Подробнее о свойстве $app см. self::app()
 	 *
 	 * @param string $plugin_path
 	 * @param array  $data
@@ -47,13 +49,25 @@ class WUPM_Plugin extends Wbcr_Factory000_Plugin {
 	}
 
 	/**
-	 * @return Wbcr_Factory000_Plugin
+	 * Статический метод для быстрого доступа к интерфейсу плагина.
+	 *
+	 * Позволяет разработчику глобально получить доступ к экземпляру класса плагина в любом месте
+	 * плагина, но при этом разработчик не может вносить изменения в основной класс плагина.
+	 *
+	 * Используется для получения настроек плагина, информации о плагине, для доступа к вспомогательным
+	 * классам.
+	 *
+	 * @return \Wbcr_Factory000_Plugin|\WUPM_Plugin
 	 */
 	public static function app() {
 		return self::$app;
 	}
 
-
+	/**
+	 * Выполняет конфигурацию плагина, после того, как все плагины будут загружены
+	 *
+	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
+	 */
 	public function plugins_loaded() {
 		if ( is_admin() ) {
 			$this->register_pages();
@@ -63,6 +77,17 @@ class WUPM_Plugin extends Wbcr_Factory000_Plugin {
 		new WUPM_ConfigUpdates( self::$app );
 	}
 
+	/**
+	 * Регистрирует классы страниц в плагине
+	 *
+	 * Мы указываем плагину, где найти файлы страниц и какое имя у их класса. Чтобы плагин
+	 * выполнил подключение классов страниц. После регистрации, страницы будут доступные по url
+	 * и в меню боковой панели администратора. Регистрируемые страницы будут связаны с текущим плагином
+	 * все операции выполняемые внутри классов страниц, имеют отношение только текущему плагину.
+	 *
+	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
+	 * @throws \Exception
+	 */
 	private function register_pages() {
 		$admin_path = WUPM_PLUGIN_DIR . '/admin/pages';
 
@@ -91,6 +116,11 @@ class WUPM_Plugin extends Wbcr_Factory000_Plugin {
 		] ) );
 	}
 
+	/**
+	 * Исполныет сценарии плагина только для бекенда
+	 *
+	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
+	 */
 	private function admin_scripts() {
 		require_once( WUPM_PLUGIN_DIR . '/admin/activation.php' );
 
@@ -103,6 +133,11 @@ class WUPM_Plugin extends Wbcr_Factory000_Plugin {
 		$this->init_activation();
 	}
 
+	/**
+	 * Инициализирует класс активации/деактивации плагина
+	 *
+	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
+	 */
 	protected function init_activation() {
 		include_once( WUPM_PLUGIN_DIR . '/admin/activation.php' );
 		self::app()->registerActivation( 'WUPM_Activation' );

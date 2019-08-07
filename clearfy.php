@@ -5,7 +5,7 @@
  * Файл будет подключен только в плагине Clearfy, используя особый вариант загрузки. Это более простое решение
  * пришло на смену встроенной системы подключения аддонов в фреймворке.
  *
- * @author        Alexander Kovalev <alex.kovalevv@gmail.com>
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, git: https://github.com/alexkovalevv
  * @copyright (c) 2018 Webraftic Ltd
  */
 
