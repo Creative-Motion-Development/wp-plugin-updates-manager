@@ -65,7 +65,7 @@ $wupm_plugin_info = array(
 );
 
 $wupm_compatibility = new Wbcr_Factory000_Requirements( __FILE__, array_merge( $wupm_plugin_info, array(
-	'plugin_already_activate'          => defined( 'WUPM_PLUGIN_DIR' ),
+	'plugin_already_activate'          => defined( 'WUPM_PLUGIN_ACTIVE' ),
 	'required_php_version'             => '5.4',
 	'required_wp_version'              => '4.2.0',
 	'required_clearfy_check_component' => false
@@ -192,7 +192,7 @@ try {
 	define( 'WUPM_PLUGIN_THROW_ERROR', true );
 
 	$wupm_plugin_error_func = function () use ( $e ) {
-		$error = sprintf( "The %s plugin has stopped. <b>Error:</b> %s Code: %s", 'Local Google Analytics', $e->getMessage(), $e->getCode() );
+		$error = sprintf( "The %s plugin has stopped. <b>Error:</b> %s Code: %s", 'Webcraftic Updates manager', $e->getMessage(), $e->getCode() );
 		echo '<div class="notice notice-error"><p>' . $error . '</p></div>';
 	};
 
