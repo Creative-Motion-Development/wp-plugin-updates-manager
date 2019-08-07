@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once WUPM_PLUGIN_DIR . '/admin/includes/class.plugin-filters.php';
+require_once WUPM_PLUGIN_DIR . '/admin/includes/class-plugin-filters.php';
 
 class WUPM_ConfigUpdates extends Wbcr_FactoryClearfy000_Configurate {
 

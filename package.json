@@ -8,6 +8,7 @@
         "node_modules",
         "Gruntfile.js",
         "git-submodules.sh",
+        "commit-multiple.sh",
         "/admin/assets/css/general.less",
         "/admin/assets/css/tinymce.less",
         "/components/assets-manager/libs",
@@ -95,7 +96,7 @@
     }
   },
   "constants": {
-    "version": "1.0.7",
+    "version": "1.1.0",
     "api": "http://api.byonepress.com/1.1/",
     "name": [
       {
