@@ -38,13 +38,13 @@ if ( ! defined( 'WUPM_PLUGIN_ACTIVE' ) ) {
 		require_once( WUPM_PLUGIN_DIR . '/includes/3rd-party/class-clearfy-plugin.php' );
 		new WUPM_Plugin();
 	} catch( Exception $e ) {
-		$wrio_plugin_error_func = function () use ( $e ) {
-			$error = sprintf( "The %s plugin has stopped. <b>Error:</b> %s Code: %s", 'Disable Admin Notices', $e->getMessage(), $e->getCode() );
+		$wupm_plugin_error_func = function () use ( $e ) {
+			$error = sprintf( "The %s plugin has stopped. <b>Error:</b> %s Code: %s", 'Webcraftic Updates Manager', $e->getMessage(), $e->getCode() );
 			echo '<div class="notice notice-error"><p>' . $error . '</p></div>';
 		};
 
-		add_action( 'admin_notices', $wrio_plugin_error_func );
-		add_action( 'network_admin_notices', $wrio_plugin_error_func );
+		add_action( 'admin_notices', $wupm_plugin_error_func );
+		add_action( 'network_admin_notices', $wupm_plugin_error_func );
 	}
 }
 
