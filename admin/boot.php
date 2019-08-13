@@ -2,9 +2,9 @@
 /**
  * Admin boot
  *
- * @author    Webcraftic <alex.kovalevv@gmail.com>
- * @copyright Webcraftic 25.05.2017
- * @version   1.0
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
+ * @copyright     Webcraftic 25.05.2017
+ * @version       1.0
  */
 
 require_once WUPM_PLUGIN_DIR . '/admin/includes/class-plugin-filters.php';
@@ -92,8 +92,7 @@ function wbcr_upm_admin_conflict_notices_error( $notices, $plugin_name ) {
 	return $notices;
 }
 
-//add_action('admin_notices', 'wbcr_upm_admin_conflict_notices_error');
-add_filter( 'wbcr_factory_notices_000_list', 'wbcr_upm_admin_conflict_notices_error', 10, 2 );
+add_filter( 'wbcr/factory/admin_notices', 'wbcr_upm_admin_conflict_notices_error', 10, 2 );
 
 function wbcr_upm_group_options( $options ) {
 	$options[] = [
@@ -292,7 +291,7 @@ add_action( 'admin_enqueue_scripts', 'wbcr_upm_customize_theme_page' );
  */
 add_filter( 'wbcr/factory/pages/impressive/widgets', function ( $widgets, $position, $plugin ) {
 	if ( WUPM_Plugin::app()->getPluginName() == $plugin->getPluginName() && 'right' == $position ) {
-		unset( $widgets['businnes_suggetion'] );
+		unset( $widgets['business_suggetion'] );
 		unset( $widgets['rating_widget'] );
 		unset( $widgets['info_widget'] );
 	}

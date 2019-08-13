@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Поддерживает режим работы с мультисаймами. Вы можете увидеть эту страницу в панели настройки сети.
  *
- * @author        Alex Kovalev <alex.kovalevv@gmail.com>, github: https://github.com/alexkovalevv
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  * @copyright (c) 2018 Webraftic Ltd
  */
 class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
@@ -142,6 +142,10 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function disableThemeUpdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( ! $this->is_disable_updates ) {
 			$theme_slug = $this->request->get( 'theme_slug', null, true );
 
@@ -165,6 +169,10 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function enableThemeUpdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( ! $this->is_disable_updates ) {
 			$theme_slug = $this->request->get( 'theme_slug', null, true );
 
@@ -182,6 +190,10 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function disableThemeAutoupdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( $this->is_auto_updates ) {
 			$theme_slug = $this->request->get( 'theme_slug', null, true );
 
@@ -203,6 +215,10 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function enableThemeAutoupdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( $this->is_auto_updates ) {
 			$theme_slug = $this->request->get( 'theme_slug', null, true );
 
@@ -219,6 +235,10 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function disableThemeTranslationUpdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		$theme_slug = $this->request->get( 'theme_slug', null, true );
 		check_admin_referer( $this->getResultId() . '_' . $theme_slug );
 
@@ -234,6 +254,10 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function enableThemeTranslationUpdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		$theme_slug = $this->request->get( 'theme_slug', null, true );
 		check_admin_referer( $this->getResultId() . '_' . $theme_slug );
 
@@ -249,6 +273,9 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 
 	public function showPageContent() {
 		if ( isset( $_POST['wbcr_upm_apply'] ) ) {
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+			}
 
 			$bulk_action = $this->request->post( 'wbcr_upm_bulk_actions', null, true );
 			$theme_slugs = $this->request->post( 'theme_slugs', [], true );
@@ -256,6 +283,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 			$theme_slugs = array_map( 'strip_tags', $theme_slugs );
 
 			check_admin_referer( $this->getResultId() . '_form' );
+
 			// validate $bulk_action
 			if ( ! empty( $bulk_action ) and ! in_array( $bulk_action, [
 					'disable_updates',

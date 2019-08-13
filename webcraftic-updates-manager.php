@@ -54,6 +54,14 @@ $wupm_plugin_info = array(
 		)
 	),
 
+	// PLUGIN ADVERTS
+	'render_adverts' => true,
+	'adverts_settings'    => array(
+		'dashboard_widget' => true, // show dashboard widget (default: false)
+		'right_sidebar'    => true, // show adverts sidebar (default: false)
+		'notice'           => true, // show notice message (default: false)
+	),
+
 	// FRAMEWORK MODULES
 	'load_factory_modules' => array(
 		array( 'libs/factory/bootstrap', 'factory_bootstrap_000', 'admin' ),
@@ -161,7 +169,17 @@ if ( ! defined( 'FACTORY_UPDATES_DEBUG' ) ) {
  * рекламы.
  */
 if ( ! defined( 'FACTORY_ADVERTS_DEBUG' ) ) {
-	define( 'FACTORY_ADVERTS_DEBUG', true );
+	define( 'FACTORY_ADVERTS_DEBUG', false );
+}
+
+/**
+ * Остановить показ рекламы для всех плагинов созданных на Factory фреймворке.
+ * Это может пригодиться в некоторых случаях, при неисправностях или из-за
+ * файрвола в стране пользователя. Чтобы реклама не обременяла пользователя
+ * он может ее заблокировать.
+ */
+if ( ! defined( 'FACTORY_ADVERTS_BLOCK' ) ) {
+	define( 'FACTORY_ADVERTS_BLOCK', false );
 }
 
 // the compiler library provides a set of functions like onp_build and onp_license

@@ -9,9 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * ajax action for switch option
  */
 function wbcr_upm_change_flag() {
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		wp_die( - 1, 403 );
+	}
+
 	$is_theme = false;
-	$app      = WUPM_Plugin::app();
-	$slug     = $app->request->post( 'theme', null, true );
+
+	$app  = WUPM_Plugin::app();
+	$slug = $app->request->post( 'theme', null, true );
+
 	if ( ! empty( $slug ) ) {
 		$is_theme = true;
 	} else {

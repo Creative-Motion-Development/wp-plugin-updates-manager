@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Поддерживает режим работы с мультисаймами. Вы можете увидеть эту страницу в панели настройки сети.
  *
- * @author        Alex Kovalev <alex.kovalevv@gmail.com>, github: https://github.com/alexkovalevv
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  *
  * @copyright (c) 2018 Webraftic Ltd
  */
@@ -140,6 +140,10 @@ class WUPM_PluginsPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function disablePluginUpdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( ! $this->is_disable_updates ) {
 			$plugin_slug = $this->request->get( 'plugin_slug', null, true );
 
@@ -163,6 +167,10 @@ class WUPM_PluginsPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function enablePluginUpdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( ! $this->is_disable_updates ) {
 			$plugin_slug = $this->request->get( 'plugin_slug', null, true );
 
@@ -180,6 +188,10 @@ class WUPM_PluginsPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function disablePluginAutoupdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( $this->is_auto_updates ) {
 			$plugin_slug = $this->request->get( 'plugin_slug', null, true );
 
@@ -201,6 +213,10 @@ class WUPM_PluginsPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function enablePluginAutoupdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( $this->is_auto_updates ) {
 			$plugin_slug = $this->request->get( 'plugin_slug', null, true );
 
@@ -217,6 +233,10 @@ class WUPM_PluginsPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function enablePluginTranslationUpdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( ! $this->is_disable_translation_updates ) {
 			$plugin_slug = $this->request->get( 'plugin_slug', null, true );
 			check_admin_referer( $this->getResultId() . '_' . $plugin_slug );
@@ -232,6 +252,10 @@ class WUPM_PluginsPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	public function disablePluginTranslationUpdatesAction() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+		}
+
 		if ( ! $this->is_disable_translation_updates ) {
 			$plugin_slug = $this->request->get( 'plugin_slug', null, true );
 			check_admin_referer( $this->getResultId() . '_' . $plugin_slug );
@@ -250,6 +274,9 @@ class WUPM_PluginsPage extends Wbcr_FactoryClearfy000_PageBase {
 
 	public function showPageContent() {
 		if ( isset( $_POST['wbcr_upm_apply'] ) ) {
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+			}
 
 			$bulk_action  = $this->request->post( 'wbcr_upm_bulk_actions', null, true );
 			$plugin_slugs = $this->request->post( 'plugin_slugs', [], true );

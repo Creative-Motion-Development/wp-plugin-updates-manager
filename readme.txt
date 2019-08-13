@@ -1,6 +1,6 @@
 === Disable updates, Updates manager, Disable automatic updates ===
 Tags: disable updates, automatic updates, disable updates manager, easy updates manager, update control, updates manager, webcraftic update manager, wp disable, clearfy, Easy Updates Manager, Clearfy – disable unused features</strong>, WP Disables Updates, Companion Auto Update, Disable All WordPress Updates, WP Updates Settings, WP Disable Automatic Updates
-Contributors: webcraftic, alexkovalevv
+Contributors: webcraftic, creativemotion, alexkovalevv
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
 Requires at least: 4.2
 Tested up to: 5.2
@@ -74,6 +74,7 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 = 1.1.0 =
+* Added: Improved plugin security
 * Added: Compatibility with Wordpress 4.2 - 5.x
 * Added: Multisite support
 * Fixed: Minor bugs

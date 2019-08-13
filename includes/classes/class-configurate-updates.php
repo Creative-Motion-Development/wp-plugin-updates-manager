@@ -9,7 +9,7 @@ require_once WUPM_PLUGIN_DIR . '/admin/includes/class-plugin-filters.php';
 /**
  * This class configures the parameters seo
  *
- * @author        Alex Kovalev <alex.kovalevv@gmail.com>, github: https://github.com/alexkovalevv
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  * @copyright (c) 2017 Webraftic Ltd
  */
 class WUPM_ConfigUpdates extends Wbcr_FactoryClearfy000_Configurate {

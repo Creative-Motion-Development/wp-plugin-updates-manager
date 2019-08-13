@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Основной класс плагина Updates manager
  *
- * @author        Alex Kovalev <alex.kovalevv@gmail.com>, git: https://github.com/alexkovalevv
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  * @copyright (c) 19.02.2018, Webcraftic
  */
 class WUPM_Plugin extends Wbcr_Factory000_Plugin {
@@ -67,6 +67,7 @@ class WUPM_Plugin extends Wbcr_Factory000_Plugin {
 	 * Выполняет конфигурацию плагина, после того, как все плагины будут загружены
 	 *
 	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
+	 * @throws \Exception
 	 */
 	public function plugins_loaded() {
 		if ( is_admin() ) {
@@ -96,24 +97,6 @@ class WUPM_Plugin extends Wbcr_Factory000_Plugin {
 		self::app()->registerPage( 'WUPM_ThemesPage', $admin_path . '/class-page-themes.php' );
 		self::app()->registerPage( 'WUPM_AdvancedPage', $admin_path . '/class-page-advanced.php' );
 		self::app()->registerPage( 'WUPM_MoreFeaturesPage', $admin_path . '/class-page-more-features.php' );
-
-		$this->register_adverts_blocks();
-	}
-
-	/**
-	 * Регистрирует рекламные объявления от студии Webcraftic
-	 *
-	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
-	 * @since  1.1.0
-	 */
-	private function register_adverts_blocks() {
-		global $wdan_adverts;
-
-		$wdan_adverts = new WBCR\Factory_Adverts_000\Base( __FILE__, array_merge( $this->plugin_data, [
-			'dashboard_widget' => true, // show dashboard widget (default: false)
-			'right_sidebar'    => true, // show adverts sidebar (default: false)
-			'notice'           => false, // show notice message (default: false)
-		] ) );
 	}
 
 	/**

@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Основной класс Updates manager с интеграций для плагина Clearfy
  *
- * @author        Alex Kovalev <alex.kovalevv@gmail.com>, github: https://github.com/alexkovalevv
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  * @copyright (c) 2018 Webraftic Ltd
  */
 class WUPM_Plugin {
