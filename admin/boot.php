@@ -205,82 +205,52 @@ function wbcr_upm_rating_widget_url( $page_url, $plugin_name ) {
 add_filter( 'wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_upm_rating_widget_url', 10, 2 );
 
 /**
- * add link to Update manager and auto-update icons on default page "Plugins"
+ * Подключаем скрипты для создания лейблов для списка плагинов
  */
-function wbcr_upm_customize_plugin_page() {
-	$screen = get_current_screen();
-
-	if ( ! in_array( $screen->id, [ 'plugins', 'plugins-network' ] ) ) {
-		return;
-	}
-
-	if ( WUPM_Plugin::app()->isNetworkActive() && ! is_network_admin() ) {
+add_action( 'admin_enqueue_scripts', function ( $handles ) {
+	if ( ! current_user_can( 'install_plugins' ) || ! in_array( $handles, [ 'plugins.php', 'plugins-network.php' ] ) ) {
 		return;
 	}
 
 	wp_enqueue_style( 'wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/plugins.css', [], WUPM_Plugin::app()->getPluginVersion() );
 	wp_enqueue_script( 'wbcr-upm-plugins-js', WUPM_PLUGIN_URL . '/admin/assets/js/plugins.js', [ 'jquery' ], WUPM_Plugin::app()->getPluginVersion() );
+} );
+
+/**
+ * Добавляем код локализации скриптов для создания лейблов в списке плагинов
+ */
+add_action( 'admin_footer', function () {
+	if ( ! current_user_can( 'install_plugins' ) || ! in_array( get_current_screen()->id, [
+			'plugins',
+			'plugins-network'
+		] ) ) {
+		return;
+	}
 
 	$pluginFilters = new WUPM_PluginFilters( WUPM_Plugin::app() );
 	$filters       = $pluginFilters->getPlugins();
 
-	$btn_title = __( 'Update manager', 'webcraftic-updates-manager' );
+	$l10n = [
+		'default'             => __( "Auto-update disabled", 'webcraftic-updates-manager' ),
+		'auto_update'         => __( "Auto-update enabled", 'webcraftic-updates-manager' ),
+		'disable_updates'     => __( "Update disabled", 'webcraftic-updates-manager' ),
+		'disable_tran_update' => __( "Translation update disabled", 'webcraftic-updates-manager' )
+	];
 
-	$btn_url = WUPM_Plugin::app()->getPluginPageUrl( 'plugins' );
-
-	ob_start();
 	?>
-    // l10n strings
-    window.um_lang_text = window.um_lang_text || {};
-    um_lang_text['default'] = '<?= __( "Auto-update disabled", 'webcraftic-updates-manager' ); ?>';
-    um_lang_text['auto_update'] = '<?= __( "Auto-update enabled", 'webcraftic-updates-manager' ); ?>';
-    um_lang_text['disable_updates'] = '<?= __( "Update disabled", 'webcraftic-updates-manager' ); ?>';
-    um_lang_text['disable_tran_update'] = '<?= __( "Translation update disabled", 'webcraftic-updates-manager' ); ?>';
-    jQuery(function($){
-    var info = <?= json_encode( [
-		'filters' => $filters,
-	] ); ?>;
-    um_add_plugin_icons(info);
-    // um_add_plugin_actions("<?= $btn_title ?>", "<?= $btn_url ?>");
-    });
+    <script>
+		// l10n strings
+		window.wbcr_upm_plugins_label_l10n = window.wbcr_upm_plugins_label_l10n || <?php echo wp_json_encode( $l10n ); ?>;
+
+		jQuery(function($) {
+			var info = <?= json_encode( [
+				'filters' => $filters,
+			] ); ?>;
+			um_add_plugin_icons(info);
+		});
+    </script>
 	<?php
-	$html = ob_get_clean();
-	wp_add_inline_script( 'wbcr-upm-plugins-js', $html, 'after' );
-}
-
-add_action( 'admin_enqueue_scripts', 'wbcr_upm_customize_plugin_page' );
-
-/**
- * add link to Update manager on default page "Themes"
- */
-function wbcr_upm_customize_theme_page() {
-	$screen = get_current_screen();
-	if ( $screen->id !== 'themes' ) {
-		return;
-	}
-
-	if ( WUPM_Plugin::app()->isNetworkActive() && ! is_network_admin() ) {
-		return;
-	}
-
-	wp_enqueue_style( 'wbcr-upm-plugins', WUPM_PLUGIN_URL . '/admin/assets/css/themes.css', [], WUPM_Plugin::app()->getPluginVersion() );
-	wp_enqueue_script( 'wbcr-upm-themes-js', WUPM_PLUGIN_URL . '/admin/assets/js/themes.js', [ 'jquery' ], WUPM_Plugin::app()->getPluginVersion() );
-
-	$btn_title = __( 'Update manager', 'webcraftic-updates-manager' );
-
-	$btn_url = WUPM_Plugin::app()->getPluginPageUrl( 'plugins' );
-
-	ob_start();
-	?>
-    jQuery(function($){
-    // window.um_add_theme_actions("<?= $btn_title ?>", "<?= $btn_url ?>");
-    });
-	<?php
-	$html = ob_get_clean();
-	wp_add_inline_script( 'wbcr-upm-themes-js', $html, 'after' );
-}
-
-add_action( 'admin_enqueue_scripts', 'wbcr_upm_customize_theme_page' );
+} );
 
 /**
  * Удаляем лишние виджеты из правого сайдбара в интерфейсе плагина

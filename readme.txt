@@ -73,7 +73,7 @@ This section describes how to install the plugin and get it working.
 2. Control panel (Individualy updates)
 
 == Changelog ==
-= 1.1.0 =
+= 1.1.1 =
 * Added: Improved plugin security
 * Added: Compatibility with Wordpress 4.2 - 5.x
 * Added: Multisite support
