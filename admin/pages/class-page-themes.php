@@ -132,7 +132,7 @@ class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
 		$this->scripts->add( WUPM_PLUGIN_URL . '/admin/assets/js/ajax-components.js' );
 
 		// Add Clearfy styles for HMWP pages
-		if ( defined( 'WBCR_CLEARFY_PLUGIN_ACTIVE' ) ) {
+		if ( defined( 'WCL_PLUGIN_ACTIVE' ) ) {
 			$this->styles->add( WCL_PLUGIN_URL . '/admin/assets/css/general.css' );
 		}
 	}
