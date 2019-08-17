@@ -67,7 +67,7 @@ class WUPM_UpdatesPage extends Wbcr_FactoryClearfy000_PageBase {
 	}
 
 	/*public function getMenuTitle() {
-		return defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) ? __( 'Updates', 'webcraftic-updates-manager' ) : __( 'General', 'webcraftic-updates-manager' );
+		return defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) ? __( 'Updates', 'webcraftic-updates-manager' ) : __( 'Updates manager', 'webcraftic-updates-manager' );
 	}*/
 
 	/**
@@ -77,7 +77,7 @@ class WUPM_UpdatesPage extends Wbcr_FactoryClearfy000_PageBase {
 	 * @return string|void
 	 */
 	public function getPageTitle() {
-		return __( 'General', 'webcraftic-updates-manager' );
+		return defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) ? __( 'Updates', 'webcraftic-updates-manager' ) : __( 'General', 'webcraftic-updates-manager' );
 	}
 
 	/**

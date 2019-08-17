@@ -92,7 +92,6 @@ class WUPM_Plugin {
 		self::app()->registerPage( 'WUPM_PluginsPage', $admin_path . '/class-page-plugins.php' );
 		self::app()->registerPage( 'WUPM_ThemesPage', $admin_path . '/class-page-themes.php' );
 		self::app()->registerPage( 'WUPM_AdvancedPage', $admin_path . '/class-page-advanced.php' );
-		self::app()->registerPage( 'WUPM_MoreFeaturesPage', $admin_path . '/class-page-more-features.php' );
 	}
 
 

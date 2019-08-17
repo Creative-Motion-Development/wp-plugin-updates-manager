@@ -10,7 +10,63 @@
 require_once WUPM_PLUGIN_DIR . '/admin/includes/class-plugin-filters.php';
 require_once WUPM_PLUGIN_DIR . '/admin/includes/class-theme-filters.php';
 
-if ( defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) ) {
+if ( ! defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) ) {
+	function wbcr_upm_set_plugin_meta( $links, $file ) {
+		if ( $file == WUPM_PLUGIN_BASE ) {
+
+			$url = 'https://clearfy.pro';
+
+			if ( get_locale() == 'ru_RU' ) {
+				$url = 'https://ru.clearfy.pro';
+			}
+
+			$url .= '?utm_source=wordpress.org&utm_campaign=' . WUPM_Plugin::app()->getPluginName();
+
+			$links[] = '<a href="' . $url . '" style="color: #FF5722;font-weight: bold;" target="_blank">' . __( 'Get ultimate plugin free', 'webcraftic-updates-manager' ) . '</a>';
+		}
+
+		return $links;
+	}
+
+	if ( ! defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) ) {
+		add_filter( 'plugin_row_meta', 'wbcr_upm_set_plugin_meta', 10, 2 );
+	}
+
+	/**
+	 * Rating widget url
+	 *
+	 * @param string $page_url
+	 * @param string $plugin_name
+	 *
+	 * @return string
+	 */
+	function wbcr_upm_rating_widget_url( $page_url, $plugin_name ) {
+		if ( ! defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) && ( $plugin_name == WUPM_Plugin::app()->getPluginName() ) ) {
+			return 'https://goo.gl/Be2hQU';
+		}
+
+		return $page_url;
+	}
+
+	add_filter( 'wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_upm_rating_widget_url', 10, 2 );
+
+	/**
+	 * Удаляем лишние виджеты из правого сайдбара в интерфейсе плагина
+	 *
+	 * - Виджет с премиум рекламой
+	 * - Виджет с рейтингом
+	 * - Виджет с маркерами информации
+	 */
+	add_filter( 'wbcr/factory/pages/impressive/widgets', function ( $widgets, $position, $plugin ) {
+		if ( WUPM_Plugin::app()->getPluginName() == $plugin->getPluginName() && 'right' == $position ) {
+			unset( $widgets['business_suggetion'] );
+			unset( $widgets['rating_widget'] );
+			unset( $widgets['info_widget'] );
+		}
+
+		return $widgets;
+	}, 20, 3 );
+} else {
 	/**
 	 * This action is executed when the component of the Clearfy plugin is activate and if this component is name ga_cache
 	 *
@@ -42,6 +98,77 @@ if ( defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) ) {
 			}
 		}
 	} );
+
+	function wbcr_upm_group_options( $options ) {
+		$options[] = [
+			'name'   => 'plugin_updates',
+			'title'  => __( 'Disable plugin updates', 'webcraftic-updates-manager' ),
+			'tags'   => [ 'disable_all_updates' ],
+			'values' => [ 'disable_all_updates' => 'disable_plugin_updates' ]
+		];
+		$options[] = [
+			'name'   => 'theme_updates',
+			'title'  => __( 'Disable theme updates', 'webcraftic-updates-manager' ),
+			'tags'   => [ 'disable_all_updates' ],
+			'values' => [ 'disable_all_updates' => 'disable_theme_updates' ]
+		];
+		$options[] = [
+			'name'  => 'auto_tran_update',
+			'title' => __( 'Disable Automatic Translation Updates', 'webcraftic-updates-manager' ),
+			'tags'  => [ 'disable_all_updates' ]
+		];
+		$options[] = [
+			'name'   => 'wp_update_core',
+			'title'  => __( 'Disable wordPress core updates', 'webcraftic-updates-manager' ),
+			'tags'   => [ 'disable_all_updates' ],
+			'values' => [ 'disable_all_updates' => 'disable_core_updates' ]
+		];
+		$options[] = [
+			'name'  => 'enable_update_vcs',
+			'title' => __( 'Enable updates for VCS Installations', 'webcraftic-updates-manager' ),
+			'tags'  => []
+		];
+		$options[] = [
+			'name'  => 'plugins_update_filters',
+			'title' => __( 'Plugin filters', 'webcraftic-updates-manager' ),
+			'tags'  => []
+		];
+		$options[] = [
+			'name'  => 'updates_nags_only_for_admin',
+			'title' => __( 'Updates nags only for Admin', 'webcraftic-updates-manager' ),
+			'tags'  => [ 'recommended' ]
+		];
+		$options[] = [
+			'name'  => 'disable_core_notifications',
+			'title' => __( 'Core notifications', 'webcraftic-updates-manager' ),
+			'tags'  => []
+		];
+		$options[] = [
+			'name'  => 'notify_updated',
+			'title' => __( 'Notify me when update successful installed', 'webcraftic-updates-manager' ),
+			'tags'  => []
+		];
+		$options[] = [
+			'name'  => 'notify_email',
+			'title' => __( 'Email address', 'webcraftic-updates-manager' ),
+			'tags'  => []
+		];
+
+		return $options;
+	}
+
+	add_filter( "wbcr_clearfy_group_options", 'wbcr_upm_group_options' );
+
+	function wbcr_upm_allow_quick_mods( $mods ) {
+		$mods['disable_all_updates'] = [
+			'title' => __( 'One click disable all updates', 'webcraftic-updates-manager' ),
+			'icon'  => 'dashicons-update'
+		];
+
+		return $mods;
+	}
+
+	add_filter( "wbcr_clearfy_allow_quick_mods", 'wbcr_upm_allow_quick_mods' );
 }
 
 /**
@@ -94,116 +221,6 @@ function wbcr_upm_admin_conflict_notices_error( $notices, $plugin_name ) {
 
 add_filter( 'wbcr/factory/admin_notices', 'wbcr_upm_admin_conflict_notices_error', 10, 2 );
 
-function wbcr_upm_group_options( $options ) {
-	$options[] = [
-		'name'   => 'plugin_updates',
-		'title'  => __( 'Disable plugin updates', 'webcraftic-updates-manager' ),
-		'tags'   => [ 'disable_all_updates' ],
-		'values' => [ 'disable_all_updates' => 'disable_plugin_updates' ]
-	];
-	$options[] = [
-		'name'   => 'theme_updates',
-		'title'  => __( 'Disable theme updates', 'webcraftic-updates-manager' ),
-		'tags'   => [ 'disable_all_updates' ],
-		'values' => [ 'disable_all_updates' => 'disable_theme_updates' ]
-	];
-	$options[] = [
-		'name'  => 'auto_tran_update',
-		'title' => __( 'Disable Automatic Translation Updates', 'webcraftic-updates-manager' ),
-		'tags'  => [ 'disable_all_updates' ]
-	];
-	$options[] = [
-		'name'   => 'wp_update_core',
-		'title'  => __( 'Disable wordPress core updates', 'webcraftic-updates-manager' ),
-		'tags'   => [ 'disable_all_updates' ],
-		'values' => [ 'disable_all_updates' => 'disable_core_updates' ]
-	];
-	$options[] = [
-		'name'  => 'enable_update_vcs',
-		'title' => __( 'Enable updates for VCS Installations', 'webcraftic-updates-manager' ),
-		'tags'  => []
-	];
-	$options[] = [
-		'name'  => 'plugins_update_filters',
-		'title' => __( 'Plugin filters', 'webcraftic-updates-manager' ),
-		'tags'  => []
-	];
-	$options[] = [
-		'name'  => 'updates_nags_only_for_admin',
-		'title' => __( 'Updates nags only for Admin', 'webcraftic-updates-manager' ),
-		'tags'  => [ 'recommended' ]
-	];
-	$options[] = [
-		'name'  => 'disable_core_notifications',
-		'title' => __( 'Core notifications', 'webcraftic-updates-manager' ),
-		'tags'  => []
-	];
-	$options[] = [
-		'name'  => 'notify_updated',
-		'title' => __( 'Notify me when update successful installed', 'webcraftic-updates-manager' ),
-		'tags'  => []
-	];
-	$options[] = [
-		'name'  => 'notify_email',
-		'title' => __( 'Email address', 'webcraftic-updates-manager' ),
-		'tags'  => []
-	];
-
-	return $options;
-}
-
-add_filter( "wbcr_clearfy_group_options", 'wbcr_upm_group_options' );
-
-function wbcr_upm_allow_quick_mods( $mods ) {
-	$mods['disable_all_updates'] = [
-		'title' => __( 'One click disable all updates', 'webcraftic-updates-manager' ),
-		'icon'  => 'dashicons-update'
-	];
-
-	return $mods;
-}
-
-add_filter( "wbcr_clearfy_allow_quick_mods", 'wbcr_upm_allow_quick_mods' );
-
-function wbcr_upm_set_plugin_meta( $links, $file ) {
-	if ( $file == WUPM_PLUGIN_BASE ) {
-
-		$url = 'https://clearfy.pro';
-
-		if ( get_locale() == 'ru_RU' ) {
-			$url = 'https://ru.clearfy.pro';
-		}
-
-		$url .= '?utm_source=wordpress.org&utm_campaign=' . WUPM_Plugin::app()->getPluginName();
-
-		$links[] = '<a href="' . $url . '" style="color: #FF5722;font-weight: bold;" target="_blank">' . __( 'Get ultimate plugin free', 'webcraftic-updates-manager' ) . '</a>';
-	}
-
-	return $links;
-}
-
-if ( ! defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) ) {
-	add_filter( 'plugin_row_meta', 'wbcr_upm_set_plugin_meta', 10, 2 );
-}
-
-/**
- * Rating widget url
- *
- * @param string $page_url
- * @param string $plugin_name
- *
- * @return string
- */
-function wbcr_upm_rating_widget_url( $page_url, $plugin_name ) {
-	if ( ! defined( 'LOADING_UPDATES_MANAGER_AS_ADDON' ) && ( $plugin_name == WUPM_Plugin::app()->getPluginName() ) ) {
-		return 'https://goo.gl/Be2hQU';
-	}
-
-	return $page_url;
-}
-
-add_filter( 'wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_upm_rating_widget_url', 10, 2 );
-
 /**
  * Подключаем скрипты для создания лейблов для списка плагинов
  */
@@ -251,24 +268,3 @@ add_action( 'admin_footer', function () {
     </script>
 	<?php
 } );
-
-/**
- * Удаляем лишние виджеты из правого сайдбара в интерфейсе плагина
- *
- * - Виджет с премиум рекламой
- * - Виджет с рейтингом
- * - Виджет с маркерами информации
- */
-add_filter( 'wbcr/factory/pages/impressive/widgets', function ( $widgets, $position, $plugin ) {
-	if ( WUPM_Plugin::app()->getPluginName() == $plugin->getPluginName() && 'right' == $position ) {
-		unset( $widgets['business_suggetion'] );
-		unset( $widgets['rating_widget'] );
-		unset( $widgets['info_widget'] );
-	}
-
-	return $widgets;
-}, 20, 3 );
-
-
-
-
