@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! defined( 'WUPM_PLUGIN_ACTIVE' ) ) {
 	define( 'WUPM_PLUGIN_VERSION', '1.1.0' );
+	define( 'WUPM_TEXT_DOMAIN', 'webcraftic-updates-manager' );
 	define( 'WUPM_PLUGIN_ACTIVE', true );
 
 	// Этот плагин загружен, как аддон для плагина Clearfy
