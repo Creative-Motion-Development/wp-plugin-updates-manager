@@ -61,6 +61,7 @@ class WUPM_UpdatesPage extends Wbcr_FactoryClearfy000_PageBase {
 			$this->internal                   = false;
 			$this->menu_target                = 'options-general.php';
 			$this->add_link_to_plugin_actions = true;
+			$this->show_search_options_form = false;
 		}
 
 		parent::__construct( $plugin );

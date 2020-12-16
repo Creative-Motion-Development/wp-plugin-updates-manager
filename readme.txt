@@ -3,7 +3,7 @@ Tags: disable updates, automatic updates, disable updates manager, easy updates 
 Contributors: webcraftic, creativemotion, alexkovalevv
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
 Requires at least: 4.2
-Tested up to: 5.2
+Tested up to: 5.6
 Requires PHP: 5.4
 Stable tag: trunk
 License: GPLv2
@@ -73,6 +73,10 @@ This section describes how to install the plugin and get it working.
 2. Control panel (Individualy updates)
 
 == Changelog ==
+= 1.1.2 (16.12.2020) =
+* Added: Subscribe form
+* Fixed: Minor bugs 
+
 = 1.1.1 =
 * Added: Improved plugin security
 * Added: Compatibility with Wordpress 4.2 - 5.x
