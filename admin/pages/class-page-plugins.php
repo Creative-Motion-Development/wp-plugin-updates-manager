@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @copyright (c) 2018 Webraftic Ltd
  */
-class WUPM_PluginsPage extends Wbcr_FactoryClearfy000_PageBase {
+class WUPM_PluginsPage extends WBCR\Factory_Templates_000\Pages\PageBase {
 
 	/**
 	 *{@inheritDoc}

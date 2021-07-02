@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  * @copyright (c) 2018 Webraftic Ltd
  */
-class WUPM_ThemesPage extends Wbcr_FactoryClearfy000_PageBase {
+class WUPM_ThemesPage extends WBCR\Factory_Templates_000\Pages\PageBase {
 
 	/**
 	 * {@inheritDoc}
