@@ -4,7 +4,7 @@
  * Plugin URI: https://wordpress.org/plugins/webcraftic-updates-manager/
  * Description: Manage all your WordPress updates, automatic updates, logs, and loads more.
  * Author: Webcraftic <wordpress.webraftic@gmail.com>
- * Version: 1.1.2
+ * Version: 1.1.3
  * Text Domain: webcraftic-updates-manager
  * Domain Path: /languages/
  * Author URI: https://webcraftic.com
@@ -40,19 +40,19 @@ if( !defined('ABSPATH') ) {
 require_once(dirname(__FILE__) . '/libs/factory/core/includes/class-factory-requirements.php');
 
 // @formatter:off
-$wupm_plugin_info = array(
+$wupm_plugin_info = [
 	'prefix' => 'wbcr_updates_manager_',//wbcr_upm_
 	'plugin_name' => 'wbcr_updates_manager',
 	'plugin_title' => __('Webcraftic Updates Manager', 'webcraftic-updates-manager'),
 
 	// PLUGIN SUPPORT
-	'support_details' => array(
+	'support_details' => [
 		'url' => 'https://webcraftic.com',
-		'pages_map' => array(
+		'pages_map' => [
 			'support' => 'support',           // {site}/support
 			'docs' => 'docs'               // {site}/docs
-		)
-	),
+		]
+	],
 
 	// PLUGIN SUBSCRIBE FORM
 	'subscribe_widget' => true,
@@ -60,28 +60,28 @@ $wupm_plugin_info = array(
 
 	// PLUGIN ADVERTS
 	'render_adverts' => true,
-	'adverts_settings' => array(
+	'adverts_settings' => [
 		'dashboard_widget' => true, // show dashboard widget (default: false)
 		'right_sidebar' => true, // show adverts sidebar (default: false)
 		'notice' => true, // show notice message (default: false)
-	),
+	],
 
 	// FRAMEWORK MODULES
-	'load_factory_modules' => array(
-		array('libs/factory/bootstrap', 'factory_bootstrap_000', 'admin'),
-		array('libs/factory/forms', 'factory_forms_000', 'admin'),
-		array('libs/factory/pages', 'factory_pages_000', 'admin'),
-		array('libs/factory/clearfy', 'factory_templates_000', 'all'),
-		array('libs/factory/adverts', 'factory_adverts_000', 'admin')
-	)
-);
+	'load_factory_modules' => [
+		['libs/factory/bootstrap', 'factory_bootstrap_000', 'admin'],
+		['libs/factory/forms', 'factory_forms_000', 'admin'],
+		['libs/factory/pages', 'factory_pages_000', 'admin'],
+		['libs/factory/templates', 'factory_templates_000', 'all'],
+		['libs/factory/adverts', 'factory_adverts_000', 'admin']
+	]
+];
 
-$wupm_compatibility = new Wbcr_Factory000_Requirements(__FILE__, array_merge($wupm_plugin_info, array(
+$wupm_compatibility = new Wbcr_Factory000_Requirements(__FILE__, array_merge($wupm_plugin_info, [
 	'plugin_already_activate' => defined('WUPM_PLUGIN_ACTIVE'),
 	'required_php_version' => '5.4',
 	'required_wp_version' => '4.2.0',
 	'required_clearfy_check_component' => false
-)));
+]));
 
 /**
  * If the plugin is compatible, then it will continue its work, otherwise it will be stopped,
@@ -203,10 +203,10 @@ require_once(WUPM_PLUGIN_DIR . '/libs/factory/core/boot.php');
 require_once(WUPM_PLUGIN_DIR . '/includes/class-plugin.php');
 
 try {
-	new WUPM_Plugin(__FILE__, array_merge($wupm_plugin_info, array(
+	new WUPM_Plugin(__FILE__, array_merge($wupm_plugin_info, [
 		'plugin_version' => WUPM_PLUGIN_VERSION,
 		'plugin_text_domain' => $wupm_compatibility->get_text_domain(),
-	)));
+	]));
 } catch( Exception $e ) {
 	// Plugin wasn't initialized due to an error
 	define('WUPM_PLUGIN_THROW_ERROR', true);

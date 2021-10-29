@@ -1,6 +1,6 @@
 <?php
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
+if( !defined('ABSPATH') ) {
 	exit;
 }
 
@@ -16,6 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  * @copyright (c) 2018 Webraftic Ltd
  */
-class WUPM_MoreFeaturesPage extends Wbcr_FactoryClearfy000_MoreFeaturesPage {
+class WUPM_MoreFeaturesPage extends \WBCR\Factory_Templates_000\Pages\MoreFeatures {
 
 }
