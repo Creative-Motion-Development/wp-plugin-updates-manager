@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'WUPM_PLUGIN_ACTIVE' ) ) {
-	define( 'WUPM_PLUGIN_VERSION', '1.1.4' );
+	define( 'WUPM_PLUGIN_VERSION', '1.1.5' );
 	define( 'WUPM_TEXT_DOMAIN', 'webcraftic-updates-manager' );
 	define( 'WUPM_PLUGIN_ACTIVE', true );
 
