@@ -3,7 +3,7 @@ Tags: disable updates, automatic updates, disable updates manager, easy updates 
 Contributors: webcraftic, creativemotion, alexkovalevv
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
 Requires at least: 5.2
-Tested up to: 6.0
+Tested up to: 6.2
 Requires PHP: 7.0
 Stable tag: trunk
 License: GPLv2
@@ -73,6 +73,10 @@ This section describes how to install the plugin and get it working.
 2. Control panel (Individualy updates)
 
 == Changelog ==
+= 1.1.6 (22.03.2023) =
+* Fixed: Freemius framework conflict
+* Added: Compatibility with Wordpress 6.2
+
 = 1.1.5 (30.05.2022) =
 * Added: Compatibility with Wordpress 6.0
 
