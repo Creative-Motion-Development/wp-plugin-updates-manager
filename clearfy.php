@@ -31,7 +31,7 @@ if ( ! defined( 'WUPM_PLUGIN_ACTIVE' ) ) {
 	}
 
 	if ( ! defined( 'WUPM_PLUGIN_URL' ) ) {
-		define( 'WUPM_PLUGIN_URL', plugins_url( null, __FILE__ ) );
+		define( 'WUPM_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 	}
 
 	try {
